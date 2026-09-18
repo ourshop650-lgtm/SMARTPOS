@@ -137,8 +137,9 @@
         /* Modals */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 15px; backdrop-filter: blur(4px); }
         .modal-overlay.top-tier { z-index: 3000; }
-        .modal-box { background: var(--card); padding: 30px 20px; border-radius: 20px; width: 100%; max-width: 380px; text-align: center; border: 1px solid var(--border); animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); max-height: 90vh; overflow-y: auto; }
+        .modal-box { background: var(--card); padding: 30px 20px; border-radius: 20px; width: 100%; max-width: 400px; text-align: center; border: 1px solid var(--border); animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); position: relative; max-height: 90vh; overflow-y: auto; }
         @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .modal-close { position: absolute; top: 15px; right: 15px; background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 16px; cursor: pointer; color: var(--danger); font-weight: bold; display: flex; justify-content: center; align-items: center; }
         .modal-box h3 { color: var(--text-main); margin-bottom: 12px; font-size: 19px; font-weight: 700; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; }
         .modal-box p { color: var(--text-muted); font-size: 14px; margin-bottom: 15px; }
         .modal-btns { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
@@ -182,7 +183,7 @@
         #clean-screenshot-area { 
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; 
             background: #000000; z-index: 999999; align-items: center; justify-content: center; 
-            overflow: hidden; /* No scroll, fits all in one screen */
+            overflow: hidden; 
         }
         #ssHeaderUI { 
             position: absolute; top: 0; left: 0; width: 100%; background: rgba(15,23,42,0.9); 
@@ -221,7 +222,7 @@
                 <div class="bkash-box">
                     <p style="font-size: 18px; font-weight: bold; color: #db2777; margin: 0;">01644234178</p>
                     <small style="color: var(--text-muted); font-weight:bold;">বিকাশ / নগদ (পার্সোনাল)</small><br>
-                    <small style="color: var(--text-muted);">মাসিক ফি: ২৫০ ৳</small>
+                    <small style="color: var(--text-muted);">মাসিক ফি: ১৫০ ৳</small>
                 </div>
 
                 <select id="lockPayMethod" class="auth-input" style="text-align: center; font-weight: bold; margin-bottom: 10px;">
@@ -235,7 +236,6 @@
                 <button class="btn-auth" onclick="window.submitTrxId()">পেমেন্ট সাবমিট করুন</button>
             </div>
 
-            <!-- পেমেন্ট সাবমিট করার পর স্ট্যাটাস পেজ -->
             <div id="paySuccessArea" style="display: none; padding: 10px 0;">
                 <div style="font-size: 55px; margin-bottom: 15px;">⏳</div>
                 <h3 style="color: var(--warning); margin-bottom: 10px;">পেমেন্ট রিভিউ চলছে!</h3>
@@ -362,7 +362,6 @@
             <div class="full-modal-search">
                 <input type="text" id="ledgerSearchInput" placeholder="🔍 নাম বা মোবাইল দিয়ে খুঁজুন..." onkeyup="window.filterLedger()" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--input-bg); color:var(--text-main); outline:none;">
                 
-                <!-- "নতুন বাকি যুক্ত করুন" অপশন -->
                 <button class="btn-add-ledger" onclick="document.getElementById('manualLedgerModal').style.display='flex'">
                     ➕ নতুন বাকি যুক্ত করুন <br><small style="font-size:11px; font-weight:normal;">(যেকোনো ছোট হিসাব বা মেমো ছাড়া বকেয়া যুক্ত করতে)</small>
                 </button>
@@ -411,7 +410,20 @@
         </div>
     </div>
 
-    <!-- ⚙️ Settings, Subscription & Support Modal -->
+    <!-- Custom Confirm Modal (Beautiful SMS Delete Popup) -->
+    <div class="modal-overlay top-tier" id="confirmModal">
+        <div class="modal-box" style="padding: 30px 20px;">
+            <div class="alert-icon" style="color: var(--danger);">🗑️</div>
+            <h3 style="color:var(--text-main); font-size: 20px;">নিশ্চিত করুন</h3>
+            <p id="confirmMessage" style="color:var(--text-muted); font-size: 15px; margin-bottom: 25px; font-weight: 500;">আপনি কি মেসেজটি মুছে ফেলতে চান?</p>
+            <div class="modal-btns">
+                <button class="m-btn m-cancel" onclick="document.getElementById('confirmModal').style.display='none'">বাতিল</button>
+                <button class="m-btn m-confirm" id="confirmActionBtn" style="background: var(--danger);">মুছে ফেলুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ⚙️ Settings, Subscription, Support & Inbox Modal -->
     <div class="modal-overlay top-tier" id="settingsModal">
         <div class="modal-box" style="max-width: 400px; padding: 25px 20px;">
             <h3 style="color: var(--primary);">⚙️ সেটিংস ও সাপোর্ট</h3>
@@ -419,13 +431,21 @@
             <div style="background: var(--primary-light); padding: 15px; border-radius: 12px; border: 1px solid var(--primary); margin-bottom: 15px; text-align: center;">
                 <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 5px; font-weight: bold;">বর্তমান সাবস্ক্রিপশন মেয়াদ:</p>
                 <h4 id="settingsExpireDate" style="color: var(--primary); font-size: 18px; margin-bottom: 10px; font-weight: bold;">লোড হচ্ছে...</h4>
-                <p style="font-size: 13px; color: var(--text-main); font-weight: 600;">মাসিক ফি (২৫০ ৳) পাঠানোর নাম্বার:<br>
+                <p style="font-size: 13px; color: var(--text-main); font-weight: 600;">মাসিক ফি (১৫০ ৳) পাঠানোর নাম্বার:<br>
                     <span style="color: #db2777; font-size: 20px; display: block; margin-top: 5px;">01644234178</span>
                     <span style="font-size: 12px; color: var(--text-muted);">(বিকাশ/নগদ পার্সোনাল)</span>
                 </p>
             </div>
 
-            <!-- নতুন অপশন: টাকা পাঠান / পেমেন্ট সাবমিট -->
+            <!-- 📥 ইনবক্স অপশন -->
+            <button class="btn-auth" style="background: #8b5cf6; margin-bottom: 15px; font-size: 15px;" onclick="window.toggleInbox()">📥 ইনবক্স / অ্যাডমিন মেসেজ</button>
+            
+            <div id="inboxSection" style="display: none; background: var(--bg); padding: 15px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; text-align: left; max-height: 280px; overflow-y: auto;">
+                <h4 style="color: var(--primary); font-size: 15px; margin-bottom: 10px; border-bottom: 1px dashed var(--border); padding-bottom: 5px;">অ্যাডমিন থেকে প্রাপ্ত মেসেজ</h4>
+                <div id="inboxContainer"></div>
+            </div>
+
+            <!-- 💸 টাকা পাঠান / পেমেন্ট সাবমিট -->
             <button class="btn-auth" style="background: var(--success); margin-bottom: 15px; font-size: 15px;" onclick="window.togglePaymentForm()">💸 টাকা পাঠান / পেমেন্ট করুন</button>
             
             <div id="paymentSubmitSection" style="display: none; background: var(--bg); padding: 15px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; text-align: left;">
@@ -442,7 +462,7 @@
                 <button class="m-btn" style="background: var(--success); color: white; width: 100%; padding: 10px; font-size: 14px; cursor:pointer;" onclick="window.submitSettingsPayment()">তথ্য পাঠান</button>
             </div>
 
-            <!-- অ্যাডমিনকে সাপোর্ট মেসেজ -->
+            <!-- 🛠️ সাপোর্ট মেসেজ -->
             <div style="background: var(--bg); padding: 15px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; text-align: left;">
                 <label style="color: var(--primary); font-weight: 700; font-size: 14px; margin-bottom: 8px; display: block;">🛠️ অ্যাডমিনকে মেসেজ দিন</label>
                 <textarea id="supportMsg" class="auth-input" style="height: 60px; resize: none; font-size: 14px; font-weight: normal; margin-bottom: 10px; background:var(--card);" placeholder="আপনার যেকোনো সমস্যা বা মতামত এখানে লিখুন..."></textarea>
@@ -454,7 +474,7 @@
         </div>
     </div>
     
-    <!-- Ledger Update Modal (যোগ ও বিয়োগ অপশন সহ) -->
+    <!-- Ledger Update Modal -->
     <div class="modal-overlay top-tier" id="updateLedgerModal">
         <div class="modal-box">
             <h3 style="color: var(--primary);">হিসাব আপডেট করুন</h3>
@@ -527,7 +547,7 @@
         </div>
     </div>
     
-    <!-- Fullscreen Screenshot Area (Updated to fit ANY height cleanly on one screen) -->
+    <!-- Fullscreen Screenshot Area -->
     <div id="clean-screenshot-area">
         <div id="ssHeaderUI">📸 স্ক্রিনশট নিন (স্ক্রিনে যেকোনো জায়গায় টাচ করলে ফিরে যাবেন)</div>
         <div id="ss-image-container"></div>
@@ -555,6 +575,7 @@
 
         let currentShopFirebaseKey = null;
         let currentShopData = null;
+        let currentDeleteIdx = null; // For confirm modal
 
         // ================= Global POS Variables =================
         let cartList = [];
@@ -570,19 +591,12 @@
 
         // বিশাল ডাটাবেস (মুদি, সবজি, ফল, কসমেটিকস, স্টেশনারি, বেকারি ইত্যাদি)
         let database = [
-            // চাল ও ডাল
             { name: "মিনিকেট চাল", cat: "চাল", unit: "কেজি" }, { name: "নাজিরশাইল চাল", cat: "চাল", unit: "কেজি" }, { name: "পোলাওয়ের চাল", cat: "চাল", unit: "কেজি" }, { name: "চিনিগুঁড়া চাল", cat: "চাল", unit: "কেজি" }, { name: "আত্রাই চাল", cat: "চাল", unit: "কেজি" }, { name: "বিআর-২৮ চাল", cat: "চাল", unit: "কেজি" }, { name: "মাদারীপুর চাল", cat: "চাল", unit: "কেজি" }, { name: "গুটিস্বর্ণা চাল", cat: "চাল", unit: "কেজি" },
             { name: "মসুর ডাল (মোটা)", cat: "ডাল", unit: "কেজি" }, { name: "মসুর ডাল (দেশি)", cat: "ডাল", unit: "কেজি" }, { name: "মুগ ডাল", cat: "ডাল", unit: "কেজি" }, { name: "বুট ডাল", cat: "ডাল", unit: "কেজি" }, { name: "খেসারি ডাল", cat: "ডাল", unit: "কেজি" }, { name: "মাষকলাই ডাল", cat: "ডাল", unit: "কেজি" }, { name: "অরহর ডাল", cat: "ডাল", unit: "কেজি" },
-            
-            // তেল ও মশলা
             { name: "সয়াবিন তেল (লুজ)", cat: "তেল", unit: "লিটার" }, { name: "রূপচাঁদা সয়াবিন তেল", cat: "তেল", unit: "লিটার" }, { name: "সরিষার তেল (খাঁটি)", cat: "তেল", unit: "লিটার" }, { name: "পাম তেল", cat: "তেল", unit: "লিটার" }, { name: "ঘি (খাঁটি গাভী)", cat: "তেল", unit: "কেজি" },
             { name: "দেশি পেঁয়াজ", cat: "মশলা", unit: "কেজি" }, { name: "ভারতীয় পেঁয়াজ", cat: "মশলা", unit: "কেজি" }, { name: "রসুন (দেশি)", cat: "মশলা", unit: "কেজি" }, { name: "রসুন (চাইনিজ)", cat: "মশলা", unit: "কেজি" }, { name: "আদা (নূতন)", cat: "মশলা", unit: "কেজি" }, { name: "শুকনা মরিচ", cat: "মশলা", unit: "কেজি" }, { name: "কাঁচা মরিচ", cat: "মশলা", unit: "কেজি" }, { name: "হলুদ গুঁড়া", cat: "মশলা", unit: "কেজি" }, { name: "মরিচ গুঁড়া", cat: "মশলা", unit: "কেজি" }, { name: "জিরা গুঁড়া", cat: "মশলা", unit: "কেজি" }, { name: "ধনে গুঁড়া", cat: "মশলা", unit: "কেজি" }, { name: "গরম মসলা", cat: "মশলা", unit: "কেজি" }, { name: "এলাচি", cat: "মশলা", unit: "কেজি" }, { name: "দারুচিনি", cat: "মশলা", unit: "কেজি" }, { name: "লবঙ্গ", cat: "মশলা", unit: "কেজি" },
-            
-            // সবজি ও ফল
             { name: "আলু (দেশি)", cat: "সবজি", unit: "কেজি" }, { name: "মিষ্টি কুমড়া", cat: "সবজি", unit: "কেজি" }, { name: "পটল", cat: "সবজি", unit: "কেজি" }, { name: "করল্লা", cat: "সবজি", unit: "কেজি" }, { name: "ঢেঁড়স", cat: "সবজি", unit: "কেজি" }, { name: "লাউ", cat: "সবজি", unit: "পিস" }, { name: "ফুলকপি", cat: "সবজি", unit: "পিস" }, { name: "বাঁধাকপি", cat: "সবজি", unit: "পিস" }, { name: "বেগুন", cat: "সবজি", unit: "কেজি" }, { name: "টমেটো", cat: "সবজি", unit: "কেজি" }, { name: "গাজর", cat: "সবজি", unit: "কেজি" }, { name: "শসা", cat: "সবজি", unit: "কেজি" }, { name: "লেবু", cat: "সবজি", unit: "হালি" }, { name: "ধনেপাতা", cat: "সবজি", unit: "আঁটি" }, { name: "পালং শাক", cat: "সবজি", unit: "আঁটি" }, { name: "লাল শাক", cat: "সবজি", unit: "আঁটি" }, { name: "কাঁচকলা", cat: "সবজি", unit: "হালি" },
             { name: "কলা (সবর সাগর)", cat: "ফল", unit: "হালি" }, { name: "আপেল (ফুজি)", cat: "ফল", unit: "কেজি" }, { name: "মাল্টা", cat: "ফল", unit: "কেজি" }, { name: "কমলা", cat: "ফল", unit: "কেজি" }, { name: "আঙুর", cat: "ফল", unit: "কেজি" }, { name: "বেদানা (ডালিম)", cat: "ফল", unit: "কেজি" }, { name: "পেঁপে", cat: "ফল", unit: "কেজি" }, { name: "তরমুজ", cat: "ফল", unit: "পিস" }, { name: "আনারস", cat: "ফল", unit: "পিস" }, { name: "আম", cat: "ফল", unit: "কেজি" },
-            
-            // নিত্যপ্রয়োজনীয়, কসমেটিকস ও স্টেশনারি
             { name: "লবণ", cat: "নিত্যপ্রয়োজনীয়", unit: "কেজি" }, { name: "চিনি", cat: "নিত্যপ্রয়োজনীয়", unit: "কেজি" }, { name: "আটা", cat: "নিত্যপ্রয়োজনীয়", unit: "কেজি" }, { name: "ময়দা", cat: "নিত্যপ্রয়োজনীয়", unit: "কেজি" }, { name: "ডিম (ফার্মের)", cat: "নিত্যপ্রয়োজনীয়", unit: "পিস" }, { name: "চা পাতা", cat: "চা", unit: "প্যাকেট" }, { name: "ডিপ্লোমা গুঁড়া দুধ", cat: "দুধ", unit: "প্যাকেট" }, { name: "ডানো গুঁড়া দুধ", cat: "দুধ", unit: "প্যাকেট" },
             { name: "লাক্স সাবান", cat: "কসমেটিকস", unit: "পিস" }, { name: "ডেটল সাবান", cat: "কসমেটিকস", unit: "পিস" }, { name: "মেরিল পেট্রোলিয়াম জেলি", cat: "কসমেটিকস", unit: "পিস" }, { name: "পন্ডস ফেসওয়াশ", cat: "কসমেটিকস", unit: "পিস" }, { name: "সানসিল্ক শ্যাম্পু", cat: "কসমেটিকস", unit: "পিস" }, { name: "প্যারাসুট নারকেল তেল", cat: "কসমেটিকস", unit: "বটল" }, { name: "ক্লোজআপ টুথপেস্ট", cat: "কসমেটিকস", unit: "পিস" }, { name: "সার্ফ এক্সেল", cat: "ক্লিনিং", unit: "প্যাকেট" }, { name: "রিন পাউডার", cat: "ক্লিনিং", unit: "প্যাকেট" }, { name: "ভিম বার", cat: "ক্লিনিং", unit: "পিস" }, { name: "হারপিক", cat: "ক্লিনিং", unit: "বটল" },
             { name: "চিপস", cat: "বেকারি", unit: "প্যাকেট" }, { name: "চানাচুর", cat: "বেকারি", unit: "প্যাকেট" }, { name: "রুটি/বন", cat: "বেকারি", unit: "পিস" }, { name: "মশার কয়েল", cat: "ক্লিনিং", unit: "প্যাকেট" }, { name: "টিস্যু পেপার", cat: "কসমেটিকস", unit: "পিস" }, { name: "ডায়াপার", cat: "কসমেটিকস", unit: "পিস" }, { name: "খাতা", cat: "স্টেশনারি", unit: "পিস" }, { name: "কলম", cat: "স্টেশনারি", unit: "পিস" }, { name: "পেন্সিল", cat: "স্টেশনারি", unit: "পিস" }
@@ -590,7 +604,6 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             if(localStorage.getItem('smartPosDarkMode') === 'true') { document.body.classList.add('dark-mode'); document.getElementById('themeBtn').innerText = '☀️'; }
-            // অটোমেটিক যুক্ত হওয়া পণ্যগুলো মেমরি থেকে ডাটাবেসে আনা
             const savedDb = localStorage.getItem('smartPosCustomDatabase');
             if(savedDb) {
                 try { 
@@ -610,7 +623,7 @@
             }
         };
 
-        // ================= Firebase Auth =================
+        // ================= Firebase Auth & App Initialization =================
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 document.getElementById('activation-screen').style.display = 'none';
@@ -656,7 +669,6 @@
                     currentShopFirebaseKey = childSnapshot.key;
                     currentShopData = childSnapshot.val();
                     
-                    // Sync Firebase Data to LocalStorage
                     if (currentShopData.dueLedger) {
                         localStorage.setItem('smartPosDueLedger_' + currentShopFirebaseKey, JSON.stringify(currentShopData.dueLedger));
                     }
@@ -668,34 +680,99 @@
                 validateSubscriptionAndLoadApp();
             });
 
-            // গ্লোবাল নোটিশ 
+            // 📥 ইনবক্স লজিক (গ্লোবাল নোটিশ)
             onValue(ref(db, 'systemNotice'), (snapshot) => {
                 if(snapshot.exists()) {
                     const notice = snapshot.val();
-                    const dismissedMsg = localStorage.getItem('dismissedNotice_' + currentShopFirebaseKey);
-                    if(dismissedMsg !== notice.message) {
+                    let inbox = JSON.parse(localStorage.getItem('smartPosInbox_' + currentShopFirebaseKey)) || [];
+                    
+                    const exists = inbox.find(m => m.timestamp === notice.timestamp && m.message === notice.message);
+                    if(!exists) {
+                        inbox.unshift({ type: 'global', message: notice.message, timestamp: notice.timestamp });
+                        localStorage.setItem('smartPosInbox_' + currentShopFirebaseKey, JSON.stringify(inbox));
+                        
                         document.getElementById('noticeText').innerText = notice.message;
                         document.getElementById('noticeBanner').style.display = 'block';
-                    } else {
-                        document.getElementById('noticeBanner').style.display = 'none';
                     }
+                    window.renderInbox(); 
                 }
             });
 
-            // পার্সোনাল নোটিশ
+            // 📥 ইনবক্স লজিক (পার্সোনাল নোটিশ)
             onValue(ref(db, `shops/${currentShopFirebaseKey}/personalNotice`), (snapshot) => {
                 if(snapshot.exists()) {
-                    const pNotice = snapshot.val();
-                    window.showCustomAlert("অ্যাডমিনের বার্তা", pNotice.message, "warning");
+                    const notice = snapshot.val();
+                    let inbox = JSON.parse(localStorage.getItem('smartPosInbox_' + currentShopFirebaseKey)) || [];
+                    
+                    const exists = inbox.find(m => m.timestamp === notice.timestamp && m.message === notice.message);
+                    if(!exists) {
+                        inbox.unshift({ type: 'personal', message: notice.message, timestamp: notice.timestamp });
+                        localStorage.setItem('smartPosInbox_' + currentShopFirebaseKey, JSON.stringify(inbox));
+                        
+                        window.showCustomAlert("অ্যাডমিনের ব্যক্তিগত বার্তা", notice.message, "warning");
+                    }
+                    window.renderInbox(); 
                 }
             });
         }
 
         window.dismissGlobalNotice = () => {
-            const msg = document.getElementById('noticeText').innerText;
-            localStorage.setItem('dismissedNotice_' + currentShopFirebaseKey, msg);
             document.getElementById('noticeBanner').style.display = 'none';
         }
+
+        // ================= INBOX RENDERING =================
+        window.toggleInbox = () => {
+            const sec = document.getElementById('inboxSection');
+            sec.style.display = sec.style.display === 'none' ? 'block' : 'none';
+            window.renderInbox();
+        };
+
+        window.renderInbox = () => {
+            const container = document.getElementById('inboxContainer');
+            let inbox = JSON.parse(localStorage.getItem('smartPosInbox_' + currentShopFirebaseKey)) || [];
+            if(inbox.length === 0) {
+                container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:13px; margin: 10px 0;">ইনবক্সে কোনো মেসেজ নেই!</p>`;
+                return;
+            }
+            
+            let html = '';
+            inbox.forEach((msg, idx) => {
+                let badge = msg.type === 'global' ? 
+                    `<span style="background:var(--primary-light); color:var(--primary); padding:2px 8px; border-radius:4px; font-size:11px; font-weight:bold;">গ্লোবাল</span>` : 
+                    `<span style="background:#fef3c7; color:#b45309; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:bold;">ব্যক্তিগত</span>`;
+                html += `
+                    <div style="background: var(--card); padding: 12px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 10px; position: relative;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+                            ${badge}
+                            <button onclick="window.confirmDeleteInboxMsg(${idx})" style="background:var(--danger); border:none; color:white; font-size:11px; font-weight:bold; padding:4px 8px; border-radius:4px; cursor:pointer;">🗑️ ডিলিট</button>
+                        </div>
+                        <p style="font-size: 13px; color: var(--text-main); margin-bottom: 8px; font-weight:500;">${msg.message}</p>
+                        <small style="font-size: 11px; color: var(--text-muted); font-weight:600;">${new Date(msg.timestamp).toLocaleString('bn-BD')}</small>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        };
+
+        // Beautiful Confirm Delete Modal for Inbox SMS
+        window.confirmDeleteInboxMsg = (idx) => {
+            currentDeleteIdx = idx;
+            document.getElementById('confirmMessage').innerText = "আপনি কি ইনবক্স থেকে এই মেসেজটি চিরতরে মুছে ফেলতে চান?";
+            document.getElementById('confirmActionBtn').onclick = window.executeDeleteInboxMsg;
+            document.getElementById('confirmModal').style.display = 'flex';
+        };
+
+        window.executeDeleteInboxMsg = () => {
+            if(currentDeleteIdx !== null) {
+                let inbox = JSON.parse(localStorage.getItem('smartPosInbox_' + currentShopFirebaseKey)) || [];
+                inbox.splice(currentDeleteIdx, 1);
+                localStorage.setItem('smartPosInbox_' + currentShopFirebaseKey, JSON.stringify(inbox));
+                window.renderInbox();
+                document.getElementById('confirmModal').style.display = 'none';
+                currentDeleteIdx = null; // reset
+                window.showCustomAlert("সফল!", "মেসেজটি সফলভাবে মুছে ফেলা হয়েছে।", "success");
+            }
+        };
 
         function validateSubscriptionAndLoadApp() {
             document.getElementById('shopName').value = currentShopData.shopName || 'দোকান';
@@ -705,7 +782,6 @@
             const expireDate = currentShopData.expireDate;
             const status = currentShopData.paymentStatus;
 
-            // সেটিংস পেজে মেয়াদ দেখানো
             if(expireDate) {
                 const bngDate = new Date(expireDate).toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' });
                 document.getElementById('settingsExpireDate').innerText = toBengaliNum(bngDate) + " ইং পর্যন্ত";
@@ -774,7 +850,6 @@
             dueLedger = JSON.parse(localStorage.getItem('smartPosDueLedger_' + currentShopFirebaseKey)) || [];
             salesHistory = JSON.parse(localStorage.getItem('smartPosSalesHistory_' + currentShopFirebaseKey)) || [];
             
-            // Initial Sync check
             if(dueLedger.length > 0 && !currentShopData.dueLedger) window.syncDataToFirebase();
             if(salesHistory.length > 0 && !currentShopData.salesHistory) window.syncDataToFirebase();
 
