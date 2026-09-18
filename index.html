@@ -201,7 +201,7 @@
 <body>
 
     <!-- 🔒 1. FIREBASE AUTHENTICATION LOGIN SCREEN -->
-    <div id="activation-screen">
+    <div id="activation-screen" style="display: none;">
         <div class="activation-box">
             <h2>🛒 পস দোকানদার লগইন</h2>
             <p>আপনার অ্যাকাউন্ট দিয়ে লগইন করুন।</p>
@@ -213,7 +213,7 @@
     </div>
 
     <!-- 🛑 2. SUBSCRIPTION LOCK / PAYMENT SCREEN -->
-    <div id="sub-lock-screen">
+    <div id="sub-lock-screen" style="display: none;">
         <div class="lock-card">
             <div id="payFormArea">
                 <h3>⚠️ সাবস্ক্রিপশন মেয়াদ শেষ বা অপেক্ষমান</h3>
@@ -247,8 +247,8 @@
         </div>
     </div>
 
-    <!-- MAIN APP CONTENT -->
-    <div id="main-app">
+    <!-- MAIN APP CONTENT (HOME PAGE - PRIMARY SCREEN) -->
+    <div id="main-app" style="display: none;">
         <div id="loaderOverlay"><div class="spinner"></div><h3 style="margin:0; font-size:18px;">একটু অপেক্ষা করুন...</h3></div>
 
         <div class="container">
@@ -325,8 +325,10 @@
         <div class="dev-marquee"><div class="marquee-content">Development: মোঃ রাজন হোসাইন &nbsp;|&nbsp; প্রয়োজনে: 01644234178 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ধন্যবাদ আমাদের অ্যাপটি ব্যবহার করার জন্য!</div></div>
     </div>
 
+    <!-- ALL POPUP MODALS (All safely display:none on page startup) -->
+
     <!-- Memo History Modal -->
-    <div class="modal-overlay" id="memoHistoryModal">
+    <div class="modal-overlay" id="memoHistoryModal" style="display: none;">
         <div class="full-modal">
             <div class="full-modal-header" style="background: #8b5cf6;"><span>📜 মেমো হিস্ট্রি</span><button style="background:transparent;border:none;color:white;font-size:18px;cursor:pointer;" onclick="document.getElementById('memoHistoryModal').style.display='none'">✖</button></div>
             <div class="full-modal-search">
@@ -337,7 +339,7 @@
     </div>
 
     <!-- Dashboard Modal -->
-    <div class="modal-overlay" id="dashboardModal">
+    <div class="modal-overlay" id="dashboardModal" style="display: none;">
         <div class="modal-box" style="max-width: 400px; padding: 25px 20px;">
             <h3 style="color: var(--primary); font-size: 22px; margin-bottom: 20px;">📊 সেলস ড্যাশবোর্ড</h3>
             
@@ -356,7 +358,7 @@
     </div>
 
     <!-- Ledger Modal -->
-    <div class="modal-overlay" id="ledgerModal">
+    <div class="modal-overlay" id="ledgerModal" style="display: none;">
         <div class="full-modal">
             <div class="full-modal-header" style="background: var(--warning); color:#000;"><span>📒 বাকির খাতা</span><button style="background:transparent;border:none;color:#000;font-size:18px;cursor:pointer;" onclick="document.getElementById('ledgerModal').style.display='none'">✖</button></div>
             <div class="full-modal-search">
@@ -371,7 +373,7 @@
     </div>
 
     <!-- Manual Ledger Entry Modal -->
-    <div class="modal-overlay top-tier" id="manualLedgerModal">
+    <div class="modal-overlay top-tier" id="manualLedgerModal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: var(--primary);">নতুন বাকি যুক্ত করুন</h3>
             <p style="margin-bottom: 15px; font-size: 13px;">মেমো ছাড়া যেকোনো ছোট/বড় হিসাব যুক্ত করুন</p>
@@ -386,45 +388,8 @@
         </div>
     </div>
 
-    <!-- PIN Security Modal -->
-    <div class="modal-overlay top-tier" id="pinModal">
-        <div class="modal-box">
-            <div class="alert-icon">🔒</div>
-            <h3 style="color:var(--danger);">সিকিউরিটি পিন</h3>
-            <p>এই কাজটি করতে ৪-ডিজিটের পিন দিন।<br><small style="color:var(--primary); font-weight:bold;">(ডিফল্ট: 1234)</small></p>
-            <input type="password" id="securityPin" class="auth-input" placeholder="****" maxlength="4" style="text-align:center; font-size:24px; letter-spacing:10px;">
-            <div class="modal-btns">
-                <button class="m-btn m-cancel" onclick="document.getElementById('pinModal').style.display='none'">বাতিল</button>
-                <button class="m-btn m-confirm" onclick="window.verifyPinAndExecute()">নিশ্চিত</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Custom Alert Modal (Fixed Close Button / ঠিক আছে ক্লিক সমস্যা সমাধান) -->
-    <div class="modal-overlay top-tier" id="customAlertModal">
-        <div class="modal-box" style="padding: 30px 20px;">
-            <div id="customAlertIcon" class="alert-icon">✅</div>
-            <h3 id="customAlertTitle" style="color:var(--text-main); font-size: 22px;">সফল!</h3>
-            <p id="customAlertMessage" style="color:var(--text-muted); font-size: 15px; margin-bottom: 25px;">কাজটি সম্পন্ন হয়েছে।</p>
-            <button class="btn-auth" style="width:100%; margin: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" onclick="window.closeCustomAlert()">ঠিক আছে</button>
-        </div>
-    </div>
-
-    <!-- Custom Confirm Modal (Beautiful SMS Delete Popup) -->
-    <div class="modal-overlay top-tier" id="confirmModal">
-        <div class="modal-box" style="padding: 30px 20px;">
-            <div class="alert-icon" style="color: var(--danger);">🗑️</div>
-            <h3 style="color:var(--text-main); font-size: 20px;">নিশ্চিত করুন</h3>
-            <p id="confirmMessage" style="color:var(--text-muted); font-size: 15px; margin-bottom: 25px; font-weight: 500;">আপনি কি মেসেজটি মুছে ফেলতে চান?</p>
-            <div class="modal-btns">
-                <button class="m-btn m-cancel" onclick="document.getElementById('confirmModal').style.display='none'">বাতিল</button>
-                <button class="m-btn m-confirm" id="confirmActionBtn" style="background: var(--danger);">মুছে ফেলুন</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ⚙️ Settings, Subscription, Support & Inbox Modal -->
-    <div class="modal-overlay top-tier" id="settingsModal">
+    <!-- ⚙️ Settings, Subscription, Support & Inbox Modal (Hidden initially!) -->
+    <div class="modal-overlay top-tier" id="settingsModal" style="display: none;">
         <div class="modal-box" style="max-width: 400px; padding: 25px 20px;">
             <h3 style="color: var(--primary);">⚙️ সেটিংস ও সাপোর্ট</h3>
             
@@ -475,7 +440,7 @@
     </div>
     
     <!-- Ledger Update Modal -->
-    <div class="modal-overlay top-tier" id="updateLedgerModal">
+    <div class="modal-overlay top-tier" id="updateLedgerModal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: var(--primary);">হিসাব আপডেট করুন</h3>
             <p style="margin-bottom:10px; font-size:14px;">কাস্টমার: <strong id="ul-name"></strong><br>মোট বাকি: <strong id="ul-due" style="color:red;"></strong> ৳</p>
@@ -490,6 +455,43 @@
             <div class="modal-btns">
                 <button class="m-btn m-cancel" onclick="document.getElementById('updateLedgerModal').style.display='none'">বাতিল</button>
                 <button class="m-btn" style="background:var(--primary);color:white;" onclick="window.saveLedgerUpdate()">সেভ করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIN Security Modal (Z-index 9999) -->
+    <div class="modal-overlay top-tier" id="pinModal" style="display: none; z-index: 9999;">
+        <div class="modal-box">
+            <div class="alert-icon">🔒</div>
+            <h3 style="color:var(--danger);">সিকিউরিটি পিন</h3>
+            <p>এই কাজটি করতে ৪-ডিজিটের পিন দিন।<br><small style="color:var(--primary); font-weight:bold;">(ডিফল্ট: 1234)</small></p>
+            <input type="password" id="securityPin" class="auth-input" placeholder="****" maxlength="4" style="text-align:center; font-size:24px; letter-spacing:10px;">
+            <div class="modal-btns">
+                <button class="m-btn m-cancel" onclick="document.getElementById('pinModal').style.display='none'">বাতিল</button>
+                <button class="m-btn m-confirm" onclick="window.verifyPinAndExecute()">নিশ্চিত</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Alert Modal (Z-index 9999) -->
+    <div class="modal-overlay top-tier" id="customAlertModal" style="display: none; z-index: 9999;">
+        <div class="modal-box" style="padding: 30px 20px;">
+            <div id="customAlertIcon" class="alert-icon">✅</div>
+            <h3 id="customAlertTitle" style="color:var(--text-main); font-size: 22px;">সফল!</h3>
+            <p id="customAlertMessage" style="color:var(--text-muted); font-size: 15px; margin-bottom: 25px;">কাজটি সম্পন্ন হয়েছে।</p>
+            <button class="btn-auth" style="width:100%; margin: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" onclick="window.closeCustomAlert()">ঠিক আছে</button>
+        </div>
+    </div>
+
+    <!-- 🗑️ Custom Confirm Modal for Inbox Delete (Z-index 9999) -->
+    <div class="modal-overlay top-tier" id="confirmModal" style="display: none; z-index: 9999;">
+        <div class="modal-box" style="padding: 30px 20px;">
+            <div class="alert-icon" style="color: var(--danger);">🗑️</div>
+            <h3 style="color:var(--text-main); font-size: 20px;">নিশ্চিত করুন</h3>
+            <p id="confirmMessage" style="color:var(--text-muted); font-size: 15px; margin-bottom: 25px; font-weight: 500;">আপনি কি ইনবক্স থেকে এই মেসেজটি চিরতরে মুছে ফেলতে চান?</p>
+            <div class="modal-btns">
+                <button class="m-btn m-cancel" onclick="document.getElementById('confirmModal').style.display='none'">বাতিল</button>
+                <button class="m-btn m-confirm" id="confirmActionBtn" style="background: var(--danger);">মুছে ফেলুন</button>
             </div>
         </div>
     </div>
@@ -533,7 +535,7 @@
     </div>
 
     <!-- Memo Preview Modal -->
-    <div class="modal-overlay" id="memoPreviewModal">
+    <div class="modal-overlay" id="memoPreviewModal" style="display: none;">
         <div class="memo-preview-box">
             <div class="memo-img-wrapper" id="memoImageContainer"></div>
             <div style="display:flex; flex-direction:column; gap:8px;">
@@ -548,7 +550,7 @@
     </div>
     
     <!-- Fullscreen Screenshot Area -->
-    <div id="clean-screenshot-area">
+    <div id="clean-screenshot-area" style="display: none;">
         <div id="ssHeaderUI">📸 স্ক্রিনশট নিন (স্ক্রিনে যেকোনো জায়গায় টাচ করলে ফিরে যাবেন)</div>
         <div id="ss-image-container"></div>
     </div>
@@ -557,7 +559,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
-        import { getDatabase, ref, onValue, update, query, orderByChild, equalTo, push, set } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
+        import { getDatabase, ref, onValue, update, query, orderByChild, equalTo, push, set, remove } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAGdkgmzKG7lY9Y6BLfGyx0uB3qU3n_VAc",
@@ -575,7 +577,7 @@
 
         let currentShopFirebaseKey = null;
         let currentShopData = null;
-        let currentDeleteIdx = null; // For confirm modal
+        window.currentDeleteIdx = null;
 
         // ================= Global POS Variables =================
         let cartList = [];
@@ -589,7 +591,6 @@
         let memoCounter = 1;
         let dismissedHistoryFor = "";
 
-        // বিশাল ডাটাবেস (মুদি, সবজি, ফল, কসমেটিকস, স্টেশনারি, বেকারি ইত্যাদি)
         let database = [
             { name: "মিনিকেট চাল", cat: "চাল", unit: "কেজি" }, { name: "নাজিরশাইল চাল", cat: "চাল", unit: "কেজি" }, { name: "পোলাওয়ের চাল", cat: "চাল", unit: "কেজি" }, { name: "চিনিগুঁড়া চাল", cat: "চাল", unit: "কেজি" }, { name: "আত্রাই চাল", cat: "চাল", unit: "কেজি" }, { name: "বিআর-২৮ চাল", cat: "চাল", unit: "কেজি" }, { name: "মাদারীপুর চাল", cat: "চাল", unit: "কেজি" }, { name: "গুটিস্বর্ণা চাল", cat: "চাল", unit: "কেজি" },
             { name: "মসুর ডাল (মোটা)", cat: "ডাল", unit: "কেজি" }, { name: "মসুর ডাল (দেশি)", cat: "ডাল", unit: "কেজি" }, { name: "মুগ ডাল", cat: "ডাল", unit: "কেজি" }, { name: "বুট ডাল", cat: "ডাল", unit: "কেজি" }, { name: "খেসারি ডাল", cat: "ডাল", unit: "কেজি" }, { name: "মাষকলাই ডাল", cat: "ডাল", unit: "কেজি" }, { name: "অরহর ডাল", cat: "ডাল", unit: "কেজি" },
@@ -613,7 +614,6 @@
             }
         });
 
-        // ================= Firebase Sync Helper =================
         window.syncDataToFirebase = () => {
             if (currentShopFirebaseKey) {
                 update(ref(db, `shops/${currentShopFirebaseKey}`), {
@@ -623,7 +623,6 @@
             }
         };
 
-        // ================= Firebase Auth & App Initialization =================
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 document.getElementById('activation-screen').style.display = 'none';
@@ -680,38 +679,44 @@
                 validateSubscriptionAndLoadApp();
             });
 
-            // 📥 ইনবক্স লজিক (গ্লোবাল নোটিশ)
+            // 📥 গ্লোবাল নোটিশ হ্যান্ডলার (DO NOT OPEN SETTINGS POPUP!)
             onValue(ref(db, 'systemNotice'), (snapshot) => {
                 if(snapshot.exists()) {
                     const notice = snapshot.val();
-                    let inbox = JSON.parse(localStorage.getItem('smartPosInbox_' + currentShopFirebaseKey)) || [];
+                    let deletedHistory = currentShopData?.deletedMessages || [];
                     
-                    const exists = inbox.find(m => m.timestamp === notice.timestamp && m.message === notice.message);
-                    if(!exists) {
-                        inbox.unshift({ type: 'global', message: notice.message, timestamp: notice.timestamp });
-                        localStorage.setItem('smartPosInbox_' + currentShopFirebaseKey, JSON.stringify(inbox));
-                        
-                        document.getElementById('noticeText').innerText = notice.message;
-                        document.getElementById('noticeBanner').style.display = 'block';
+                    if (!deletedHistory.includes(notice.timestamp)) {
+                        let inbox = JSON.parse(localStorage.getItem('smartPosInbox_' + currentShopFirebaseKey)) || [];
+                        const exists = inbox.find(m => m.timestamp === notice.timestamp && m.message === notice.message);
+                        if(!exists) {
+                            inbox.unshift({ type: 'global', message: notice.message, timestamp: notice.timestamp });
+                            localStorage.setItem('smartPosInbox_' + currentShopFirebaseKey, JSON.stringify(inbox));
+                            
+                            document.getElementById('noticeText').innerText = notice.message;
+                            document.getElementById('noticeBanner').style.display = 'block';
+                        }
+                    } else {
+                        document.getElementById('noticeBanner').style.display = 'none';
                     }
-                    window.renderInbox(); 
                 }
             });
 
-            // 📥 ইনবক্স লজিক (পার্সোনাল নোটিশ)
+            // 📥 পার্সোনাল নোটিশ হ্যান্ডলার (DO NOT OPEN SETTINGS POPUP!)
             onValue(ref(db, `shops/${currentShopFirebaseKey}/personalNotice`), (snapshot) => {
                 if(snapshot.exists()) {
                     const notice = snapshot.val();
-                    let inbox = JSON.parse(localStorage.getItem('smartPosInbox_' + currentShopFirebaseKey)) || [];
+                    let deletedHistory = currentShopData?.deletedMessages || [];
                     
-                    const exists = inbox.find(m => m.timestamp === notice.timestamp && m.message === notice.message);
-                    if(!exists) {
-                        inbox.unshift({ type: 'personal', message: notice.message, timestamp: notice.timestamp });
-                        localStorage.setItem('smartPosInbox_' + currentShopFirebaseKey, JSON.stringify(inbox));
-                        
-                        window.showCustomAlert("অ্যাডমিনের ব্যক্তিগত বার্তা", notice.message, "warning");
+                    if (!deletedHistory.includes(notice.timestamp)) {
+                        let inbox = JSON.parse(localStorage.getItem('smartPosInbox_' + currentShopFirebaseKey)) || [];
+                        const exists = inbox.find(m => m.timestamp === notice.timestamp && m.message === notice.message);
+                        if(!exists) {
+                            inbox.unshift({ type: 'personal', message: notice.message, timestamp: notice.timestamp });
+                            localStorage.setItem('smartPosInbox_' + currentShopFirebaseKey, JSON.stringify(inbox));
+                            
+                            window.showCustomAlert("অ্যাডমিনের ব্যক্তিগত বার্তা", notice.message, "warning");
+                        }
                     }
-                    window.renderInbox(); 
                 }
             });
         }
@@ -754,27 +759,49 @@
             container.innerHTML = html;
         };
 
-        // Beautiful Confirm Delete Modal for Inbox SMS
+        // 🗑️ PERMANENT DELETE LOGIC
         window.confirmDeleteInboxMsg = (idx) => {
-            currentDeleteIdx = idx;
+            window.currentDeleteIdx = idx;
             document.getElementById('confirmMessage').innerText = "আপনি কি ইনবক্স থেকে এই মেসেজটি চিরতরে মুছে ফেলতে চান?";
             document.getElementById('confirmActionBtn').onclick = window.executeDeleteInboxMsg;
             document.getElementById('confirmModal').style.display = 'flex';
         };
 
-        window.executeDeleteInboxMsg = () => {
-            if(currentDeleteIdx !== null) {
+        window.executeDeleteInboxMsg = async () => {
+            if(window.currentDeleteIdx !== null) {
                 let inbox = JSON.parse(localStorage.getItem('smartPosInbox_' + currentShopFirebaseKey)) || [];
-                inbox.splice(currentDeleteIdx, 1);
+                let deletedMsg = inbox[window.currentDeleteIdx];
+                
+                inbox.splice(window.currentDeleteIdx, 1);
                 localStorage.setItem('smartPosInbox_' + currentShopFirebaseKey, JSON.stringify(inbox));
+
+                let deletedHistory = currentShopData.deletedMessages || [];
+                if (!deletedHistory.includes(deletedMsg.timestamp)) {
+                    deletedHistory.push(deletedMsg.timestamp);
+                    currentShopData.deletedMessages = deletedHistory; 
+                    await update(ref(db, `shops/${currentShopFirebaseKey}`), {
+                        deletedMessages: deletedHistory
+                    });
+                }
+
+                if (deletedMsg.type === 'personal') {
+                    await remove(ref(db, `shops/${currentShopFirebaseKey}/personalNotice`));
+                }
+
                 window.renderInbox();
                 document.getElementById('confirmModal').style.display = 'none';
-                currentDeleteIdx = null; // reset
-                window.showCustomAlert("সফল!", "মেসেজটি সফলভাবে মুছে ফেলা হয়েছে।", "success");
+                window.currentDeleteIdx = null; 
+                window.showCustomAlert("সফল!", "মেসেজটি ডাটাবেজ থেকে চিরতরে মুছে ফেলা হয়েছে।", "success");
             }
         };
 
         function validateSubscriptionAndLoadApp() {
+            // Ensure Settings & other Modals are explicitly HIDDEN on app startup
+            document.getElementById('settingsModal').style.display = 'none';
+            document.getElementById('memoHistoryModal').style.display = 'none';
+            document.getElementById('dashboardModal').style.display = 'none';
+            document.getElementById('ledgerModal').style.display = 'none';
+
             document.getElementById('shopName').value = currentShopData.shopName || 'দোকান';
             document.getElementById('shopPhone').value = currentShopData.phone || '';
 
@@ -804,7 +831,7 @@
             }
 
             document.getElementById('sub-lock-screen').style.display = 'none';
-            document.getElementById('main-app').style.display = 'block';
+            document.getElementById('main-app').style.display = 'block'; // Direct to Home Page
 
             const expDate = new Date(expireDate);
             const nowDate = new Date(today);
@@ -846,6 +873,9 @@
 
         // ================= POS Core App Logic =================
         function initMainApp() {
+            // Guarantee pure home screen visibility
+            document.getElementById('settingsModal').style.display = 'none';
+            
             cartList = JSON.parse(localStorage.getItem('smartPosApp_' + currentShopFirebaseKey)) || [];
             dueLedger = JSON.parse(localStorage.getItem('smartPosDueLedger_' + currentShopFirebaseKey)) || [];
             salesHistory = JSON.parse(localStorage.getItem('smartPosSalesHistory_' + currentShopFirebaseKey)) || [];
@@ -971,7 +1001,6 @@
         }
         document.addEventListener('click', (e) => { if (!document.getElementById('searchInput').contains(e.target)) document.getElementById('suggestionsBox').style.display = 'none'; });
 
-        // নতুন পণ্য ডাটাবেসে অটোমেটিক যুক্ত করার ফাংশন
         window.addNewProductToDatabase = (newProdName) => {
             if(!newProdName) return;
             const exists = database.some(item => item.name.toLowerCase() === newProdName.toLowerCase());
@@ -1015,7 +1044,7 @@
             cartList.forEach((item, index) => {
                 const serialNo = toBengaliNum(cartList.length - index); let uType = item.unitType;
                 if(!uType) { const dbItem = database.find(i => i.name === item.name); uType = (dbItem && dbItem.unit) ? dbItem.unit : 'পিস'; item.unitType = uType; }
-                let pLabel = `পরিমাণ (${uType})`; let sLabel = 'প্রযোজ্য নয়'; let disableSecondary = 'disabled style="background:var(--border);"';
+                let pLabel = `পরিমাণ (${uType})`; let sLabel = 'প্রযোজ্য নয়'; let disableSecondary = 'disabled style="background:var(--border);"';
                 if (uType === 'কেজি') { sLabel = 'পরিমাণ (গ্রাম)'; disableSecondary = ''; } else if (uType === 'লিটার') { sLabel = 'পরিমাণ (মিলি)'; disableSecondary = ''; }
                 const card = document.createElement('div'); card.className = 'product-card'; card.setAttribute('data-id', item.id);
                 card.innerHTML = `
