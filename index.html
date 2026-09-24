@@ -63,7 +63,7 @@
         .header-wrap { position: relative; text-align: center; margin-bottom: 15px; background: var(--card); padding: 25px 15px 15px 15px; border-radius: 14px; border: 1px solid var(--border); box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
         .shop-title { font-size: 22px; font-weight: 700; color: var(--primary); width: 100%; border: none; text-align: center; outline: none; background: transparent; margin-bottom: 5px; }
         .shop-title:focus { border-bottom: 2px solid var(--primary); }
-        .shop-mobile { font-size: 14px; width: 100%; text-align: center; border: 1px dashed var(--border); background: var(--input-bg); color: var(--text-main); border-radius: 8px; padding: 8px; outline: none; font-weight: 600; }
+        .shop-mobile { font-size: 14px; width: 100%; text-align: center; border: 1px dashed var(--border); background: var(--input-bg); color: var(--text-main); border-radius: 8px; padding: 8px; margin-bottom: 5px; outline: none; font-weight: 600; }
         
         .top-btn-group { position: absolute; top: 15px; right: 15px; display: flex; gap: 8px; }
         .circle-btn { background: var(--primary-light); color: var(--primary); border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
@@ -174,6 +174,7 @@
         
         .p-header { text-align: center; border-bottom: 1px dashed #000; padding-bottom: 8px; margin-bottom: 8px; }
         .p-title { font-size: 20px; font-weight: 700; margin: 0; }
+        .p-contact { font-size: 12px; font-weight: normal; margin-top: 2px; }
         .p-cust-block { display: flex; justify-content: space-between; align-items: flex-start; text-align: left; font-size: 12px; font-weight: 600; margin-bottom: 8px; border-bottom: 1px dashed #000; padding-bottom: 6px; }
         .p-table { width: 100%; font-size: 12px; border-collapse: collapse; margin-top: 5px; color: #000 !important; }
         .p-table th { border-bottom: 1px dashed #000; padding: 4px 2px; font-weight: 700; text-align: left; }
@@ -204,11 +205,11 @@
     <div id="activation-screen" style="display: none;">
         <div class="activation-box">
             <h2>🛒 পস দোকানদার লগইন</h2>
-            <p>আপনার অ্যাকাউন্ট দিয়ে লগইন করুন।</p>
+            <p>আপনার অ্যাকাউন্ট দিয়ে লগইন করুন।</p>
             <input type="email" id="shopEmail" class="auth-input" placeholder="দোকানের ইমেইল">
-            <input type="password" id="shopPassword" class="auth-input" placeholder="পাসওয়ার্ড">
+            <input type="password" id="shopPassword" class="auth-input" placeholder="পাসওয়ার্ড">
             <button class="btn-auth" id="loginBtn" onclick="window.loginShop()">লগইন করুন</button>
-            <div id="auth-error">❌ সঠিক ইমেইল বা পাসওয়ার্ড দিন!</div>
+            <div id="auth-error">❌ সঠিক ইমেইল বা পাসওয়ার্ড দিন!</div>
         </div>
     </div>
 
@@ -216,20 +217,20 @@
     <div id="sub-lock-screen" style="display: none;">
         <div class="lock-card">
             <div id="payFormArea">
-                <h3>⚠️ সাবস্ক্রিপশন মেয়াদ শেষ বা অপেক্ষমান</h3>
-                <p id="lockMessage">সফটওয়্যারটি সচল রাখতে নিচের নম্বরে ফি সেন্ড করুন এবং তথ্য সাবমিট করুন।</p>
+                <h3>⚠️ সাবস্ক্রিপশন মেয়াদ শেষ বা অপেক্ষমান</h3>
+                <p id="lockMessage">সফটওয়্যারটি সচল রাখতে নিচের নম্বরে ফি সেন্ড করুন এবং তথ্য সাবমিট করুন।</p>
                 
                 <div class="bkash-box">
                     <p style="font-size: 18px; font-weight: bold; color: #db2777; margin: 0;">01644234178</p>
                     <small style="color: var(--text-muted); font-weight:bold;">বিকাশ / নগদ (পার্সোনাল)</small><br>
-                    <small style="color: var(--text-muted);">মাসিক ফি: ১৫০ ৳</small>
+                    <small style="color: var(--text-muted);">মাসিক ফি: ১২৫ ৳</small>
                 </div>
 
                 <select id="lockPayMethod" class="auth-input" style="text-align: center; font-weight: bold; margin-bottom: 10px;">
                     <option value="bKash">বিকাশ</option>
                     <option value="Nagad">নগদ</option>
                 </select>
-                <input type="text" id="lockPayNum" class="auth-input" placeholder="যে নাম্বার থেকে পাঠিয়েছেন" style="text-align: center; font-weight: bold; margin-bottom: 10px;">
+                <input type="text" id="lockPayNum" class="auth-input" placeholder="যে নাম্বার থেকে পাঠিয়েছেন" style="text-align: center; font-weight: bold; margin-bottom: 10px;">
                 <input type="number" id="lockPayMonths" class="auth-input" placeholder="কত মাসের ফি? (যেমন: ১)" style="text-align: center; font-weight: bold; margin-bottom: 10px;">
                 <input type="text" id="trxInput" class="auth-input" placeholder="TrxID দিন (যেমন: 9N7A6...)" style="text-align: center; font-weight: bold;">
                 
@@ -239,7 +240,7 @@
             <div id="paySuccessArea" style="display: none; padding: 10px 0;">
                 <div style="font-size: 55px; margin-bottom: 15px;">⏳</div>
                 <h3 style="color: var(--warning); margin-bottom: 10px;">পেমেন্ট রিভিউ চলছে!</h3>
-                <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">আপনার পেমেন্ট তথ্য সফলভাবে অ্যাডমিনের কাছে পাঠানো হয়েছে। খুব শীঘ্রই অ্যাডমিন আপনার পেমেন্ট চেক করে অ্যাকাউন্ট সচল করে দেবেন।</p>
+                <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">আপনার পেমেন্ট তথ্য সফলভাবে অ্যাডমিনের কাছে পাঠানো হয়েছে। খুব শীঘ্রই অ্যাডমিন আপনার পেমেন্ট চেক করে অ্যাকাউন্ট সচল করে দেবেন।</p>
                 <div style="background: var(--primary-light); color: var(--primary); padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-bottom: 20px;">ধৈর্য ধরার জন্য ধন্যবাদ!</div>
             </div>
 
@@ -259,7 +260,7 @@
                 <button class="notice-close-btn" onclick="window.dismissGlobalNotice()" title="মুছে ফেলুন">✖</button>
             </div>
             
-            <!-- মেয়াদ ওয়ার্নিং ব্যানার -->
+            <!-- মেয়াদ ওয়ার্নিং ব্যানার -->
             <div id="expiryWarning" class="notice-banner" style="background: #fee2e2; border-color: #ef4444; color: #b91c1c; display: none;">
                 ⚠️ <span id="expiryWarningText"></span>
             </div>
@@ -270,6 +271,7 @@
                 </div>
                 <input type="text" id="shopName" class="shop-title" value="বিসমিল্লাহ জেনারেল স্টোর" placeholder="দোকানের নাম" onkeyup="window.saveShopInfo()" onchange="window.saveShopInfo()">
                 <input type="text" id="shopPhone" class="shop-mobile" placeholder="মোবাইল: ০১৭XXXXXXXX" onkeyup="window.saveShopInfo()" onchange="window.saveShopInfo()">
+                <input type="text" id="shopAddress" class="shop-mobile" placeholder="দোকানের ঠিকানা (ঐচ্ছিক)" onkeyup="window.saveShopInfo()" onchange="window.saveShopInfo()">
             </div>
 
             <!-- 4 Action Buttons in Grid -->
@@ -289,7 +291,7 @@
                     <div id="customerHistoryBox" style="display:none; font-size:13px; background:var(--primary-light); padding:12px; border-radius:10px; border:1px dashed var(--primary); color:var(--text-main);"></div>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 5px;">
-                        <input type="text" id="custPhone" class="cust-input" placeholder="মোবাইল নম্বর (ঐচ্ছিক)">
+                        <input type="text" id="custPhone" class="cust-input" placeholder="মোবাইল নম্বর (ঐচ্ছিক)" onkeyup="window.checkCustomerHistory()" onchange="window.checkCustomerHistory()">
                         <input type="text" id="custAddress" class="cust-input" placeholder="ঠিকানা (ঐচ্ছিক)">
                     </div>
                 </div>
@@ -304,9 +306,9 @@
 
             <div class="payment-card">
                 <div class="pay-row"><span>বর্তমান বিল:</span><span id="calcCurrentBill">০.০০ ৳</span></div>
-                <div class="pay-row"><span style="color:var(--warning);">পূর্বের বকেয়া:</span><span id="calcPrevDue" style="color:var(--warning);">০.০০ ৳</span></div>
+                <div class="pay-row"><span style="color:var(--warning);">পূর্বের বকেয়া:</span><span id="calcPrevDue" style="color:var(--warning);">০.০০ ৳</span></div>
                 <div class="pay-row highlight"><span>সর্বমোট বিল:</span><span id="calcGrandTotal">০.০০ ৳</span></div>
-                <div class="pay-row" style="color: var(--success); margin-top: 10px;"><span>নগদ জমা:</span><input type="number" id="paidAmount" class="pay-input" placeholder="০" onkeyup="window.calculateDue()" onchange="window.calculateDue()"></div>
+                <div class="pay-row" style="color: var(--success); margin-top: 10px;"><span>ন নগদ জমা:</span><input type="number" id="paidAmount" class="pay-input" placeholder="০" onkeyup="window.calculateDue()" onchange="window.calculateDue()"></div>
                 <div class="pay-row"><span>বর্তমান বাকি:</span><span id="calcDueAmount" class="text-danger">০.০০ ৳</span></div>
             </div>
         </div>
@@ -322,17 +324,38 @@
             </div>
         </div>
         
-        <div class="dev-marquee"><div class="marquee-content">Development: মোঃ রাজন হোসাইন &nbsp;|&nbsp; প্রয়োজনে: 01644234178 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ধন্যবাদ আমাদের অ্যাপটি ব্যবহার করার জন্য!</div></div>
+        <div class="dev-marquee"><div class="marquee-content">Development: মোঃ রাজন হোসাইন &nbsp;|&nbsp; প্রয়োজনে: 01644234178 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ধন্যবাদ আমাদের অ্যাপটি ব্যবহার করার জন্য!</div></div>
     </div>
 
-    <!-- ALL POPUP MODALS (All safely display:none on page startup) -->
+    <!-- ALL POPUP MODALS -->
+
+    <!-- Unit Confirmation Modal for New Product -->
+    <div class="modal-overlay top-tier" id="unitConfirmModal" style="display: none; z-index: 9999;">
+        <div class="modal-box">
+            <h3 style="color:var(--primary); font-size:20px; margin-bottom:15px;">একক নির্বাচন করুন</h3>
+            <p style="margin-bottom:15px; font-weight:600;">নতুন পণ্য: <strong id="newProductNameDisplay" style="color:var(--danger);"></strong></p>
+            <select id="newProductUnit" class="auth-input" style="text-align:center; padding:12px;">
+                <option value="পিস">পিস</option>
+                <option value="কেজি">কেজি</option>
+                <option value="লিটার">লিটার</option>
+                <option value="প্যাকেট">প্যাকেট</option>
+                <option value="হালি">হালি</option>
+                <option value="আঁটি">আঁটি</option>
+                <option value="বটল">বটল</option>
+            </select>
+            <div class="modal-btns">
+                <button class="m-btn m-cancel" onclick="document.getElementById('unitConfirmModal').style.display='none'">বাতিল</button>
+                <button class="m-btn m-confirm" style="background:var(--primary);" onclick="window.confirmAddNewProduct()">সংরক্ষণ</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Memo History Modal -->
     <div class="modal-overlay" id="memoHistoryModal" style="display: none;">
         <div class="full-modal">
             <div class="full-modal-header" style="background: #8b5cf6;"><span>📜 মেমো হিস্ট্রি</span><button style="background:transparent;border:none;color:white;font-size:18px;cursor:pointer;" onclick="document.getElementById('memoHistoryModal').style.display='none'">✖</button></div>
             <div class="full-modal-search">
-                <input type="text" id="memoHistorySearchInput" placeholder="🔍 কাস্টমারের নাম বা মোবাইল দিয়ে খুঁজুন..." onkeyup="window.filterMemoHistory()" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--input-bg); color:var(--text-main); outline:none;">
+                <input type="text" id="memoHistorySearchInput" placeholder="🔍 কাস্টমারের নাম বা মোবাইল দিয়ে খুঁজুন..." onkeyup="window.filterMemoHistory()" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--input-bg); color:var(--text-main); outline:none;">
             </div>
             <div class="full-modal-body" id="mhListContainer"></div>
         </div>
@@ -362,10 +385,10 @@
         <div class="full-modal">
             <div class="full-modal-header" style="background: var(--warning); color:#000;"><span>📒 বাকির খাতা</span><button style="background:transparent;border:none;color:#000;font-size:18px;cursor:pointer;" onclick="document.getElementById('ledgerModal').style.display='none'">✖</button></div>
             <div class="full-modal-search">
-                <input type="text" id="ledgerSearchInput" placeholder="🔍 নাম বা মোবাইল দিয়ে খুঁজুন..." onkeyup="window.filterLedger()" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--input-bg); color:var(--text-main); outline:none;">
+                <input type="text" id="ledgerSearchInput" placeholder="🔍 নাম বা মোবাইল দিয়ে খুঁজুন..." onkeyup="window.filterLedger()" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--input-bg); color:var(--text-main); outline:none;">
                 
                 <button class="btn-add-ledger" onclick="document.getElementById('manualLedgerModal').style.display='flex'">
-                    ➕ নতুন বাকি যুক্ত করুন <br><small style="font-size:11px; font-weight:normal;">(যেকোনো ছোট হিসাব বা মেমো ছাড়া বকেয়া যুক্ত করতে)</small>
+                    ➕ নতুন বাকি যুক্ত করুন <br><small style="font-size:11px; font-weight:normal;">(যেকোনো ছোট হিসাব বা মেমো ছাড়া বকেয়া যুক্ত করতে)</small>
                 </button>
             </div>
             <div class="full-modal-body" id="ledgerListContainer"></div>
@@ -376,11 +399,12 @@
     <div class="modal-overlay top-tier" id="manualLedgerModal" style="display: none;">
         <div class="modal-box">
             <h3 style="color: var(--primary);">নতুন বাকি যুক্ত করুন</h3>
-            <p style="margin-bottom: 15px; font-size: 13px;">মেমো ছাড়া যেকোনো ছোট/বড় হিসাব যুক্ত করুন</p>
+            <p style="margin-bottom: 15px; font-size: 13px;">মেমো ছাড়া যেকোনো ছোট/বড় হিসাব যুক্ত করুন</p>
             <input type="text" id="mlName" class="auth-input" placeholder="কাস্টমারের নাম (আবশ্যক)" style="text-align:left; font-weight:normal;">
             <input type="text" id="mlAddress" class="auth-input" placeholder="ঠিকানা (ঐচ্ছিক)" style="text-align:left; font-weight:normal;">
             <input type="text" id="mlPhone" class="auth-input" placeholder="মোবাইল নাম্বার (ঐচ্ছিক)" style="text-align:left; font-weight:normal;">
             <input type="number" id="mlDue" class="auth-input" placeholder="বাকির পরিমাণ ৳ (আবশ্যক)">
+            <input type="text" id="mlDesc" class="auth-input" placeholder="বিবরণ / নোট (ঐচ্ছিক)" style="text-align:left; font-weight:normal; font-size:14px;">
             <div class="modal-btns">
                 <button class="m-btn m-cancel" onclick="document.getElementById('manualLedgerModal').style.display='none'">বাতিল</button>
                 <button class="m-btn m-confirm" style="background:var(--primary);" onclick="window.saveManualLedger()">সংরক্ষণ</button>
@@ -388,15 +412,15 @@
         </div>
     </div>
 
-    <!-- ⚙️ Settings, Subscription, Support & Inbox Modal (Hidden initially!) -->
+    <!-- ⚙️ Settings Modal -->
     <div class="modal-overlay top-tier" id="settingsModal" style="display: none;">
         <div class="modal-box" style="max-width: 400px; padding: 25px 20px;">
             <h3 style="color: var(--primary);">⚙️ সেটিংস ও সাপোর্ট</h3>
             
             <div style="background: var(--primary-light); padding: 15px; border-radius: 12px; border: 1px solid var(--primary); margin-bottom: 15px; text-align: center;">
-                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 5px; font-weight: bold;">বর্তমান সাবস্ক্রিপশন মেয়াদ:</p>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 5px; font-weight: bold;">বর্তমান সাবস্ক্রিপশন মেয়াদ:</p>
                 <h4 id="settingsExpireDate" style="color: var(--primary); font-size: 18px; margin-bottom: 10px; font-weight: bold;">লোড হচ্ছে...</h4>
-                <p style="font-size: 13px; color: var(--text-main); font-weight: 600;">মাসিক ফি (১৫০ ৳) পাঠানোর নাম্বার:<br>
+                <p style="font-size: 13px; color: var(--text-main); font-weight: 600;">মাসিক ফি (১২৫ ৳) পাঠানোর নাম্বার:<br>
                     <span style="color: #db2777; font-size: 20px; display: block; margin-top: 5px;">01644234178</span>
                     <span style="font-size: 12px; color: var(--text-muted);">(বিকাশ/নগদ পার্সোনাল)</span>
                 </p>
@@ -420,7 +444,7 @@
                     <option value="bKash">বিকাশ</option>
                     <option value="Nagad">নগদ</option>
                 </select>
-                <input type="text" id="setPayNum" class="auth-input" style="font-size:14px; padding:10px; margin-bottom:8px;" placeholder="যে নাম্বার থেকে পাঠিয়েছেন">
+                <input type="text" id="setPayNum" class="auth-input" style="font-size:14px; padding:10px; margin-bottom:8px;" placeholder="যে নাম্বার থেকে পাঠিয়েছেন">
                 <input type="number" id="setPayMonths" class="auth-input" style="font-size:14px; padding:10px; margin-bottom:8px;" placeholder="কত মাসের ফি দিচ্ছেন? (যেমন: ১)">
                 <input type="text" id="setPayTrx" class="auth-input" style="font-size:14px; padding:10px; margin-bottom:10px;" placeholder="TrxID (যেমন: 9N7A6...)">
                 
@@ -478,7 +502,7 @@
         <div class="modal-box" style="padding: 30px 20px;">
             <div id="customAlertIcon" class="alert-icon">✅</div>
             <h3 id="customAlertTitle" style="color:var(--text-main); font-size: 22px;">সফল!</h3>
-            <p id="customAlertMessage" style="color:var(--text-muted); font-size: 15px; margin-bottom: 25px;">কাজটি সম্পন্ন হয়েছে।</p>
+            <p id="customAlertMessage" style="color:var(--text-muted); font-size: 15px; margin-bottom: 25px;">কাজটি সম্পন্ন হয়েছে।</p>
             <button class="btn-auth" style="width:100%; margin: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" onclick="window.closeCustomAlert()">ঠিক আছে</button>
         </div>
     </div>
@@ -501,9 +525,10 @@
         <div id="print-memo">
             <div class="p-header">
                 <h2 class="p-title" id="p-shop-name"></h2>
+                <div class="p-contact" id="p-shop-address" style="margin-top:2px;"></div>
                 <div class="p-contact" id="p-shop-phone"></div>
-                <div class="p-date" id="p-date-time"></div>
-                <div style="font-weight:700; margin-top:4px;">--- ক্যাশ মেমো ---</div>
+                <div class="p-contact" id="p-date-time" style="margin-top:4px;"></div>
+                <div style="font-weight:700; margin-top:6px; font-size:14px;">--- ক্যাশ মেমো ---</div>
             </div>
             
             <div id="p-cust-block" class="p-cust-block">
@@ -524,7 +549,7 @@
             <div style="border-top: 1px dashed #000; margin-top: 8px; padding-top: 8px; font-size: 14px; font-weight: 700;">
                 <table style="width: 100%;">
                     <tr id="p-current-bill-row"><td style="text-align:right; width:70%;">বর্তমান বিল:</td><td style="text-align:right;"><span id="p-current-bill">০.০০</span> ৳</td></tr>
-                    <tr id="p-prev-due-row" style="display:none;"><td style="text-align:right;">পূর্বের বকেয়া:</td><td style="text-align:right;"><span id="p-prev-due">০.০০</span> ৳</td></tr>
+                    <tr id="p-prev-due-row" style="display:none;"><td style="text-align:right;">পূর্বের বকেয়া:</td><td style="text-align:right;"><span id="p-prev-due">০.০০</span> ৳</td></tr>
                     <tr id="p-grand-total-row" style="display:none;"><td style="text-align:right; font-weight:bold;">সর্বমোট বিল:</td><td style="text-align:right; font-weight:bold;"><span id="p-grand-total">০.০০</span> ৳</td></tr>
                     <tr><td style="text-align:right;">নগদ জমা:</td><td style="text-align:right;"><span id="p-paid">০.০০</span> ৳</td></tr>
                     <tr><td style="text-align:right; border-top:1px dashed #000; padding-top:4px;">বর্তমান বাকি:</td><td style="text-align:right; border-top:1px dashed #000; padding-top:4px;"><span id="p-due">০.০০</span> ৳</td></tr>
@@ -540,7 +565,7 @@
             <div class="memo-img-wrapper" id="memoImageContainer"></div>
             <div style="display:flex; flex-direction:column; gap:8px;">
                 <div style="display:flex; gap:8px;">
-                    <button style="flex:1; background:#25D366; color:white; border:none; padding:12px; border-radius:8px; font-weight:700; font-size:14px; cursor:pointer;" onclick="window.shareMemoImage()">💬 শেয়ার</button>
+                    <button style="flex:1; background:#25D366; color:white; border:none; padding:12px; border-radius:8px; font-weight:700; font-size:14px; cursor:pointer;" onclick="window.shareMemoImage()">💬 শেয়ার</button>
                     <button style="flex:1; background:#ef4444; color:white; border:none; padding:12px; border-radius:8px; font-weight:700; font-size:14px; cursor:pointer;" onclick="window.downloadPDF()">📄 PDF ডাউনলোড</button>
                 </div>
                 <button style="background:var(--primary); color:white; border:none; padding:12px; border-radius:8px; font-weight:700; font-size:15px; cursor:pointer;" onclick="window.openCleanScreenshot()">📸 ফুলস্ক্রিন ও স্ক্রিনশট</button>
@@ -551,7 +576,7 @@
     
     <!-- Fullscreen Screenshot Area -->
     <div id="clean-screenshot-area" style="display: none;">
-        <div id="ssHeaderUI">📸 স্ক্রিনশট নিন (স্ক্রিনে যেকোনো জায়গায় টাচ করলে ফিরে যাবেন)</div>
+        <div id="ssHeaderUI">📸 স্ক্রিনশট নিন (স্ক্রিনে যেকোনো জায়গায় টাচ করলে ফিরে যাবেন)</div>
         <div id="ss-image-container"></div>
     </div>
 
@@ -592,15 +617,15 @@
         let dismissedHistoryFor = "";
 
         let database = [
-            { name: "মিনিকেট চাল", cat: "চাল", unit: "কেজি" }, { name: "নাজিরশাইল চাল", cat: "চাল", unit: "কেজি" }, { name: "পোলাওয়ের চাল", cat: "চাল", unit: "কেজি" }, { name: "চিনিগুঁড়া চাল", cat: "চাল", unit: "কেজি" }, { name: "আত্রাই চাল", cat: "চাল", unit: "কেজি" }, { name: "বিআর-২৮ চাল", cat: "চাল", unit: "কেজি" }, { name: "মাদারীপুর চাল", cat: "চাল", unit: "কেজি" }, { name: "গুটিস্বর্ণা চাল", cat: "চাল", unit: "কেজি" },
+            { name: "মিনিকেট চাল", cat: "চাল", unit: "কেজি" }, { name: "নাজিরশাইল চাল", cat: "চাল", unit: "কেজি" }, { name: "পোলাওয়ের চাল", cat: "চাল", unit: "কেজি" }, { name: "চিনিগুঁড়া চাল", cat: "চাল", unit: "কেজি" }, { name: "আত্রাই চাল", cat: "চাল", unit: "কেজি" }, { name: "বিআর-২৮ চাল", cat: "চাল", unit: "কেজি" }, { name: "মাদারীপুর চাল", cat: "চাল", unit: "কেজি" }, { name: "গুটিস্বর্ণা চাল", cat: "চাল", unit: "কেজি" },
             { name: "মসুর ডাল (মোটা)", cat: "ডাল", unit: "কেজি" }, { name: "মসুর ডাল (দেশি)", cat: "ডাল", unit: "কেজি" }, { name: "মুগ ডাল", cat: "ডাল", unit: "কেজি" }, { name: "বুট ডাল", cat: "ডাল", unit: "কেজি" }, { name: "খেসারি ডাল", cat: "ডাল", unit: "কেজি" }, { name: "মাষকলাই ডাল", cat: "ডাল", unit: "কেজি" }, { name: "অরহর ডাল", cat: "ডাল", unit: "কেজি" },
-            { name: "সয়াবিন তেল (লুজ)", cat: "তেল", unit: "লিটার" }, { name: "রূপচাঁদা সয়াবিন তেল", cat: "তেল", unit: "লিটার" }, { name: "সরিষার তেল (খাঁটি)", cat: "তেল", unit: "লিটার" }, { name: "পাম তেল", cat: "তেল", unit: "লিটার" }, { name: "ঘি (খাঁটি গাভী)", cat: "তেল", unit: "কেজি" },
-            { name: "দেশি পেঁয়াজ", cat: "মশলা", unit: "কেজি" }, { name: "ভারতীয় পেঁয়াজ", cat: "মশলা", unit: "কেজি" }, { name: "রসুন (দেশি)", cat: "মশলা", unit: "কেজি" }, { name: "রসুন (চাইনিজ)", cat: "মশলা", unit: "কেজি" }, { name: "আদা (নূতন)", cat: "মশলা", unit: "কেজি" }, { name: "শুকনা মরিচ", cat: "মশলা", unit: "কেজি" }, { name: "কাঁচা মরিচ", cat: "মশলা", unit: "কেজি" }, { name: "হলুদ গুঁড়া", cat: "মশলা", unit: "কেজি" }, { name: "মরিচ গুঁড়া", cat: "মশলা", unit: "কেজি" }, { name: "জিরা গুঁড়া", cat: "মশলা", unit: "কেজি" }, { name: "ধনে গুঁড়া", cat: "মশলা", unit: "কেজি" }, { name: "গরম মসলা", cat: "মশলা", unit: "কেজি" }, { name: "এলাচি", cat: "মশলা", unit: "কেজি" }, { name: "দারুচিনি", cat: "মশলা", unit: "কেজি" }, { name: "লবঙ্গ", cat: "মশলা", unit: "কেজি" },
-            { name: "আলু (দেশি)", cat: "সবজি", unit: "কেজি" }, { name: "মিষ্টি কুমড়া", cat: "সবজি", unit: "কেজি" }, { name: "পটল", cat: "সবজি", unit: "কেজি" }, { name: "করল্লা", cat: "সবজি", unit: "কেজি" }, { name: "ঢেঁড়স", cat: "সবজি", unit: "কেজি" }, { name: "লাউ", cat: "সবজি", unit: "পিস" }, { name: "ফুলকপি", cat: "সবজি", unit: "পিস" }, { name: "বাঁধাকপি", cat: "সবজি", unit: "পিস" }, { name: "বেগুন", cat: "সবজি", unit: "কেজি" }, { name: "টমেটো", cat: "সবজি", unit: "কেজি" }, { name: "গাজর", cat: "সবজি", unit: "কেজি" }, { name: "শসা", cat: "সবজি", unit: "কেজি" }, { name: "লেবু", cat: "সবজি", unit: "হালি" }, { name: "ধনেপাতা", cat: "সবজি", unit: "আঁটি" }, { name: "পালং শাক", cat: "সবজি", unit: "আঁটি" }, { name: "লাল শাক", cat: "সবজি", unit: "আঁটি" }, { name: "কাঁচকলা", cat: "সবজি", unit: "হালি" },
+            { name: "সয়াবিন তেল (লুজ)", cat: "তেল", unit: "লিটার" }, { name: "রূপচাঁদা সয়াবিন তেল", cat: "তেল", unit: "লিটার" }, { name: "সরিষার তেল (খাঁটি)", cat: "তেল", unit: "লিটার" }, { name: "পাম তেল", cat: "তেল", unit: "লিটার" }, { name: "ঘি (খাঁটি গাভী)", cat: "তেল", unit: "কেজি" },
+            { name: "দেশি পেঁয়াজ", cat: "মশলা", unit: "কেজি" }, { name: "ভারতীয় পেঁয়াজ", cat: "মশলা", unit: "কেজি" }, { name: "রসুন (দেশি)", cat: "মশলা", unit: "কেজি" }, { name: "রসুন (চাইনিজ)", cat: "মশলা", unit: "কেজি" }, { name: "আদা (নূতন)", cat: "মশলা", unit: "কেজি" }, { name: "শুকনা মরিচ", cat: "মশলা", unit: "কেজি" }, { name: "কাঁচা মরিচ", cat: "মশলা", unit: "কেজি" }, { name: "হলুদ গুঁড়া", cat: "মশলা", unit: "কেজি" }, { name: "মরিচ গুঁড়া", cat: "মশলা", unit: "কেজি" }, { name: "জিরা গুঁড়া", cat: "মশলা", unit: "কেজি" }, { name: "ধনে গুঁড়া", cat: "মশলা", unit: "কেজি" }, { name: "গরম মসলা", cat: "মশলা", unit: "কেজি" }, { name: "এলাচি", cat: "মশলা", unit: "কেজি" }, { name: "দারুচিনি", cat: "মশলা", unit: "কেজি" }, { name: "লবঙ্গ", cat: "মশলা", unit: "কেজি" },
+            { name: "আলু (দেশি)", cat: "সবজি", unit: "কেজি" }, { name: "মিষ্টি কুমড়া", cat: "সবজি", unit: "কেজি" }, { name: "পটল", cat: "সবজি", unit: "কেজি" }, { name: "করল্লা", cat: "সবজি", unit: "কেজি" }, { name: "ঢেঁড়স", cat: "সবজি", unit: "কেজি" }, { name: "লাউ", cat: "সবজি", unit: "পিস" }, { name: "ফুলকপি", cat: "সবজি", unit: "পিস" }, { name: "বাঁধাকপি", cat: "সবজি", unit: "পিস" }, { name: "বেগুন", cat: "সবজি", unit: "কেজি" }, { name: "টমেটো", cat: "সবজি", unit: "কেজি" }, { name: "গাজর", cat: "সবজি", unit: "কেজি" }, { name: "শসা", cat: "সবজি", unit: "কেজি" }, { name: "লেবু", cat: "সবজি", unit: "হালি" }, { name: "ধনেপাতা", cat: "সবজি", unit: "আঁটি" }, { name: "পালং শাক", cat: "সবজি", unit: "আঁটি" }, { name: "লাল শাক", cat: "সবজি", unit: "আঁটি" }, { name: "কাঁচকলা", cat: "সবজি", unit: "হালি" },
             { name: "কলা (সবর সাগর)", cat: "ফল", unit: "হালি" }, { name: "আপেল (ফুজি)", cat: "ফল", unit: "কেজি" }, { name: "মাল্টা", cat: "ফল", unit: "কেজি" }, { name: "কমলা", cat: "ফল", unit: "কেজি" }, { name: "আঙুর", cat: "ফল", unit: "কেজি" }, { name: "বেদানা (ডালিম)", cat: "ফল", unit: "কেজি" }, { name: "পেঁপে", cat: "ফল", unit: "কেজি" }, { name: "তরমুজ", cat: "ফল", unit: "পিস" }, { name: "আনারস", cat: "ফল", unit: "পিস" }, { name: "আম", cat: "ফল", unit: "কেজি" },
-            { name: "লবণ", cat: "নিত্যপ্রয়োজনীয়", unit: "কেজি" }, { name: "চিনি", cat: "নিত্যপ্রয়োজনীয়", unit: "কেজি" }, { name: "আটা", cat: "নিত্যপ্রয়োজনীয়", unit: "কেজি" }, { name: "ময়দা", cat: "নিত্যপ্রয়োজনীয়", unit: "কেজি" }, { name: "ডিম (ফার্মের)", cat: "নিত্যপ্রয়োজনীয়", unit: "পিস" }, { name: "চা পাতা", cat: "চা", unit: "প্যাকেট" }, { name: "ডিপ্লোমা গুঁড়া দুধ", cat: "দুধ", unit: "প্যাকেট" }, { name: "ডানো গুঁড়া দুধ", cat: "দুধ", unit: "প্যাকেট" },
-            { name: "লাক্স সাবান", cat: "কসমেটিকস", unit: "পিস" }, { name: "ডেটল সাবান", cat: "কসমেটিকস", unit: "পিস" }, { name: "মেরিল পেট্রোলিয়াম জেলি", cat: "কসমেটিকস", unit: "পিস" }, { name: "পন্ডস ফেসওয়াশ", cat: "কসমেটিকস", unit: "পিস" }, { name: "সানসিল্ক শ্যাম্পু", cat: "কসমেটিকস", unit: "পিস" }, { name: "প্যারাসুট নারকেল তেল", cat: "কসমেটিকস", unit: "বটল" }, { name: "ক্লোজআপ টুথপেস্ট", cat: "কসমেটিকস", unit: "পিস" }, { name: "সার্ফ এক্সেল", cat: "ক্লিনিং", unit: "প্যাকেট" }, { name: "রিন পাউডার", cat: "ক্লিনিং", unit: "প্যাকেট" }, { name: "ভিম বার", cat: "ক্লিনিং", unit: "পিস" }, { name: "হারপিক", cat: "ক্লিনিং", unit: "বটল" },
-            { name: "চিপস", cat: "বেকারি", unit: "প্যাকেট" }, { name: "চানাচুর", cat: "বেকারি", unit: "প্যাকেট" }, { name: "রুটি/বন", cat: "বেকারি", unit: "পিস" }, { name: "মশার কয়েল", cat: "ক্লিনিং", unit: "প্যাকেট" }, { name: "টিস্যু পেপার", cat: "কসমেটিকস", unit: "পিস" }, { name: "ডায়াপার", cat: "কসমেটিকস", unit: "পিস" }, { name: "খাতা", cat: "স্টেশনারি", unit: "পিস" }, { name: "কলম", cat: "স্টেশনারি", unit: "পিস" }, { name: "পেন্সিল", cat: "স্টেশনারি", unit: "পিস" }
+            { name: "লবণ", cat: "নিত্যপ্রয়োজনীয়", unit: "কেজি" }, { name: "চিনি", cat: "নিত্যপ্রয়োজনীয়", unit: "কেজি" }, { name: "আটা", cat: "নিত্যপ্রয়োজনীয়", unit: "কেজি" }, { name: "ময়দা", cat: "নিত্যপ্রয়োজনীয়", unit: "কেজি" }, { name: "ডিম (ফার্মের)", cat: "নিত্যপ্রয়োজনীয়", unit: "পিস" }, { name: "চা পাতা", cat: "চা", unit: "প্যাকেট" }, { name: "ডিপ্লোমা গুঁড়া দুধ", cat: "দুধ", unit: "প্যাকেট" }, { name: "ডানো গুঁড়া দুধ", cat: "দুধ", unit: "প্যাকেট" },
+            { name: "লাক্স সাবান", cat: "কসমেটিকস", unit: "পিস" }, { name: "ডেটল সাবান", cat: "কসমেটিকস", unit: "পিস" }, { name: "মেরিল পেট্রোলিয়াম জেলি", cat: "কসমেটিকস", unit: "পিস" }, { name: "পন্ডস ফেসওয়াশ", cat: "কসমেটিকস", unit: "পিস" }, { name: "সানসিল্ক শ্যাম্পু", cat: "কসমেটিকস", unit: "পিস" }, { name: "প্যারাসুট নারকেল তেল", cat: "কসমেটিকস", unit: "বটল" }, { name: "ক্লোজআপ টুথপেস্ট", cat: "কসমেটিকস", unit: "পিস" }, { name: "সার্ফ এক্সেল", cat: "ক্লিনিং", unit: "প্যাকেট" }, { name: "রিন পাউডার", cat: "ক্লিনিং", unit: "প্যাকেট" }, { name: "ভিম বার", cat: "ক্লিনিং", unit: "পিস" }, { name: "হারপিক", cat: "ক্লিনিং", unit: "বটল" },
+            { name: "চিপস", cat: "বেকারি", unit: "প্যাকেট" }, { name: "চানাচুর", cat: "বেকারি", unit: "প্যাকেট" }, { name: "রুটি/বন", cat: "বেকারি", unit: "পিস" }, { name: "মশার কয়েল", cat: "ক্লিনিং", unit: "প্যাকেট" }, { name: "টিস্যু পেপার", cat: "কসমেটিকস", unit: "পিস" }, { name: "ডায়াপার", cat: "কসমেটিকস", unit: "পিস" }, { name: "খাতা", cat: "স্টেশনারি", unit: "পিস" }, { name: "কলম", cat: "স্টেশনারি", unit: "পিস" }, { name: "পেন্সিল", cat: "স্টেশনারি", unit: "পিস" }
         ];
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -639,7 +664,7 @@
             const password = document.getElementById('shopPassword').value.trim();
             const btn = document.getElementById('loginBtn');
 
-            if(!email || !password) { window.showCustomAlert("ত্রুটি", "ইমেইল এবং পাসওয়ার্ড দিন!", "error"); return; }
+            if(!email || !password) { window.showCustomAlert("ত্রুটি", "ইমেইল এবং পাসওয়ার্ড দিন!", "error"); return; }
 
             btn.innerText = "লগইন হচ্ছে...";
             try {
@@ -659,7 +684,7 @@
             
             onValue(q, (snapshot) => {
                 if (!snapshot.exists()) {
-                    window.showCustomAlert("অ্যাকাউন্ট নেই", "এই ইমেইলের কোনো দোকান ডেটাবেসে পাওয়া যায়নি!", "error");
+                    window.showCustomAlert("অ্যাকাউন্ট নেই", "এই ইমেইলের কোনো দোকান ডেটাবেসে পাওয়া যায়নি!", "error");
                     signOut(auth);
                     return;
                 }
@@ -675,11 +700,35 @@
                         localStorage.setItem('smartPosSalesHistory_' + currentShopFirebaseKey, JSON.stringify(currentShopData.salesHistory));
                     }
                 });
+                
+                // Admin panel products fetch specific to shop
+                onValue(ref(db, `shops/${currentShopFirebaseKey}/products`), (snap) => {
+                    if(snap.exists()) {
+                        const adminProducts = snap.val();
+                        Object.values(adminProducts).forEach(ap => {
+                            if(!database.some(dbItem => dbItem.name === ap.name)) {
+                                database.push({ name: ap.name, cat: ap.cat || "অ্যাডমিন", unit: ap.unit || "পিস" });
+                            }
+                        });
+                    }
+                });
+
+                // Global products fetch from Admin
+                onValue(ref(db, `globalProducts`), (snap) => {
+                    if(snap.exists()) {
+                        const globalProducts = snap.val();
+                        Object.values(globalProducts).forEach(gp => {
+                            if(!database.some(dbItem => dbItem.name === gp.name)) {
+                                database.push({ name: gp.name, cat: gp.cat || "অ্যাডমিন", unit: gp.unit || "পিস" });
+                            }
+                        });
+                    }
+                });
 
                 validateSubscriptionAndLoadApp();
             });
 
-            // 📥 গ্লোবাল নোটিশ হ্যান্ডলার (DO NOT OPEN SETTINGS POPUP!)
+            // 📥 গ্লোবাল নোটিশ হ্যান্ডলার
             onValue(ref(db, 'systemNotice'), (snapshot) => {
                 if(snapshot.exists()) {
                     const notice = snapshot.val();
@@ -701,7 +750,7 @@
                 }
             });
 
-            // 📥 পার্সোনাল নোটিশ হ্যান্ডলার (DO NOT OPEN SETTINGS POPUP!)
+            // 📥 পার্সোনাল নোটিশ হ্যান্ডলার
             onValue(ref(db, `shops/${currentShopFirebaseKey}/personalNotice`), (snapshot) => {
                 if(snapshot.exists()) {
                     const notice = snapshot.val();
@@ -759,7 +808,6 @@
             container.innerHTML = html;
         };
 
-        // 🗑️ PERMANENT DELETE LOGIC
         window.confirmDeleteInboxMsg = (idx) => {
             window.currentDeleteIdx = idx;
             document.getElementById('confirmMessage').innerText = "আপনি কি ইনবক্স থেকে এই মেসেজটি চিরতরে মুছে ফেলতে চান?";
@@ -796,7 +844,6 @@
         };
 
         function validateSubscriptionAndLoadApp() {
-            // Ensure Settings & other Modals are explicitly HIDDEN on app startup
             document.getElementById('settingsModal').style.display = 'none';
             document.getElementById('memoHistoryModal').style.display = 'none';
             document.getElementById('dashboardModal').style.display = 'none';
@@ -813,7 +860,7 @@
                 const bngDate = new Date(expireDate).toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' });
                 document.getElementById('settingsExpireDate').innerText = toBengaliNum(bngDate) + " ইং পর্যন্ত";
             } else {
-                document.getElementById('settingsExpireDate').innerText = 'শুরু হয়নি';
+                document.getElementById('settingsExpireDate').innerText = 'শুরু হয়নি';
             }
 
             if (!expireDate || expireDate < today || status === 'pending') {
@@ -831,14 +878,14 @@
             }
 
             document.getElementById('sub-lock-screen').style.display = 'none';
-            document.getElementById('main-app').style.display = 'block'; // Direct to Home Page
+            document.getElementById('main-app').style.display = 'block';
 
             const expDate = new Date(expireDate);
             const nowDate = new Date(today);
             const diffDays = Math.ceil((expDate - nowDate) / (1000 * 60 * 60 * 24));
             
             if (diffDays <= 3 && diffDays >= 0) {
-                document.getElementById('expiryWarningText').innerText = `সাবস্ক্রিপশনের মেয়াদ শেষ হতে মাত্র ${toBengaliNum(diffDays)} দিন বাকি আছে!`;
+                document.getElementById('expiryWarningText').innerText = `সাবস্ক্রিপশনের মেয়াদ শেষ হতে মাত্র ${toBengaliNum(diffDays)} দিন বাকি আছে!`;
                 document.getElementById('expiryWarning').style.display = 'block';
             } else {
                 document.getElementById('expiryWarning').style.display = 'none';
@@ -853,7 +900,7 @@
             const payMonths = document.getElementById('lockPayMonths').value.trim();
             const trxId = document.getElementById('trxInput').value.trim();
             
-            if(!payNum || !payMonths || !trxId) { window.showCustomAlert("খালি ঘর", "দয়া করে নাম্বার, মাসের সংখ্যা এবং TrxID লিখুন!", "warning"); return; }
+            if(!payNum || !payMonths || !trxId) { window.showCustomAlert("খালি ঘর", "দয়া করে নাম্বার, মাসের সংখ্যা এবং TrxID লিখুন!", "warning"); return; }
 
             try {
                 await update(ref(db, `shops/${currentShopFirebaseKey}`), {
@@ -873,7 +920,6 @@
 
         // ================= POS Core App Logic =================
         function initMainApp() {
-            // Guarantee pure home screen visibility
             document.getElementById('settingsModal').style.display = 'none';
             
             cartList = JSON.parse(localStorage.getItem('smartPosApp_' + currentShopFirebaseKey)) || [];
@@ -919,6 +965,7 @@
         window.saveShopInfo = () => { 
             localStorage.setItem('smartPosShopName_' + currentShopFirebaseKey, document.getElementById('shopName').value); 
             localStorage.setItem('smartPosShopPhone_' + currentShopFirebaseKey, document.getElementById('shopPhone').value); 
+            localStorage.setItem('smartPosShopAddress_' + currentShopFirebaseKey, document.getElementById('shopAddress').value); 
         }
         
         window.saveCustomerInfo = () => { 
@@ -935,23 +982,29 @@
             
             let sName = localStorage.getItem('smartPosShopName_' + currentShopFirebaseKey);
             let sPhone = localStorage.getItem('smartPosShopPhone_' + currentShopFirebaseKey);
+            let sAddress = localStorage.getItem('smartPosShopAddress_' + currentShopFirebaseKey);
             if (sName) document.getElementById('shopName').value = sName;
             if (sPhone) document.getElementById('shopPhone').value = sPhone;
+            if (sAddress) document.getElementById('shopAddress').value = sAddress;
             window.checkCustomerHistory(); 
         }
 
         window.checkCustomerHistory = () => {
             const name = document.getElementById('custName').value.trim();
+            const phone = document.getElementById('custPhone').value.trim();
             const historyBox = document.getElementById('customerHistoryBox');
             
             let prevDue = 0;
-            if (name) { const ledgerRecord = dueLedger.find(r => r.name.trim() === name); if (ledgerRecord) prevDue = ledgerRecord.due; }
+            if (name) { 
+                const ledgerRecord = dueLedger.find(r => r.name.trim() === name && (phone ? r.phone === phone : true)); 
+                if (ledgerRecord) prevDue = ledgerRecord.due; 
+            }
             currentPrevDue = prevDue;
             window.calculateDue();
 
             if(!name || name === dismissedHistoryFor) { historyBox.style.display = 'none'; return; }
             
-            const lastPurchase = salesHistory.slice().reverse().find(s => s.customerName && s.customerName.trim() === name);
+            const lastPurchase = salesHistory.slice().reverse().find(s => s.customerName && s.customerName.trim() === name && (phone ? s.customerPhone === phone : true));
             if(lastPurchase && lastPurchase.items && lastPurchase.items.length > 0) {
                 const itemNames = lastPurchase.items.slice(0, 3).map(i => i.name).join(', ');
                 const moreText = lastPurchase.items.length > 3 ? ` ও আরও ${toBengaliNum(lastPurchase.items.length - 3)}টি` : '';
@@ -981,11 +1034,15 @@
             }
         }
 
+        let pendingNewProductName = '';
         window.handleSearch = () => {
-            const query = document.getElementById('searchInput').value.toLowerCase();
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const originalQuery = document.getElementById('searchInput').value.trim();
             const box = document.getElementById('suggestionsBox'); box.innerHTML = '';
+            
             if (!query) { box.style.display = 'none'; return; }
             const filtered = database.filter(item => item.name.toLowerCase().includes(query));
+            
             if (filtered.length > 0) {
                 filtered.forEach(item => {
                     const div = document.createElement('div'); div.className = 'suggestion-item';
@@ -994,18 +1051,33 @@
                 });
             } else {
                 const div = document.createElement('div'); div.className = 'suggestion-item';
-                div.innerHTML = `<span style="color:var(--primary); font-weight:600;">+ '${document.getElementById('searchInput').value}' নতুন পণ্য হিসেবে সেভ ও যুক্ত করুন</span>`;
-                div.onclick = () => { window.addNewProductToDatabase(document.getElementById('searchInput').value.trim()); document.getElementById('searchInput').value = ''; box.style.display = 'none'; }; box.appendChild(div);
+                div.innerHTML = `<span style="color:var(--primary); font-weight:600;">+ '${originalQuery}' নতুন পণ্য হিসেবে সেভ ও যুক্ত করুন</span>`;
+                div.onclick = () => { 
+                    document.getElementById('searchInput').value = ''; box.style.display = 'none'; 
+                    window.promptNewProductUnit(originalQuery); 
+                }; box.appendChild(div);
             }
             box.style.display = 'block';
         }
         document.addEventListener('click', (e) => { if (!document.getElementById('searchInput').contains(e.target)) document.getElementById('suggestionsBox').style.display = 'none'; });
 
-        window.addNewProductToDatabase = (newProdName) => {
+        window.promptNewProductUnit = (name) => {
+            pendingNewProductName = name;
+            document.getElementById('newProductNameDisplay').innerText = name;
+            document.getElementById('unitConfirmModal').style.display = 'flex';
+        };
+
+        window.confirmAddNewProduct = () => {
+            let unit = document.getElementById('newProductUnit').value;
+            window.addNewProductToDatabase(pendingNewProductName, unit);
+            document.getElementById('unitConfirmModal').style.display = 'none';
+        };
+
+        window.addNewProductToDatabase = (newProdName, unitVal) => {
             if(!newProdName) return;
             const exists = database.some(item => item.name.toLowerCase() === newProdName.toLowerCase());
             if(!exists) {
-                const newItem = { name: newProdName, cat: "সাধারণ", unit: "পিস" };
+                const newItem = { name: newProdName, cat: "সাধারণ", unit: unitVal };
                 database.push(newItem);
                 
                 let customDb = JSON.parse(localStorage.getItem('smartPosCustomDatabase')) || [];
@@ -1040,7 +1112,7 @@
 
         function renderCards() {
             const container = document.getElementById('cartListContainer'); container.innerHTML = '';
-            if (cartList.length === 0) { container.innerHTML = `<div class="empty-state"><p>🛒 তালিকায় কোনো পণ্য নেই!</p></div>`; window.updateGrandTotal(); return; }
+            if (cartList.length === 0) { container.innerHTML = `<div class="empty-state"><p>🛒 তালিকায় কোনো পণ্য নেই!</p></div>`; window.updateGrandTotal(); return; }
             cartList.forEach((item, index) => {
                 const serialNo = toBengaliNum(cartList.length - index); let uType = item.unitType;
                 if(!uType) { const dbItem = database.find(i => i.name === item.name); uType = (dbItem && dbItem.unit) ? dbItem.unit : 'পিস'; item.unitType = uType; }
@@ -1099,10 +1171,10 @@
             localStorage.setItem('smartPosInvoiceId_' + currentShopFirebaseKey, currentInvoiceId);
             
             saveData(); renderCards(); window.calculateDue(); 
-            window.showCustomAlert("নতুন মেমো", "আগের সব তথ্য পরিষ্কার করা হয়েছে।", "success");
+            window.showCustomAlert("নতুন মেমো", "আগের সব তথ্য পরিষ্কার করা হয়েছে।", "success");
         }
 
-        // ================= Memo History (Cloud Synced) =================
+        // ================= Memo History (Cloud Synced & Sorted) =================
         window.openMemoHistory = () => {
             document.getElementById('memoHistorySearchInput').value = '';
             window.renderMemoHistory();
@@ -1114,13 +1186,13 @@
             window.renderMemoHistory(query);
         }
 
-        window.renderMemoHistory = (query = '') => {
+        window.renderMemoHistory = (queryStr = '') => {
             const container = document.getElementById('mhListContainer');
             container.innerHTML = '';
             
             let filtered = salesHistory;
-            if(query) {
-                const q = query.toLowerCase();
+            if(queryStr) {
+                const q = queryStr.toLowerCase();
                 filtered = salesHistory.filter(s =>
                     (s.customerName && s.customerName.toLowerCase().includes(q)) ||
                     (s.customerPhone && s.customerPhone.includes(q))
@@ -1132,7 +1204,8 @@
                 return;
             }
 
-            filtered.slice().reverse().forEach(sale => {
+            // ক্রমানুসারে সাজানো (সর্বশেষ মেমো সবার উপরে)
+            filtered.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(sale => {
                 const dateStr = new Date(sale.date).toLocaleDateString('bn-BD', { year: 'numeric', month: 'short', day: 'numeric' });
                 const memoNo = sale.memoNo || '---';
                 
@@ -1161,7 +1234,7 @@
                 localStorage.setItem('smartPosSalesHistory_' + currentShopFirebaseKey, JSON.stringify(salesHistory));
                 window.syncDataToFirebase(); 
                 window.renderMemoHistory(document.getElementById('memoHistorySearchInput').value);
-                window.showCustomAlert("ডিলেট সম্পন্ন", "মেমোটি ইতিহাস থেকে চিরতরে মুছে ফেলা হয়েছে।", "success");
+                window.showCustomAlert("ডিলেট সম্পন্ন", "মেমোটি ইতিহাস থেকে চিরতরে মুছে ফেলা হয়েছে।", "success");
             });
         }
 
@@ -1173,6 +1246,7 @@
             const memoData = {
                 shopName: document.getElementById('shopName').value || 'ক্যাশ মেমো',
                 shopPhone: document.getElementById('shopPhone').value,
+                shopAddress: document.getElementById('shopAddress').value,
                 dateStr: toBengaliNum(dateObj.toLocaleDateString('bn-BD')),
                 timeStr: toBengaliNum(dateObj.toLocaleTimeString('bn-BD')),
                 memoNo: sale.memoNo || '---',
@@ -1191,19 +1265,29 @@
             window.populateAndRenderCanvas(memoData);
         }
 
-        // ================= Ledger & Dashboard (Cloud Synced) =================
+        // ================= Ledger & Dashboard =================
         window.openLedger = () => { window.renderLedger(); document.getElementById('ledgerModal').style.display = 'flex'; }
         window.filterLedger = () => { const query = document.getElementById('ledgerSearchInput').value.toLowerCase(); document.querySelectorAll('#ledgerListContainer .ledger-item').forEach(item => { item.style.display = item.innerText.toLowerCase().includes(query) ? 'flex' : 'none'; }); }
         
         window.renderLedger = () => {
             const container = document.getElementById('ledgerListContainer'); container.innerHTML = '';
-            if(dueLedger.length === 0) { container.innerHTML = `<div class="empty-state" style="margin-top:20px;"><p>খাতায় কোনো বাকির হিসাব নেই!</p></div>`; return; }
+            
+            if(dueLedger.length === 0) { container.innerHTML = `<div class="empty-state" style="margin-top:20px;"><p>খাতায় কোনো বাকির হিসাব নেই!</p></div>`; return; }
+            
+            // Calculate Total Due Sum
+            let totalDueSum = dueLedger.reduce((sum, item) => sum + item.due, 0);
+            container.innerHTML = `
+            <div style="background:var(--danger); color:white; padding:12px; border-radius:10px; margin-bottom:15px; text-align:center; font-size:16px; font-weight:bold; box-shadow:0 4px 6px rgba(0,0,0,0.1);">
+                সর্বমোট বকেয়া: ${toBengaliNum(totalDueSum.toFixed(2))} ৳
+            </div>`;
+
             dueLedger.slice().reverse().forEach((record, idx) => {
                 const banDate = new Date(record.date).toLocaleDateString('bn-BD', { year: 'numeric', month: 'short', day: 'numeric' }); 
                 const serialNo = toBengaliNum(dueLedger.length - idx);
                 
                 let addressHtml = record.address ? ` | 🏠 ${record.address}` : '';
                 let phoneHtml = record.phone ? ` | 📞 ${toBengaliNum(record.phone)}` : '';
+                let descHtml = record.description ? `<br><small style="color:var(--text-muted); font-weight:bold;">বিবরণ: ${record.description}</small>` : '';
 
                 const item = document.createElement('div'); item.className = 'ledger-item';
                 item.innerHTML = `
@@ -1211,6 +1295,7 @@
                         <h4><span style="color:var(--primary); font-size:14px; font-weight:bold; margin-right:5px;">#${serialNo}</span> ${record.name || 'অজ্ঞাত'}</h4>
                         <p>আপডেট: ${toBengaliNum(banDate)}${phoneHtml}${addressHtml}</p>
                         <p style="color:var(--text-main); font-weight:600; margin-top:3px;">কেনাকাটা: ${toBengaliNum(record.total.toFixed(2))} | জমা: ${toBengaliNum(record.paid.toFixed(2))}</p>
+                        ${descHtml}
                     </div>
                     <div class="ledger-action">
                         <span class="l-due-amt">${toBengaliNum(record.due.toFixed(2))} ৳</span>
@@ -1228,25 +1313,27 @@
             const addr = document.getElementById('mlAddress').value.trim();
             const phone = document.getElementById('mlPhone').value.trim();
             const dueStr = document.getElementById('mlDue').value;
+            const desc = document.getElementById('mlDesc').value.trim();
             const due = parseEngNum(dueStr);
 
-            if(!name || due <= 0) { window.showCustomAlert("সতর্কতা!", "নাম এবং বাকির পরিমাণ দেওয়া আবশ্যক।", "warning"); return; }
+            if(!name || due <= 0) { window.showCustomAlert("সতর্কতা!", "নাম এবং বাকির পরিমাণ দেওয়া আবশ্যক।", "warning"); return; }
 
-            let existingRecord = dueLedger.find(item => item.name.trim() === name); 
+            let existingRecord = dueLedger.find(item => item.name.trim() === name && (phone ? item.phone === phone : true)); 
             if (existingRecord) {
                 existingRecord.due += due;
                 existingRecord.date = new Date().toISOString();
                 if(phone) existingRecord.phone = phone;
                 if(addr) existingRecord.address = addr;
+                if(desc) existingRecord.description = desc;
             } else {
-                dueLedger.push({ id: Date.now().toString(), date: new Date().toISOString(), name: name, address: addr, phone: phone, total: 0, paid: 0, due: due });
+                dueLedger.push({ id: Date.now().toString(), date: new Date().toISOString(), name: name, address: addr, phone: phone, description: desc, total: 0, paid: 0, due: due });
             }
             localStorage.setItem('smartPosDueLedger_' + currentShopFirebaseKey, JSON.stringify(dueLedger));
             window.syncDataToFirebase();
             
-            document.getElementById('mlName').value = ''; document.getElementById('mlAddress').value = ''; document.getElementById('mlPhone').value = ''; document.getElementById('mlDue').value = '';
+            document.getElementById('mlName').value = ''; document.getElementById('mlAddress').value = ''; document.getElementById('mlPhone').value = ''; document.getElementById('mlDue').value = ''; document.getElementById('mlDesc').value = '';
             document.getElementById('manualLedgerModal').style.display = 'none';
-            window.renderLedger(); window.checkCustomerHistory(); window.showCustomAlert("সফল!", "নতুন বাকি খাতায় যুক্ত হয়েছে।", "success");
+            window.renderLedger(); window.checkCustomerHistory(); window.showCustomAlert("সফল!", "নতুন বাকি খাতায় যুক্ত হয়েছে।", "success");
         }
 
         window.openUpdateLedger = (id) => { 
@@ -1284,7 +1371,7 @@
                 document.getElementById('updateLedgerModal').style.display = 'none'; 
                 activeLedgerId = null; 
                 window.checkCustomerHistory(); 
-                window.showCustomAlert("হিসাব আপডেট!", "হিসাব সফলভাবে আপডেট হয়েছে।", "success"); 
+                window.showCustomAlert("হিসাব আপডেট!", "হিসাব সফলভাবে আপডেট হয়েছে।", "success"); 
             } 
         }
 
@@ -1294,14 +1381,14 @@
             window.syncDataToFirebase(); 
             window.renderLedger(); 
             window.checkCustomerHistory(); 
-            window.showCustomAlert("হিসাব ক্লিয়ার!", "বাকি সম্পূর্ণ পরিশোধিত হয়েছে।", "success"); 
+            window.showCustomAlert("হিসাব ক্লিয়ার!", "বাকি সম্পূর্ণ পরিশোধিত হয়েছে।", "success"); 
         }
 
         window.openDashboard = () => {
             document.getElementById('dashboardModal').style.display = 'flex';
             let productCount = {}; salesHistory.forEach(sale => { if(sale.items) sale.items.forEach(item => { productCount[item.name] = (productCount[item.name] || 0) + 1; }); });
             let sortedProducts = Object.entries(productCount).sort((a,b)=>b[1]-a[1]).slice(0, 5); let phtml = '';
-            if(sortedProducts.length === 0) phtml = '<p style="font-size:13px; color:var(--text-muted);">এখনো কোনো বিক্রি হয়নি।</p>';
+            if(sortedProducts.length === 0) phtml = '<p style="font-size:13px; color:var(--text-muted);">এখনো কোনো বিক্রি হয়নি।</p>';
             else { 
                 let maxCount = sortedProducts[0][1]; 
                 sortedProducts.forEach((p, index) => { 
@@ -1337,7 +1424,7 @@
         // ================= Support Ticket System =================
         window.sendSupportTicket = async () => {
             const msg = document.getElementById('supportMsg').value.trim();
-            if(!msg) { window.showCustomAlert("খালি মেসেজ", "দয়া করে আপনার সমস্যা বা মতামত লিখুন!", "warning"); return; }
+            if(!msg) { window.showCustomAlert("খালি মেসেজ", "দয়া করে আপনার সমস্যা বা মতামত লিখুন!", "warning"); return; }
 
             try {
                 const supportRef = ref(db, 'supportTickets');
@@ -1350,7 +1437,7 @@
                 });
                 document.getElementById('supportMsg').value = '';
                 document.getElementById('settingsModal').style.display = 'none';
-                window.showCustomAlert("ধন্যবাদ", "আপনার সাপোর্ট টিকিট সফলভাবে অ্যাডমিনের কাছে পাঠানো হয়েছে।", "success");
+                window.showCustomAlert("ধন্যবাদ", "আপনার সাপোর্ট টিকিট সফলভাবে অ্যাডমিনের কাছে পাঠানো হয়েছে।", "success");
             } catch (error) {
                 window.showCustomAlert("ত্রুটি", error.message, "error");
             }
@@ -1368,7 +1455,7 @@
             const months = document.getElementById('setPayMonths').value.trim();
             const trx = document.getElementById('setPayTrx').value.trim();
 
-            if(!num || !months || !trx) { window.showCustomAlert("অসম্পূর্ণ তথ্য", "দয়া করে নাম্বার, মাস এবং TrxID সঠিকভাবে লিখুন।", "warning"); return; }
+            if(!num || !months || !trx) { window.showCustomAlert("অসম্পূর্ণ তথ্য", "দয়া করে নাম্বার, মাস এবং TrxID সঠিকভাবে লিখুন।", "warning"); return; }
 
             try {
                 await update(ref(db, `shops/${currentShopFirebaseKey}`), {
@@ -1384,9 +1471,9 @@
                 document.getElementById('setPayTrx').value = '';
                 document.getElementById('settingsModal').style.display = 'none';
                 
-                window.showCustomAlert("সফল!", "আপনার পেমেন্ট তথ্য সফলভাবে পাঠানো হয়েছে।", "success", true);
+                window.showCustomAlert("সফল!", "আপনার পেমেন্ট তথ্য সফলভাবে পাঠানো হয়েছে।", "success", true);
             } catch (error) {
-                window.showCustomAlert("ত্রুটি", "পেমেন্ট পাঠাতে সমস্যা হয়েছে: " + error.message, "error");
+                window.showCustomAlert("ত্রুটি", "পেমেন্ট পাঠাতে সমস্যা হয়েছে: " + error.message, "error");
             }
         };
 
@@ -1396,17 +1483,23 @@
             const cPhone = document.getElementById('custPhone').value.trim();
             const cAddress = document.getElementById('custAddress').value.trim();
             
-            let prevDue = 0; if (cName) { const ledgerRecord = dueLedger.find(r => r.name.trim() === cName); if (ledgerRecord) prevDue = ledgerRecord.due; } currentPrevDue = prevDue;
-            if(cartList.length === 0 && currentPrevDue === 0) { window.showCustomAlert("সতর্কতা!", "কার্ট খালি এবং কোনো বকেয়া নেই!", "warning"); return; }
+            let prevDue = 0; 
+            if (cName) { 
+                const ledgerRecord = dueLedger.find(r => r.name.trim() === cName && (cPhone ? r.phone === cPhone : true)); 
+                if (ledgerRecord) prevDue = ledgerRecord.due; 
+            } 
+            currentPrevDue = prevDue;
+
+            if(cartList.length === 0 && currentPrevDue === 0) { window.showCustomAlert("সতর্কতা!", "কার্ট খালি এবং কোনো বকেয়া নেই!", "warning"); return; }
             
             let paid = parseEngNum(document.getElementById('paidAmount').value); let totalWithDue = currentGrandTotal + currentPrevDue;
             let due = totalWithDue - paid; if(due < 0) due = 0;
             if (due > 0 && !cName) { window.showCustomAlert("সতর্কতা!", "বাকিতে বিক্রি করার জন্য কাস্টমারের নাম দিন!", "warning"); return; }
             
             if(due <= 0) { 
-                dueLedger = dueLedger.filter(item => item.name.trim() !== cName); 
+                dueLedger = dueLedger.filter(item => !(item.name.trim() === cName && (cPhone ? item.phone === cPhone : true))); 
             } else { 
-                let existingRecord = dueLedger.find(item => item.name.trim() === cName); 
+                let existingRecord = dueLedger.find(item => item.name.trim() === cName && (cPhone ? item.phone === cPhone : true)); 
                 if (existingRecord) { 
                     existingRecord.total += currentGrandTotal; 
                     existingRecord.paid += paid; 
@@ -1414,8 +1507,9 @@
                     existingRecord.date = new Date().toISOString(); 
                     existingRecord.phone = cPhone || existingRecord.phone; 
                     existingRecord.address = cAddress || existingRecord.address; 
+                    existingRecord.description = "শেষ মেমো #" + formatMemoNo(memoCounter);
                 } else { 
-                    dueLedger.push({ id: Date.now().toString(), date: new Date().toISOString(), name: cName, phone: cPhone, address: cAddress, total: currentGrandTotal, paid: paid, due: due }); 
+                    dueLedger.push({ id: Date.now().toString(), date: new Date().toISOString(), name: cName, phone: cPhone, address: cAddress, description: "মেমো #" + formatMemoNo(memoCounter), total: currentGrandTotal, paid: paid, due: due }); 
                 }
             } 
             localStorage.setItem('smartPosDueLedger_' + currentShopFirebaseKey, JSON.stringify(dueLedger));
@@ -1451,6 +1545,7 @@
             const memoData = {
                 shopName: document.getElementById('shopName').value || 'ক্যাশ মেমো',
                 shopPhone: document.getElementById('shopPhone').value,
+                shopAddress: document.getElementById('shopAddress').value,
                 dateStr: toBengaliNum(dateObj.toLocaleDateString('bn-BD')),
                 timeStr: toBengaliNum(dateObj.toLocaleTimeString('bn-BD')),
                 memoNo: memoCounter,
@@ -1472,8 +1567,9 @@
             document.getElementById('loaderOverlay').style.display = 'flex';
             
             document.getElementById('p-shop-name').innerText = data.shopName;
+            document.getElementById('p-shop-address').innerText = data.shopAddress ? `${data.shopAddress}` : '';
             document.getElementById('p-shop-phone').innerText = data.shopPhone ? `মোবাইল: ${toBengaliNum(data.shopPhone)}` : '';
-            document.getElementById('p-date-time').innerText = `তারিখ: ${data.dateStr} | সময়: ${data.timeStr}`;
+            document.getElementById('p-date-time').innerText = `তারিখ: ${data.dateStr} | সময়: ${data.timeStr}`;
             document.getElementById('p-memo-no-val').innerText = toBengaliNum(formatMemoNo(data.memoNo));
 
             const pCustBlock = document.getElementById('p-cust-block');
@@ -1540,7 +1636,7 @@
             }, 300);
         }
 
-        window.shareMemoImage = async () => { if (!globalBase64Img) return; try { const res = await fetch(globalBase64Img); const blob = await res.blob(); const file = new File([blob], 'memo.png', { type: 'image/png' }); if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: 'ক্যাশ মেমো', text: 'আপনার কেনাকাটার মেমো সংযুক্ত করা হলো।' }); } else { window.showCustomAlert("অসাপোর্টেড!", "ডাইরেক্ট শেয়ার সাপোর্ট করছে না। স্ক্রিনশট ব্যবহার করুন।", "warning"); } } catch (err) {} }
+        window.shareMemoImage = async () => { if (!globalBase64Img) return; try { const res = await fetch(globalBase64Img); const blob = await res.blob(); const file = new File([blob], 'memo.png', { type: 'image/png' }); if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: 'ক্যাশ মেমো', text: 'আপনার কেনাকাটার মেমো সংযুক্ত করা হলো।' }); } else { window.showCustomAlert("অসাপোর্টেড!", "ডাইরেক্ট শেয়ার সাপোর্ট করছে না। স্ক্রিনশট ব্যবহার করুন।", "warning"); } } catch (err) {} }
         
         window.downloadPDF = () => {
             if (!globalBase64Img) return;
@@ -1553,7 +1649,7 @@
                 const doc = new jsPDF('p', 'mm', [pdfWidth, pdfHeight]);
                 doc.addImage(globalBase64Img, 'PNG', 0, 0, pdfWidth, pdfHeight);
                 doc.save('Memo_' + Date.now() + '.pdf');
-                window.showCustomAlert("সফল!", "PDF ফাইল সফলভাবে ডাউনলোড হয়েছে।", "success");
+                window.showCustomAlert("সফল!", "PDF ফাইল সফলভাবে ডাউনলোড হয়েছে।", "success");
             }
         }
 
