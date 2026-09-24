@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- No-Cache Meta Tags to Fix App Update Issue -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <title>স্মার্ট মুদি পস</title>
     <link rel="manifest" id="manifest-link">
     <meta name="theme-color" content="#0284c7">
@@ -228,7 +234,7 @@
 
                 <select id="lockPayMethod" class="auth-input" style="text-align: center; font-weight: bold; margin-bottom: 10px;">
                     <option value="bKash">বিকাশ</option>
-                    <option value="Nagad">নগদ</option>
+                    <option value="Nagad">ন নগদ</option>
                 </select>
                 <input type="text" id="lockPayNum" class="auth-input" placeholder="যে নাম্বার থেকে পাঠিয়েছেন" style="text-align: center; font-weight: bold; margin-bottom: 10px;">
                 <input type="number" id="lockPayMonths" class="auth-input" placeholder="কত মাসের ফি? (যেমন: ১)" style="text-align: center; font-weight: bold; margin-bottom: 10px;">
@@ -269,9 +275,10 @@
                 <div class="top-btn-group">
                     <button class="circle-btn" onclick="window.toggleTheme()" id="themeBtn" title="ডার্ক মোড">🌙</button>
                 </div>
+                <!-- Updated Ordering: Name -> Address -> Phone -->
                 <input type="text" id="shopName" class="shop-title" value="বিসমিল্লাহ জেনারেল স্টোর" placeholder="দোকানের নাম" onkeyup="window.saveShopInfo()" onchange="window.saveShopInfo()">
-                <input type="text" id="shopPhone" class="shop-mobile" placeholder="মোবাইল: ০১৭XXXXXXXX" onkeyup="window.saveShopInfo()" onchange="window.saveShopInfo()">
                 <input type="text" id="shopAddress" class="shop-mobile" placeholder="দোকানের ঠিকানা (ঐচ্ছিক)" onkeyup="window.saveShopInfo()" onchange="window.saveShopInfo()">
+                <input type="text" id="shopPhone" class="shop-mobile" placeholder="মোবাইল: ০১৭XXXXXXXX" onkeyup="window.saveShopInfo()" onchange="window.saveShopInfo()">
             </div>
 
             <!-- 4 Action Buttons in Grid -->
@@ -308,7 +315,7 @@
                 <div class="pay-row"><span>বর্তমান বিল:</span><span id="calcCurrentBill">০.০০ ৳</span></div>
                 <div class="pay-row"><span style="color:var(--warning);">পূর্বের বকেয়া:</span><span id="calcPrevDue" style="color:var(--warning);">০.০০ ৳</span></div>
                 <div class="pay-row highlight"><span>সর্বমোট বিল:</span><span id="calcGrandTotal">০.০০ ৳</span></div>
-                <div class="pay-row" style="color: var(--success); margin-top: 10px;"><span>ন নগদ জমা:</span><input type="number" id="paidAmount" class="pay-input" placeholder="০" onkeyup="window.calculateDue()" onchange="window.calculateDue()"></div>
+                <div class="pay-row" style="color: var(--success); margin-top: 10px;"><span>নগদ জমা:</span><input type="number" id="paidAmount" class="pay-input" placeholder="০" onkeyup="window.calculateDue()" onchange="window.calculateDue()"></div>
                 <div class="pay-row"><span>বর্তমান বাকি:</span><span id="calcDueAmount" class="text-danger">০.০০ ৳</span></div>
             </div>
         </div>
@@ -524,6 +531,7 @@
     <div id="hidden-print-container">
         <div id="print-memo">
             <div class="p-header">
+                <!-- Updated Ordering for Print Memo: Name -> Address -> Phone -->
                 <h2 class="p-title" id="p-shop-name"></h2>
                 <div class="p-contact" id="p-shop-address" style="margin-top:2px;"></div>
                 <div class="p-contact" id="p-shop-phone"></div>
@@ -728,7 +736,7 @@
                 validateSubscriptionAndLoadApp();
             });
 
-            // 📥 গ্লোবাল নোটিশ হ্যান্ডলার
+            // 📥 গ্লোবাল নোটিশ হ্যান্ডলার (Realtime Fix)
             onValue(ref(db, 'systemNotice'), (snapshot) => {
                 if(snapshot.exists()) {
                     const notice = snapshot.val();
@@ -743,6 +751,11 @@
                             
                             document.getElementById('noticeText').innerText = notice.message;
                             document.getElementById('noticeBanner').style.display = 'block';
+                            
+                            // Instant Refresh Inbox if open
+                            if (document.getElementById('inboxSection').style.display === 'block') {
+                                window.renderInbox();
+                            }
                         }
                     } else {
                         document.getElementById('noticeBanner').style.display = 'none';
@@ -750,7 +763,7 @@
                 }
             });
 
-            // 📥 পার্সোনাল নোটিশ হ্যান্ডলার
+            // 📥 পার্সোনাল নোটিশ হ্যান্ডলার (Realtime Fix)
             onValue(ref(db, `shops/${currentShopFirebaseKey}/personalNotice`), (snapshot) => {
                 if(snapshot.exists()) {
                     const notice = snapshot.val();
@@ -764,6 +777,11 @@
                             localStorage.setItem('smartPosInbox_' + currentShopFirebaseKey, JSON.stringify(inbox));
                             
                             window.showCustomAlert("অ্যাডমিনের ব্যক্তিগত বার্তা", notice.message, "warning");
+                            
+                            // Instant Refresh Inbox if open
+                            if (document.getElementById('inboxSection').style.display === 'block') {
+                                window.renderInbox();
+                            }
                         }
                     }
                 }
@@ -1566,6 +1584,7 @@
         window.populateAndRenderCanvas = (data) => {
             document.getElementById('loaderOverlay').style.display = 'flex';
             
+            // Updated Ordering for Canvas population
             document.getElementById('p-shop-name').innerText = data.shopName;
             document.getElementById('p-shop-address').innerText = data.shopAddress ? `${data.shopAddress}` : '';
             document.getElementById('p-shop-phone').innerText = data.shopPhone ? `মোবাইল: ${toBengaliNum(data.shopPhone)}` : '';
@@ -1636,7 +1655,7 @@
             }, 300);
         }
 
-        window.shareMemoImage = async () => { if (!globalBase64Img) return; try { const res = await fetch(globalBase64Img); const blob = await res.blob(); const file = new File([blob], 'memo.png', { type: 'image/png' }); if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: 'ক্যাশ মেমো', text: 'আপনার কেনাকাটার মেমো সংযুক্ত করা হলো।' }); } else { window.showCustomAlert("অসাপোর্টেড!", "ডাইরেক্ট শেয়ার সাপোর্ট করছে না। স্ক্রিনশট ব্যবহার করুন।", "warning"); } } catch (err) {} }
+        window.shareMemoImage = async () => { if (!globalBase64Img) return; try { const res = await fetch(globalBase64Img); const blob = await res.blob(); const file = new File([blob], 'memo.png', { type: 'image/png' }); if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: 'ক্যাশ মেমো', text: 'আপনার কেনাকাটার মেমো সংযুক্ত করা হলো।' }); } else { window.showCustomAlert("অসাপোর্টেড!", "ডাইরেক্ট শেয়ার সাপোর্ট করছে মোহনা। স্ক্রিনশট ব্যবহার করুন।", "warning"); } } catch (err) {} }
         
         window.downloadPDF = () => {
             if (!globalBase64Img) return;
