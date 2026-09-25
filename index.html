@@ -328,7 +328,7 @@
             </div>
             <div class="footer-btns">
                 <button class="btn-clear" onclick="window.requirePin(window.clearAll)">🔄 নতুন</button>
-                <button class="btn-pdf" onclick="window.generateCurrentMemoImage()">📥 মেমো তৈরি</button>
+                <button class="btn-pdf" onclick="window.requirePin(window.generateCurrentMemoImage)">📥 মেমো তৈরি</button>
             </div>
         </div>
         
@@ -1067,15 +1067,35 @@
             
             let prevDue = 0;
             if (name) { 
-                const ledgerRecord = dueLedger.find(r => r.name.trim() === name && (phone ? r.phone === phone : true)); 
+                let ledgerRecord;
+                if (phone) {
+                    ledgerRecord = dueLedger.find(r => r.name.trim() === name && r.phone === phone);
+                    if (!ledgerRecord) {
+                        ledgerRecord = dueLedger.find(r => r.name.trim() === name && r.phone && r.phone.includes(phone));
+                    }
+                } else {
+                    ledgerRecord = dueLedger.find(r => r.name.trim() === name);
+                }
+                
                 if (ledgerRecord) prevDue = ledgerRecord.due; 
             }
+            
+            // Lock in the prevDue for the current active cart
             currentPrevDue = prevDue;
             window.calculateDue();
 
             if(!name || name === dismissedHistoryFor) { historyBox.style.display = 'none'; return; }
             
-            const lastPurchase = salesHistory.slice().reverse().find(s => s.customerName && s.customerName.trim() === name && (phone ? s.customerPhone === phone : true));
+            let lastPurchase;
+            if (phone) {
+                lastPurchase = salesHistory.slice().reverse().find(s => s.customerName && s.customerName.trim() === name && s.customerPhone === phone);
+                if (!lastPurchase) {
+                     lastPurchase = salesHistory.slice().reverse().find(s => s.customerName && s.customerName.trim() === name && s.customerPhone && s.customerPhone.includes(phone));
+                }
+            } else {
+                lastPurchase = salesHistory.slice().reverse().find(s => s.customerName && s.customerName.trim() === name);
+            }
+            
             if(lastPurchase && lastPurchase.items && lastPurchase.items.length > 0) {
                 const itemNames = lastPurchase.items.slice(0, 3).map(i => i.name).join(', ');
                 const moreText = lastPurchase.items.length > 3 ? ` ও আরও ${toBengaliNum(lastPurchase.items.length - 3)}টি` : '';
@@ -1222,10 +1242,6 @@
         }
 
         window.clearAll = () => {
-            if (cartList.length > 0 || document.getElementById('paidAmount').value !== '') {
-                // Remove memo counter increment from here
-            }
-            
             cartList = []; 
             document.getElementById('custName').value = ''; 
             document.getElementById('custPhone').value = ''; 
@@ -1275,10 +1291,9 @@
                 return;
             }
 
-            // সিরিয়াল নাম্বার ফিক্স: মেমো নাম্বার ডাইনামিক এবং হিস্ট্রি অনুযায়ী
+            // সিরিয়াল নাম্বার ফিক্স: মেমো নাম্বার ডাইনামিক এবং হিস্ট্রি অনুযায়ী
             filtered.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach((sale) => {
                 const dateStr = new Date(sale.date).toLocaleDateString('bn-BD', { year: 'numeric', month: 'short', day: 'numeric' });
-                // Fallback to auto-calculated if old sales missed it, but strictly reliable going forward
                 const serialNo = sale.memoNo || '---';
                 
                 const item = document.createElement('div');
@@ -1564,23 +1579,24 @@
             const cName = document.getElementById('custName').value.trim(); 
             const cPhone = document.getElementById('custPhone').value.trim();
             const cAddress = document.getElementById('custAddress').value.trim();
-            
-            let prevDue = 0; 
-            if (cName) { 
-                const ledgerRecord = dueLedger.find(r => r.name.trim() === cName && (cPhone ? r.phone === cPhone : true)); 
-                if (ledgerRecord) prevDue = ledgerRecord.due; 
-            } 
-            currentPrevDue = prevDue;
 
-            if(cartList.length === 0 && currentPrevDue === 0) { window.showCustomAlert("সতর্কতা!", "কার্ট খালি এবং কোনো বকেয়া নেই!", "warning"); return; }
+            // 🔴 Fix: Capture global variables at the start to prevent race conditions during await
+            const snapshotPrevDue = currentPrevDue;
+            const snapshotTotal = currentGrandTotal;
+            const snapshotCartList = [...cartList];
+
+            if(snapshotCartList.length === 0 && snapshotPrevDue === 0) { window.showCustomAlert("সতর্কতা!", "কার্ট খালি এবং কোনো বকেয়া নেই!", "warning"); return; }
             
-            let paid = parseEngNum(document.getElementById('paidAmount').value); let totalWithDue = currentGrandTotal + currentPrevDue;
+            let paid = parseEngNum(document.getElementById('paidAmount').value); 
+            let totalWithDue = snapshotTotal + snapshotPrevDue;
             let due = totalWithDue - paid; if(due < 0) due = 0;
             if (due > 0 && !cName) { window.showCustomAlert("সতর্কতা!", "বাকিতে বিক্রি করার জন্য কাস্টমারের নাম দিন!", "warning"); return; }
             
             // Generate robust sequential Memo Number
             let currentMemoNo = 1;
             let existingSaleIdx = salesHistory.findIndex(s => s.id === currentInvoiceId);
+            let isNewInvoice = (existingSaleIdx === -1);
+            
             if (existingSaleIdx >= 0) {
                 currentMemoNo = salesHistory[existingSaleIdx].memoNo || (salesHistory.length);
             } else {
@@ -1590,22 +1606,37 @@
             if(due <= 0) { 
                 dueLedger = dueLedger.filter(item => !(item.name.trim() === cName && (cPhone ? item.phone === cPhone : true))); 
             } else { 
-                let existingRecord = dueLedger.find(item => item.name.trim() === cName && (cPhone ? item.phone === cPhone : true)); 
+                let existingRecord;
+                if (cPhone) {
+                    existingRecord = dueLedger.find(item => item.name.trim() === cName && item.phone === cPhone);
+                } else {
+                    existingRecord = dueLedger.find(item => item.name.trim() === cName && (!item.phone || item.phone === ''));
+                    if (!existingRecord) {
+                         existingRecord = dueLedger.find(item => item.name.trim() === cName);
+                    }
+                }
+                
                 if (existingRecord) { 
-                    existingRecord.total += currentGrandTotal; 
-                    existingRecord.paid += paid; 
+                    if (isNewInvoice) {
+                        existingRecord.total += snapshotTotal; 
+                        existingRecord.paid += paid; 
+                    } else {
+                        let oldSale = salesHistory[existingSaleIdx];
+                        existingRecord.total = existingRecord.total - oldSale.total + snapshotTotal;
+                        existingRecord.paid = existingRecord.paid - oldSale.paid + paid;
+                    }
                     existingRecord.due = due; 
                     existingRecord.date = new Date().toISOString(); 
-                    existingRecord.phone = cPhone || existingRecord.phone; 
-                    existingRecord.address = cAddress || existingRecord.address; 
+                    if(cPhone) existingRecord.phone = cPhone; 
+                    if(cAddress) existingRecord.address = cAddress; 
                     existingRecord.description = "শেষ মেমো #" + formatMemoNo(currentMemoNo);
                 } else { 
-                    dueLedger.push({ id: Date.now().toString(), date: new Date().toISOString(), name: cName, phone: cPhone, address: cAddress, description: "মেমো #" + formatMemoNo(currentMemoNo), total: currentGrandTotal, paid: paid, due: due }); 
+                    dueLedger.push({ id: Date.now().toString(), date: new Date().toISOString(), name: cName, phone: cPhone, address: cAddress, description: "মেমো #" + formatMemoNo(currentMemoNo), total: snapshotTotal, paid: paid, due: due }); 
                 }
             } 
             localStorage.setItem('smartPosDueLedger_' + currentShopFirebaseKey, JSON.stringify(dueLedger));
 
-            if(currentGrandTotal > 0) {
+            if(snapshotTotal > 0) {
                 const saleRecord = { 
                     id: currentInvoiceId, 
                     memoNo: currentMemoNo,
@@ -1613,9 +1644,9 @@
                     customerName: cName, 
                     customerPhone: cPhone, 
                     customerAddress: cAddress,
-                    items: cartList.map(i => ({name: i.name, unitType: i.unitType, kg: i.kg, gram: i.gram, price: i.price, total: i.total})), 
-                    total: currentGrandTotal,
-                    prevDue: currentPrevDue,
+                    items: snapshotCartList.map(i => ({name: i.name, unitType: i.unitType, kg: i.kg, gram: i.gram, price: i.price, total: i.total})), 
+                    total: snapshotTotal,
+                    prevDue: snapshotPrevDue,
                     grandTotal: totalWithDue,
                     paid: paid,
                     due: due
@@ -1642,9 +1673,9 @@
                 cName: cName,
                 cPhone: cPhone,
                 cAddress: cAddress,
-                items: cartList,
-                total: currentGrandTotal,
-                prevDue: currentPrevDue,
+                items: snapshotCartList,
+                total: snapshotTotal,
+                prevDue: snapshotPrevDue,
                 grandTotal: totalWithDue,
                 paid: paid,
                 due: due
@@ -1727,7 +1758,7 @@
             }, 300);
         }
 
-        window.shareMemoImage = async () => { if (!globalBase64Img) return; try { const res = await fetch(globalBase64Img); const blob = await res.blob(); const file = new File([blob], 'memo.png', { type: 'image/png' }); if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: 'ক্যাশ মেমো', text: 'আপনার কেনাকাটার মেমো সংযুক্ত করা হলো।' }); } else { window.showCustomAlert("অসাপোর্টেড!", "ডাইরেক্ট শেয়ার সাপোর্ট করছে না। স্ক্রিনশট ব্যবহার করুন।", "warning"); } } catch (err) {} }
+        window.shareMemoImage = async () => { if (!globalBase64Img) return; try { const res = await fetch(globalBase64Img); const blob = await res.blob(); const file = new File([blob], 'memo.png', { type: 'image/png' }); if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: 'ক্যাশ মেমো', text: 'আপনার কেনাকাটার মেমো সংযুক্ত করা হলো।' }); } else { window.showCustomAlert("অসাপোর্টেড!", "ডাইরেক্ট শেয়ার সাপোর্ট করছে এন্টি ডিভাইসে সাপোর্ট করছে না। স্ক্রিনশট ব্যবহার করুন।", "warning"); } } catch (err) {} }
         
         window.downloadPDF = () => {
             if (!globalBase64Img) return;
