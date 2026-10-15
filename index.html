@@ -908,6 +908,22 @@
                 initializeDataAndListeners();
             }).catch(error => {
                 document.getElementById('loaderOverlay').style.display = 'none';
+                try {
+                    window.showCustomAlert("ডাটাবেজ এরর", "ডাটাবেজে যুক্ত হতে সমস্যা হয়েছে: " + error.message, "error", false, false, null, () => {
+                        window.logoutShop();
+                    });
+                } catch(e) {
+                    window.logoutShop();
+                }
+            });
+        }
+                    });
+                    return;
+                }
+                currentShopData = snapshot.val();
+                initializeDataAndListeners();
+            }).catch(error => {
+                document.getElementById('loaderOverlay').style.display = 'none';
                 window.showCustomAlert("ডাটাবেজ এরর", "ডাটাবেজে যুক্ত হতে সমস্যা হয়েছে: " + error.message, "error", false, false, null, () => {
                     window.logoutShop();
                 });
