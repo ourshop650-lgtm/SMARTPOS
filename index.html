@@ -127,6 +127,7 @@
 
         .payment-card { background: var(--card); padding: 20px; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 4px 10px rgba(0,0,0,0.03); margin-bottom: 10px;}
         .pay-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 15px; font-weight: 700; color: var(--text-main); }
+        .pay-row.highlight { font-size: 17px; color: var(--primary); border-top: 1px dashed var(--border); padding-top: 12px; margin-top: 8px; }
         .pay-row:last-child { margin-bottom: 0; padding-top: 12px; border-top: 1px dashed var(--border); font-size: 16px; }
         .pay-input { width: 130px; padding: 10px 12px; border: 2px solid var(--border); border-radius: 10px; text-align: right; font-size: 16px; outline: none; font-weight: 800; background: var(--input-bg); color: var(--text-main); }
         .pay-input:focus { border-color: var(--success); }
@@ -251,7 +252,7 @@
         </div>
     </div>
 
-    <!-- 🛑 SUBSCRIPTION LOCK / Payment Screen -->
+    <!-- 🛑 SUBSCRIPTION LOCK / PAYMENT SCREEN -->
     <div id="sub-lock-screen" style="display: none;">
         <div class="lock-card">
             <div id="payFormArea">
@@ -351,7 +352,6 @@
                 </div>
                 
                 <div class="pay-row"><span style="color:var(--warning);">পূর্বের বকেয়া (+):</span><span id="calcPrevDue" style="color:var(--warning);">০.০০ ৳</span></div>
-                
                 <div class="pay-row" style="color: var(--success); margin-top: 10px;"><span>নগদ জমা (-):</span><input type="number" id="paidAmount" class="pay-input" placeholder="০" onkeyup="window.calculateDue()" onchange="window.calculateDue()"></div>
                 <div class="pay-row"><span>বর্তমান বাকি:</span><span id="calcDueAmount" class="text-danger">০.০০ ৳</span></div>
                 
@@ -396,7 +396,7 @@
             <div style="background: #f1f5f9; padding: 12px; border-radius: 12px; margin-bottom: 15px; text-align: left; border: 1px dashed var(--border);">
                 <label style="font-size:13px; font-weight:bold; color:var(--text-muted); margin-bottom: 5px; display:block;">নিজের মতো একক যুক্ত করুন (শুধু আপনার জন্য):</label>
                 <div style="display:flex; gap:5px;">
-                    <input type="text" id="customUnitInput" class="auth-input" style="margin-bottom:0; padding:10px; font-size:14px;" placeholder="যেমন: ড্রাম, কয়েল...">
+                    <input type="text" id="customUnitInput" class="auth-input" style="margin-bottom:0; padding:10px; font-size:14px;" placeholder="যেমন: ড্রাম, কয়েল...">
                     <button class="btn-auth" style="width:auto; padding:10px 15px; background:var(--primary); font-size:14px;" onclick="window.addLocalUnit()">যুক্ত</button>
                 </div>
             </div>
@@ -407,11 +407,11 @@
                     <select id="newProductUnit" class="auth-input" style="padding: 12px; cursor: pointer; margin-bottom: 5px;"></select>
                 </div>
                 <div style="flex:1;">
-                    <label class="form-label">২নং - দ্বিতীয় একক</label>
+                    <label class="form-label">২নং - দ্বিতীয় একক</label>
                     <select id="newProductSecUnitModal" class="auth-input" style="padding: 12px; cursor: pointer; margin-bottom: 5px;"></select>
                 </div>
                 <div style="flex:1;">
-                    <label class="form-label">৩নং - তৃতীয় একক</label>
+                    <label class="form-label">৩নং - তৃতীয় একক</label>
                     <select id="newProductThirdUnitModal" class="auth-input" style="padding: 12px; cursor: pointer; margin-bottom: 15px;"></select>
                 </div>
             </div>
@@ -449,20 +449,20 @@
                         <h2 id="ds-memo-cash" style="color: var(--primary);">০ ৳</h2>
                     </div>
                     <div class="ds-card" style="border-color: #8b5cf6;">
-                        <h4>মোট খুচরা বিক্রি (মেমো ছাড়া)</h4>
+                        <h4>মোট খুচরা বিক্রি (মেমো ছাড়া)</h4>
                         <h2 id="ds-quick-cash" style="color: #8b5cf6;">০ ৳</h2>
                     </div>
                     <div class="ds-card" style="border-color: var(--warning);">
-                        <h4>বকেয়া আদায় (আগের বাকি)</h4>
+                        <h4>বকেয়া আদায় (আগের বাকি)</h4>
                         <h2 id="ds-due-col" style="color: var(--warning);">০ ৳</h2>
                     </div>
                     <div class="ds-card" style="background: var(--success); color: white; border:none;">
-                        <h4 style="color: #d1fae5;">আজকের মোট ক্যাশ আয়</h4>
+                        <h4 style="color: #d1fae5;">আজকের মোট ক্যাশ আয়</h4>
                         <h2 id="ds-total-cash" style="color: white; font-size: 22px;">০ ৳</h2>
                     </div>
                 </div>
                 <div style="background: #fee2e2; border: 1px dashed #f87171; padding: 10px; border-radius: 10px; text-align: center; margin-bottom: 15px;">
-                    <span style="font-size: 13px; font-weight: 800; color: #991b1b;">আজকের নতুন বকেয়া দেওয়া হয়েছে: <span id="ds-new-due">০</span> ৳</span>
+                    <span style="font-size: 13px; font-weight: 800; color: #991b1b;">আজকের নতুন বকেয়া দেওয়া হয়েছে: <span id="ds-new-due">০</span> ৳</span>
                 </div>
 
                 <h3 style="font-size: 15px; font-weight: 800; color: var(--text-main); border-bottom: 1px dashed var(--border); padding-bottom: 8px; margin-bottom: 10px;">📋 সারাদিনের ট্রানজ্যাকশন লিস্ট</h3>
@@ -666,22 +666,3 @@
                     <tr><td style="text-align:right; border-top:2px solid #000; padding-top:4px;">বর্তমান বাকি:</td><td style="text-align:right; border-top:2px solid #000; padding-top:4px;"><span id="p-due">০.০০</span> ৳</td></tr>
                 </table>
             </div>
-            <div class="p-footer-msg">ধন্যবাদ, আবার আসবেন.....!</div>
-        </div>
-    </div>
-
-    <!-- 📜 Roll POS Printer Layout - Matching Image Perfectly -->
-    <div id="hidden-roll-print-container" style="position: absolute; top: 0; left: -9999px; z-index: -100;">
-        <div id="print-memo-roll" style="width: 300px; padding: 10px; background: #fff; color: #000; font-family: 'Noto Sans Bengali', sans-serif; font-size: 13px; margin: 0 auto; box-sizing: border-box;">
-            <h2 style="text-align: center; font-size: 24px; margin-bottom: 5px; font-weight: 800; color: #000;" id="r-shop-name"></h2>
-            <div style="text-align: center; font-size: 13px; margin-bottom: 5px; font-weight:600; color: #000;" id="r-shop-phone"></div>
-            <div style="text-align: center; font-size: 12px; margin-bottom: 8px; color: #000;" id="r-date-time"></div>
-            
-            <div style="text-align: center; font-weight: 800; font-size: 13px; margin-bottom: 12px; color: #000;">--- ক্যাশ মেমো ---</div>
-            
-            <hr style="border: none; border-top: 1px dashed #000; margin-bottom: 10px;">
-            
-            <div style="font-size: 13px; margin-bottom: 10px; color: #000; line-height: 1.5;">
-                <div style="display:flex; justify-content:space-between;">
-                    <div>নাম: <b id="r-c-name"></b></div>
-                    <div>মেমো নং: <b id
