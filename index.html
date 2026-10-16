@@ -804,34 +804,48 @@
             if(savedDb) { try { const customItems = JSON.parse(savedDb); if(Array.isArray(customItems)) database.push(...customItems); } catch(e){} }
         });
 
-        // Custom Confirm
+        // Custom Confirm Fixed
         let alertCloseCallbackFn = null;
         let confirmCallbackFn = null;
         window.showCustomAlert = (title, message, type, reload = false, isConfirm = false, confirmCallback = null, closeCallback = null) => { 
             window.reloadOnAlertClose = reload; 
             alertCloseCallbackFn = closeCallback;
-            document.getElementById('customAlertTitle').innerText = title; 
-            document.getElementById('customAlertMessage').innerText = message; 
-            document.getElementById('customAlertIcon').innerText = type === 'success' ? '✅' : (type === 'error' ? '❌' : (type === 'warning' ? '⚠️' : '❓')); 
-            document.getElementById('customAlertTitle').style.color = type === 'error' ? 'var(--danger)' : 'var(--text-main)'; 
             
+            const titleEl = document.getElementById('customAlertTitle');
+            const msgEl = document.getElementById('customAlertMessage');
+            const iconEl = document.getElementById('customAlertIcon');
+            const modalEl = document.getElementById('customAlertModal');
             const btnWrap = document.getElementById('customAlertBtns');
-            if (isConfirm) {
-                confirmCallbackFn = confirmCallback;
-                btnWrap.innerHTML = `
-                    <button class="btn-auth" style="background:var(--border); color:var(--text-main); flex:1;" onclick="document.getElementById('customAlertModal').style.display='none'">বাতিল</button>
-                    <button class="btn-auth" style="background:var(--danger); color:white; flex:1;" onclick="window.executeConfirm()">নিশ্চিত</button>
-                `;
-            } else {
-                btnWrap.innerHTML = `<button class="btn-auth" style="width:100%;" onclick="window.closeCustomAlert()">ঠিক আছে</button>`;
+
+            if(titleEl) titleEl.innerText = title; 
+            if(msgEl) msgEl.innerText = message; 
+            if(iconEl) iconEl.innerText = type === 'success' ? '✅' : (type === 'error' ? '❌' : (type === 'warning' ? '⚠️' : '❓')); 
+            if(titleEl) titleEl.style.color = type === 'error' ? 'var(--danger)' : 'var(--text-main)'; 
+            
+            if (btnWrap) {
+                if (isConfirm) {
+                    confirmCallbackFn = confirmCallback;
+                    btnWrap.innerHTML = `
+                        <button class="btn-auth" style="background:var(--border); color:var(--text-main); flex:1;" onclick="document.getElementById('customAlertModal').style.display='none'">বাতিল</button>
+                        <button class="btn-auth" style="background:var(--danger); color:white; flex:1;" onclick="window.executeConfirm()">নিশ্চিত</button>
+                    `;
+                } else {
+                    btnWrap.innerHTML = `<button class="btn-auth" style="width:100%;" onclick="window.closeCustomAlert()">ঠিক আছে</button>`;
+                }
             }
             
-            document.getElementById('customAlertModal').style.display = 'flex'; 
+            if(modalEl) modalEl.style.display = 'flex'; 
         }
-        
-        window.executeConfirm = () => { document.getElementById('customAlertModal').style.display = 'none'; if(confirmCallbackFn) confirmCallbackFn(); }
+
+        window.executeConfirm = () => { 
+            const m = document.getElementById('customAlertModal');
+            if(m) m.style.display = 'none'; 
+            if(confirmCallbackFn) confirmCallbackFn(); 
+        }
+
         window.closeCustomAlert = () => { 
-            document.getElementById('customAlertModal').style.display = 'none'; 
+            const m = document.getElementById('customAlertModal');
+            if(m) m.style.display = 'none'; 
             if (window.reloadOnAlertClose) { location.reload(); } 
             if (alertCloseCallbackFn) { alertCloseCallbackFn(); alertCloseCallbackFn = null; }
         }
