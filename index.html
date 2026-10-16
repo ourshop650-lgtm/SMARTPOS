@@ -184,7 +184,7 @@
         }
         #print-memo { padding: 15mm; width: 100%; height: auto; min-height: 210mm; box-sizing: border-box; color: #000000 !important; background: #ffffff !important; position: relative; border: 1px solid #000; border-radius: 8px; display: flex; flex-direction: column;}
         
-        .p-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 15mm; margin-bottom: 15mm; position: relative;}
+        .p-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 15px; position: relative;}
         .cash-memo-badge { position: absolute; right: 0; top: 0; background: #000; color: white; padding: 5px 15px; border-radius: 20px; font-weight: 800; font-size: 12px; }
         
         .p-title { font-size: 30px; font-weight: 800; color: #000 !important; margin: 0 0 5px 0; text-transform: uppercase;}
@@ -240,12 +240,12 @@
     <div id="loaderOverlay"><div class="spinner"></div><h3 style="margin:0; font-size:18px;">প্রসেসিং হচ্ছে...</h3></div>
 
     <!-- 🔒 FIREBASE AUTHENTICATION LOGIN SCREEN -->
-    <div id="activation-screen" style="display: flex;">
+    <div id="activation-screen" style="display: none;">
         <div class="activation-box">
             <h2>🛒 হার্ডওয়্যার পস লগইন</h2>
             <p>আপনার অ্যাকাউন্ট দিয়ে লগইন করুন।</p>
-            <input type="email" id="shopEmail" class="auth-input" placeholder="দোকানের ইমেইল" value="ourshop650@gmail.com">
-            <input type="password" id="shopPassword" class="auth-input" placeholder="পাসওয়ার্ড" value="AmiRajon44">
+            <input type="email" id="shopEmail" class="auth-input" placeholder="দোকানের ইমেইল">
+            <input type="password" id="shopPassword" class="auth-input" placeholder="পাসওয়ার্ড">
             <button class="btn-auth" id="loginBtn" onclick="window.loginShop()">লগইন করুন</button>
             <div id="auth-error">❌ সঠিক ইমেইল বা পাসওয়ার্ড দিন!</div>
         </div>
@@ -799,12 +799,12 @@
         const baseUnits = ["পিস", "জোড়া", "সেট", "প্যাক", "প্যাকেট", "বাক্স", "কার্টন", "ডজন", "অর্ধ-ডজন", "বান্ডিল", "গুচ্ছ", "আঁটি", "গোছা", "মালা", "তোড়া", "বস্তা", "ব্যাগ", "থলে", "ঝুড়ি", "কাঁদি", "ট্রে", "প্যালেট", "কৌটা", "ক্যান", "বোতল", "শিশি", "জার", "ড্রাম", "টিউব", "কার্টিজ", "ভায়াল", "অ্যাম্পুল", "সিরিঞ্জ", "স্ট্রিপ", "ব্লিস্টার", "পাতা", "স্যাশে", "র‍্যাপার", "মোড়ক", "রোল", "কয়েল", "শিট", "রিম", "খণ্ড", "দানা", "গুটি", "চাকা", "স্ল্যাব", "ইউনিট", "গ্রাম", "মিলিগ্রাম", "মাইক্রোগ্রাম", "কেজি", "মণ", "টন", "পাউন্ড", "আউন্স", "ভরি", "আনা", "রতি", "লিটার", "মিলিলিটার", "সেন্টিলিটার", "গ্যালন", "ফুট", "ইঞ্চি", "গজ", "মিটার", "সেন্টিমিটার", "মিলিমিটার", "বর্গফুট", "বর্গমিটার", "বর্গগজ", "ঘনফুট", "ঘনমিটার", "ঘনগজ", "চলমান ফুট", "চলমান মিটার", "কাপ", "গ্লাস", "প্লেট", "বাটি", "চামচ", "চা-চামচ", "টেবিল-চামচ", "পরিবেশন", "ডোজ", "কোর্স", "ট্যাবলেট", "ক্যাপসুল", "শত", "হাজার", "লাখ", "বিঘা", "কাঠা", "শতাংশ", "একর", "কপি", "পৃষ্ঠা", "কাজ", "মাসিক", "পার্সেল", "চালান", "ট্রাক", "পিকআপ", "ভ্যান", "গাড়ি", "ট্যাংকার", "বোঝা", "ঘণ্টা", "দিন", "মাস", "বছর"];
 
         document.addEventListener("DOMContentLoaded", () => {
-            if(localStorage.getItem('smartPosDarkMode') === 'true') { document.body.classList.add('dark-mode'); document.getElementById('themeBtn').innerText = '☀️'; }
+            if(localStorage.getItem('smartPosDarkMode') === 'true') { document.body.classList.add('dark-mode'); const tBtn = document.getElementById('themeBtn'); if(tBtn) tBtn.innerText = '☀️'; }
             const savedDb = localStorage.getItem('smartPosCustomDatabase');
             if(savedDb) { try { const customItems = JSON.parse(savedDb); if(Array.isArray(customItems)) database.push(...customItems); } catch(e){} }
         });
 
-        // Custom Confirm Fixed
+        // 🔥 CRASH-PROOF Custom Confirm & Alert
         let alertCloseCallbackFn = null;
         let confirmCallbackFn = null;
         window.showCustomAlert = (title, message, type, reload = false, isConfirm = false, confirmCallback = null, closeCallback = null) => { 
@@ -817,10 +817,9 @@
             const modalEl = document.getElementById('customAlertModal');
             const btnWrap = document.getElementById('customAlertBtns');
 
-            if(titleEl) titleEl.innerText = title; 
+            if(titleEl) { titleEl.innerText = title; titleEl.style.color = type === 'error' ? 'var(--danger)' : 'var(--text-main)'; }
             if(msgEl) msgEl.innerText = message; 
             if(iconEl) iconEl.innerText = type === 'success' ? '✅' : (type === 'error' ? '❌' : (type === 'warning' ? '⚠️' : '❓')); 
-            if(titleEl) titleEl.style.color = type === 'error' ? 'var(--danger)' : 'var(--text-main)'; 
             
             if (btnWrap) {
                 if (isConfirm) {
@@ -836,7 +835,7 @@
             
             if(modalEl) modalEl.style.display = 'flex'; 
         }
-
+        
         window.executeConfirm = () => { 
             const m = document.getElementById('customAlertModal');
             if(m) m.style.display = 'none'; 
@@ -851,21 +850,28 @@
         }
 
         auth.onAuthStateChanged((user) => {
+            const actScr = document.getElementById('activation-screen');
+            const loadOv = document.getElementById('loaderOverlay');
+            const mainApp = document.getElementById('main-app');
+            const lockScr = document.getElementById('sub-lock-screen');
+
             if (user) {
-                document.getElementById('activation-screen').style.display = 'none';
-                document.getElementById('loaderOverlay').style.display = 'flex';
+                if(actScr) actScr.style.display = 'none';
+                if(loadOv) loadOv.style.display = 'flex';
                 fetchShopDetailsFromFirebase(user);
             } else {
-                document.getElementById('loaderOverlay').style.display = 'none';
-                document.getElementById('activation-screen').style.display = 'flex';
-                document.getElementById('main-app').style.display = 'none';
-                document.getElementById('sub-lock-screen').style.display = 'none';
+                if(loadOv) loadOv.style.display = 'none';
+                if(actScr) actScr.style.display = 'flex';
+                if(mainApp) mainApp.style.display = 'none';
+                if(lockScr) lockScr.style.display = 'none';
                 
                 const savedEmail = localStorage.getItem('smartPosSavedEmail');
                 const savedPass = localStorage.getItem('smartPosSavedPass');
                 if (savedEmail && savedPass && !window.autoLoginAttempted) { 
-                    document.getElementById('shopEmail').value = savedEmail;
-                    document.getElementById('shopPassword').value = savedPass;
+                    const eIn = document.getElementById('shopEmail');
+                    const pIn = document.getElementById('shopPassword');
+                    if(eIn) eIn.value = savedEmail;
+                    if(pIn) pIn.value = savedPass;
                     window.autoLoginAttempted = true; 
                     window.loginShop(); 
                 }
@@ -873,28 +879,32 @@
         });
 
         window.loginShop = () => {
-            const email = document.getElementById('shopEmail').value.trim();
-            const password = document.getElementById('shopPassword').value.trim();
+            const emailEl = document.getElementById('shopEmail');
+            const passEl = document.getElementById('shopPassword');
             const btn = document.getElementById('loginBtn');
+            const errEl = document.getElementById('auth-error');
+
+            if(!emailEl || !passEl) return;
+            const email = emailEl.value.trim();
+            const password = passEl.value.trim();
 
             if(!email || !password) { window.showCustomAlert("ত্রুটি", "ইমেইল এবং পাসওয়ার্ড দিন!", "error"); return; }
-            btn.innerText = "লগইন হচ্ছে...";
+            if(btn) btn.innerText = "লগইন হচ্ছে...";
             
             auth.signInWithEmailAndPassword(email, password)
             .then((userCred) => {
                 localStorage.setItem('smartPosSavedEmail', email);
                 localStorage.setItem('smartPosSavedPass', password);
-                btn.innerText = "লগইন করুন";
-                document.getElementById('auth-error').style.display = 'none';
+                if(btn) btn.innerText = "লগইন করুন";
+                if(errEl) errEl.style.display = 'none';
                 
                 db.ref(`shops/${userCred.user.uid}`).update({
                     lastActive: new Date().toISOString()
                 });
             })
             .catch((error) => {
-                document.getElementById('auth-error').innerText = "❌ এরর: " + error.code;
-                document.getElementById('auth-error').style.display = 'block';
-                btn.innerText = "লগইন করুন";
+                if(errEl) { errEl.innerText = "❌ এরর: " + error.code; errEl.style.display = 'block'; }
+                if(btn) btn.innerText = "লগইন করুন";
                 if (window.autoLoginAttempted) { localStorage.removeItem('smartPosSavedEmail'); localStorage.removeItem('smartPosSavedPass'); }
             });
         };
@@ -910,7 +920,8 @@
                             esnap.forEach(child => { currentShopFirebaseKey = child.key; currentShopData = child.val(); });
                             initializeDataAndListeners();
                         } else {
-                            document.getElementById('loaderOverlay').style.display = 'none';
+                            const loadOv = document.getElementById('loaderOverlay');
+                            if(loadOv) loadOv.style.display = 'none';
                             window.showCustomAlert("অ্যাকাউন্ট নেই", "আপনার অ্যাকাউন্টটি ডাটাবেসে পাওয়া যায়নি! অ্যাডমিনের সাথে যোগাযোগ করুন।", "error", false, false, null, () => {
                                 window.logoutShop();
                             });
@@ -921,14 +932,13 @@
                 currentShopData = snapshot.val();
                 initializeDataAndListeners();
             }).catch(error => {
-                document.getElementById('loaderOverlay').style.display = 'none';
+                const loadOv = document.getElementById('loaderOverlay');
+                if(loadOv) loadOv.style.display = 'none';
                 try {
                     window.showCustomAlert("ডাটাবেজ এরর", "ডাটাবেজে যুক্ত হতে সমস্যা হয়েছে: " + error.message, "error", false, false, null, () => {
                         window.logoutShop();
                     });
-                } catch(e) {
-                    window.logoutShop();
-                }
+                } catch(e) { window.logoutShop(); }
             });
         }
 
@@ -939,26 +949,31 @@
                 db.ref(`shops/${currentShopFirebaseKey}/salesHistory`).on('value', (snap) => {
                     salesHistory = snap.exists() ? Object.values(snap.val()).filter(Boolean) : [];
                     localStorage.setItem('smartPosSalesHistory_' + currentShopFirebaseKey, JSON.stringify(salesHistory));
-                    if(document.getElementById('memoHistoryModal').style.display === 'flex') window.renderMemoHistory();
-                    if(document.getElementById('dailySalesModal').style.display === 'flex') window.renderDailySales();
+                    const mhModal = document.getElementById('memoHistoryModal');
+                    const dsModal = document.getElementById('dailySalesModal');
+                    if(mhModal && mhModal.style.display === 'flex') window.renderMemoHistory();
+                    if(dsModal && dsModal.style.display === 'flex') window.renderDailySales();
                 });
 
                 db.ref(`shops/${currentShopFirebaseKey}/quickSales`).on('value', (snap) => {
                     quickSales = snap.exists() ? Object.values(snap.val()).filter(Boolean) : [];
                     localStorage.setItem('smartPosQuickSales_' + currentShopFirebaseKey, JSON.stringify(quickSales));
-                    if(document.getElementById('dailySalesModal').style.display === 'flex') window.renderDailySales();
+                    const dsModal = document.getElementById('dailySalesModal');
+                    if(dsModal && dsModal.style.display === 'flex') window.renderDailySales();
                 });
 
                 db.ref(`shops/${currentShopFirebaseKey}/dueCollections`).on('value', (snap) => {
                     dueCollections = snap.exists() ? Object.values(snap.val()).filter(Boolean) : [];
                     localStorage.setItem('smartPosDueCol_' + currentShopFirebaseKey, JSON.stringify(dueCollections));
-                    if(document.getElementById('dailySalesModal').style.display === 'flex') window.renderDailySales();
+                    const dsModal = document.getElementById('dailySalesModal');
+                    if(dsModal && dsModal.style.display === 'flex') window.renderDailySales();
                 });
 
                 db.ref(`shops/${currentShopFirebaseKey}/dueLedger`).on('value', (snap) => {
                     dueLedger = snap.exists() ? Object.values(snap.val()).filter(Boolean) : [];
                     localStorage.setItem('smartPosDueLedger_' + currentShopFirebaseKey, JSON.stringify(dueLedger));
-                    if(document.getElementById('ledgerModal').style.display === 'flex') window.renderLedger();
+                    const lModal = document.getElementById('ledgerModal');
+                    if(lModal && lModal.style.display === 'flex') window.renderLedger();
                 });
                 
                 db.ref('systemSettings').on('value', (snap) => {
@@ -970,23 +985,25 @@
                 });
 
                 db.ref('systemNotice').on('value', (snap) => {
+                    const nBanner = document.getElementById('noticeBanner');
+                    const nText = document.getElementById('noticeText');
                     if(snap.exists()) {
                         const notice = snap.val();
                         currentGlobalNoticeTime = notice.timestamp;
                         const dismissedTime = localStorage.getItem('dismissedNotice_' + currentShopFirebaseKey);
                         
                         if (dismissedTime !== currentGlobalNoticeTime) {
-                            document.getElementById('noticeText').innerText = notice.message;
-                            document.getElementById('noticeBanner').style.display = 'flex';
+                            if(nText) nText.innerText = notice.message;
+                            if(nBanner) nBanner.style.display = 'flex';
                         } else {
-                            document.getElementById('noticeBanner').style.display = 'none';
+                            if(nBanner) nBanner.style.display = 'none';
                         }
-                    } else { document.getElementById('noticeBanner').style.display = 'none'; }
+                    } else { if(nBanner) nBanner.style.display = 'none'; }
                 });
 
                 db.ref('globalProducts').on('value', (snap) => {
                     if(snap.exists()) {
-                        let allowedCats = currentShopData.shopCategory ? currentShopData.shopCategory.split(',').map(c=>c.trim()) : [];
+                        let allowedCats = currentShopData && currentShopData.shopCategory ? currentShopData.shopCategory.split(',').map(c=>c.trim()) : [];
                         const globalProducts = snap.val();
                         
                         Object.values(globalProducts).forEach(gp => {
@@ -1023,7 +1040,8 @@
                                 inbox.unshift({ type: 'personal', message: notice.message, timestamp: notice.timestamp });
                                 localStorage.setItem('smartPosInbox_' + currentShopFirebaseKey, JSON.stringify(inbox));
                                 window.showCustomAlert("অ্যাডমিনের নতুন মেসেজ", notice.message, "warning");
-                                if (document.getElementById('inboxSection').style.display === 'block') { window.renderInbox(); }
+                                const inbSec = document.getElementById('inboxSection');
+                                if (inbSec && inbSec.style.display === 'block') { window.renderInbox(); }
                             }
                         }
                     }
@@ -1036,7 +1054,8 @@
             if(currentGlobalNoticeTime) {
                 localStorage.setItem('dismissedNotice_' + currentShopFirebaseKey, currentGlobalNoticeTime);
             }
-            document.getElementById('noticeBanner').style.display = 'none'; 
+            const nb = document.getElementById('noticeBanner');
+            if(nb) nb.style.display = 'none'; 
         }
 
         function validateSubscriptionAndLoadApp() {
@@ -1049,50 +1068,75 @@
             if(loader) loader.style.display = 'none';
 
             const expDateEl = document.getElementById('settingsExpireDate');
-            if(expireDate) {
-                const bngDate = new Date(expireDate).toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' });
-                if(expDateEl) expDateEl.innerText = toBengaliNum(bngDate) + " ইং পর্যন্ত";
-            } else { if(expDateEl) expDateEl.innerText = 'শুরু হয়নি'; }
+            if(expDateEl) {
+                if(expireDate) {
+                    const bngDate = new Date(expireDate).toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' });
+                    expDateEl.innerText = toBengaliNum(bngDate) + " ইং পর্যন্ত";
+                } else { expDateEl.innerText = 'শুরু হয়নি'; }
+            }
+
+            const lockScr = document.getElementById('sub-lock-screen');
+            const mainApp = document.getElementById('main-app');
 
             if (!expireDate || expireDate < today || status === 'pending' || isManualLock) {
-                document.getElementById('sub-lock-screen').style.display = 'flex';
-                document.getElementById('main-app').style.display = 'none';
+                if(lockScr) lockScr.style.display = 'flex';
+                if(mainApp) mainApp.style.display = 'none';
                 
+                const pForm = document.getElementById('payFormArea');
+                const pSucc = document.getElementById('paySuccessArea');
+                const lockMsg = document.getElementById('lockMessage');
+
                 if(status === 'review') {
-                    document.getElementById('payFormArea').style.display = 'none';
-                    document.getElementById('paySuccessArea').style.display = 'block';
+                    if(pForm) pForm.style.display = 'none';
+                    if(pSucc) pSucc.style.display = 'block';
                 } else {
-                    if(isManualLock) document.getElementById('lockMessage').innerText = "অ্যাডমিন আপনার অ্যাকাউন্টটি লক করেছেন। যোগাযোগ করুন।";
-                    else document.getElementById('lockMessage').innerText = "সফটওয়্যারটি সচল রাখতে নিচের নম্বরে ফি সেন্ড করুন এবং তথ্য সাবমিট করুন।";
-                    document.getElementById('payFormArea').style.display = 'block';
-                    document.getElementById('paySuccessArea').style.display = 'none';
+                    if(lockMsg) {
+                        if(isManualLock) lockMsg.innerText = "অ্যাডমিন আপনার অ্যাকাউন্টটি লক করেছেন। যোগাযোগ করুন।";
+                        else lockMsg.innerText = "সফটওয়্যারটি সচল রাখতে নিচের নম্বরে ফি সেন্ড করুন এবং তথ্য সাবমিট করুন।";
+                    }
+                    if(pForm) pForm.style.display = 'block';
+                    if(pSucc) pSucc.style.display = 'none';
                 }
                 return;
             }
 
-            document.getElementById('sub-lock-screen').style.display = 'none';
-            document.getElementById('main-app').style.display = 'block';
+            if(lockScr) lockScr.style.display = 'none';
+            if(mainApp) mainApp.style.display = 'block';
 
             const expDate = new Date(expireDate); const nowDate = new Date(today);
             const diffDays = Math.ceil((expDate - nowDate) / (1000 * 60 * 60 * 24));
+            
+            const expWarn = document.getElementById('expiryWarning');
+            const expWarnTxt = document.getElementById('expiryWarningText');
+            
             if (diffDays <= 3 && diffDays >= 0) {
-                document.getElementById('expiryWarningText').innerText = `সাবস্ক্রিপশনের মেয়াদ শেষ হতে মাত্র ${toBengaliNum(diffDays)} দিন বাকি আছে!`;
-                document.getElementById('expiryWarning').style.display = 'flex';
-            } else { document.getElementById('expiryWarning').style.display = 'none'; }
+                if(expWarnTxt) expWarnTxt.innerText = `সাবস্ক্রিপশনের মেয়াদ শেষ হতে মাত্র ${toBengaliNum(diffDays)} দিন বাকি আছে!`;
+                if(expWarn) expWarn.style.display = 'flex';
+            } else { 
+                if(expWarn) expWarn.style.display = 'none'; 
+            }
 
             initMainApp();
         }
         
         window.checkStatusRefresh = () => {
-            document.getElementById('sub-lock-screen').innerHTML = '<h2 style="color:white;text-align:center;">চেক করা হচ্ছে...</h2>';
+            const sls = document.getElementById('sub-lock-screen');
+            if(sls) sls.innerHTML = '<h2 style="color:white;text-align:center;">চেক করা হচ্ছে...</h2>';
             setTimeout(() => location.reload(), 1000);
         };
 
         window.submitTrxId = () => {
-            const payMethod = document.getElementById('lockPayMethod').value;
-            const payNum = document.getElementById('lockPayNum').value.trim();
-            const payMonths = document.getElementById('lockPayMonths').value.trim();
-            const trxId = document.getElementById('trxInput').value.trim();
+            const pmEl = document.getElementById('lockPayMethod');
+            const pnEl = document.getElementById('lockPayNum');
+            const pmoEl = document.getElementById('lockPayMonths');
+            const trxEl = document.getElementById('trxInput');
+            
+            if(!pmEl || !pnEl || !pmoEl || !trxEl) return;
+
+            const payMethod = pmEl.value;
+            const payNum = pnEl.value.trim();
+            const payMonths = pmoEl.value.trim();
+            const trxId = trxEl.value.trim();
             
             if(!payNum || !payMonths || !trxId) { window.showCustomAlert("খালি ঘর", "দয়া করে নাম্বার, মাসের সংখ্যা এবং TrxID লিখুন!", "warning"); return; }
             
@@ -1100,7 +1144,10 @@
                 sentNumber: payNum, trxId: trxId, payMethod: payMethod, payMonths: payMonths, paymentStatus: 'review' 
             })
             .then(() => {
-                document.getElementById('payFormArea').style.display = 'none'; document.getElementById('paySuccessArea').style.display = 'block';
+                const pf = document.getElementById('payFormArea');
+                const ps = document.getElementById('paySuccessArea');
+                if(pf) pf.style.display = 'none'; 
+                if(ps) ps.style.display = 'block';
             }).catch(error => { window.showCustomAlert("ত্রুটি", "সাবমিট ফেইল: " + error.message, "error"); });
         };
 
@@ -1129,7 +1176,9 @@
         }
 
         window.addLocalUnit = () => {
-            const val = document.getElementById('customUnitInput').value.trim();
+            const cuEl = document.getElementById('customUnitInput');
+            if(!cuEl) return;
+            const val = cuEl.value.trim();
             if(!val) return;
             let customUnits = JSON.parse(localStorage.getItem('smartPosCustomUnits_' + currentShopFirebaseKey)) || [];
             if(!baseUnits.includes(val) && !customUnits.includes(val)) {
@@ -1137,7 +1186,7 @@
                 localStorage.setItem('smartPosCustomUnits_' + currentShopFirebaseKey, JSON.stringify(customUnits));
                 window.renderUnitDropdowns();
                 window.showCustomAlert("সফল!", `"${val}" এককটি আপনার লিস্টে যুক্ত হয়েছে।`, "success");
-                document.getElementById('customUnitInput').value = '';
+                cuEl.value = '';
             } else {
                 window.showCustomAlert("সতর্কতা!", "এই এককটি আগে থেকেই লিস্টে আছে।", "warning");
             }
@@ -1149,52 +1198,60 @@
         function parseEngNum(str) { if(!str) return 0; const banToEng = {'০':'0','১':'1','২':'2','৩':'3','৪':'4','৫':'5','৬':'6','৭':'7','৮':'8','৯':'9'}; let engStr = str.toString().split('').map(char => banToEng[char] !== undefined ? banToEng[char] : char).join(''); return parseFloat(engStr) || 0; }
         function toEnglishNum(str) { if(!str) return ""; const banToEng = {'০':'0','১':'1','২':'2','৩':'3','৪':'4','৫':'5','৬':'6','৭':'7','৮':'8','৯':'9'}; return str.toString().split('').map(char => banToEng[char] !== undefined ? banToEng[char] : char).join(''); }
         
-        window.toggleTheme = () => { const isDark = document.body.classList.toggle('dark-mode'); localStorage.setItem('smartPosDarkMode', isDark); document.getElementById('themeBtn').innerText = isDark ? '☀️' : '🌙'; }
-        window.openSettings = () => { document.getElementById('settingsModal').style.display = 'flex'; }
+        window.toggleTheme = () => { const isDark = document.body.classList.toggle('dark-mode'); localStorage.setItem('smartPosDarkMode', isDark); const tb = document.getElementById('themeBtn'); if(tb) tb.innerText = isDark ? '☀️' : '🌙'; }
+        window.openSettings = () => { const sm = document.getElementById('settingsModal'); if(sm) sm.style.display = 'flex'; }
 
         let pendingAction = null;
-        window.requirePin = (actionCallback) => { pendingAction = actionCallback; document.getElementById('securityPin').value = ''; document.getElementById('pinModal').style.display = 'flex'; setTimeout(() => document.getElementById('securityPin').focus(), 100); }
-        window.verifyPinAndExecute = () => { const pin = document.getElementById('securityPin').value; const savedPin = localStorage.getItem('smartPosPin_' + currentShopFirebaseKey) || '1234'; if(pin === savedPin) { document.getElementById('pinModal').style.display = 'none'; if(pendingAction) pendingAction(); pendingAction = null; } else { window.showCustomAlert("ভুল পিন!", "আপনি সঠিক পিন দেননি।", "error"); document.getElementById('securityPin').value = ''; } }
+        window.requirePin = (actionCallback) => { pendingAction = actionCallback; const sp = document.getElementById('securityPin'); const pm = document.getElementById('pinModal'); if(sp) sp.value = ''; if(pm) pm.style.display = 'flex'; setTimeout(() => { if(sp) sp.focus(); }, 100); }
+        window.verifyPinAndExecute = () => { const sp = document.getElementById('securityPin'); if(!sp) return; const pin = sp.value; const savedPin = localStorage.getItem('smartPosPin_' + currentShopFirebaseKey) || '1234'; if(pin === savedPin) { const pm = document.getElementById('pinModal'); if(pm) pm.style.display = 'none'; if(pendingAction) pendingAction(); pendingAction = null; } else { window.showCustomAlert("ভুল পিন!", "আপনি সঠিক পিন দেননি।", "error"); sp.value = ''; } }
 
         window.saveShopInfo = () => { 
-            localStorage.setItem('smartPosShopName_' + currentShopFirebaseKey, document.getElementById('shopName').value); 
-            localStorage.setItem('smartPosShopSubtitle_' + currentShopFirebaseKey, document.getElementById('shopSubtitle').value); 
-            localStorage.setItem('smartPosShopPhone_' + currentShopFirebaseKey, document.getElementById('shopPhone').value); 
-            localStorage.setItem('smartPosShopAddress_' + currentShopFirebaseKey, document.getElementById('shopAddress').value); 
+            const sn = document.getElementById('shopName'); const ss = document.getElementById('shopSubtitle'); const sp = document.getElementById('shopPhone'); const sa = document.getElementById('shopAddress');
+            if(sn) localStorage.setItem('smartPosShopName_' + currentShopFirebaseKey, sn.value); 
+            if(ss) localStorage.setItem('smartPosShopSubtitle_' + currentShopFirebaseKey, ss.value); 
+            if(sp) localStorage.setItem('smartPosShopPhone_' + currentShopFirebaseKey, sp.value); 
+            if(sa) localStorage.setItem('smartPosShopAddress_' + currentShopFirebaseKey, sa.value); 
         }
         
         window.saveCustomerInfo = () => { 
-            localStorage.setItem('smartPosCustName_' + currentShopFirebaseKey, document.getElementById('custName').value); 
-            localStorage.setItem('smartPosCustPhone_' + currentShopFirebaseKey, document.getElementById('custPhone').value); 
-            localStorage.setItem('smartPosCustAddress_' + currentShopFirebaseKey, document.getElementById('custAddress').value); 
+            const cn = document.getElementById('custName'); const cp = document.getElementById('custPhone'); const ca = document.getElementById('custAddress');
+            if(cn) localStorage.setItem('smartPosCustName_' + currentShopFirebaseKey, cn.value); 
+            if(cp) localStorage.setItem('smartPosCustPhone_' + currentShopFirebaseKey, cp.value); 
+            if(ca) localStorage.setItem('smartPosCustAddress_' + currentShopFirebaseKey, ca.value); 
         }
         
         window.restoreInputs = () => { 
-            document.getElementById('custName').value = localStorage.getItem('smartPosCustName_' + currentShopFirebaseKey) || ''; 
-            document.getElementById('custPhone').value = localStorage.getItem('smartPosCustPhone_' + currentShopFirebaseKey) || ''; 
-            document.getElementById('custAddress').value = localStorage.getItem('smartPosCustAddress_' + currentShopFirebaseKey) || ''; 
-            document.getElementById('paidAmount').value = localStorage.getItem('smartPosPaidAmt_' + currentShopFirebaseKey) || ''; 
-            document.getElementById('damageAmount').value = localStorage.getItem('smartPosDamageAmt_' + currentShopFirebaseKey) || ''; 
+            const cn = document.getElementById('custName'); const cp = document.getElementById('custPhone'); const ca = document.getElementById('custAddress');
+            const pa = document.getElementById('paidAmount'); const da = document.getElementById('damageAmount');
+            if(cn) cn.value = localStorage.getItem('smartPosCustName_' + currentShopFirebaseKey) || ''; 
+            if(cp) cp.value = localStorage.getItem('smartPosCustPhone_' + currentShopFirebaseKey) || ''; 
+            if(ca) ca.value = localStorage.getItem('smartPosCustAddress_' + currentShopFirebaseKey) || ''; 
+            if(pa) pa.value = localStorage.getItem('smartPosPaidAmt_' + currentShopFirebaseKey) || ''; 
+            if(da) da.value = localStorage.getItem('smartPosDamageAmt_' + currentShopFirebaseKey) || ''; 
             
             let sName = localStorage.getItem('smartPosShopName_' + currentShopFirebaseKey);
             let sPhone = localStorage.getItem('smartPosShopPhone_' + currentShopFirebaseKey);
             let sAddress = localStorage.getItem('smartPosShopAddress_' + currentShopFirebaseKey);
             let sSubtitle = localStorage.getItem('smartPosShopSubtitle_' + currentShopFirebaseKey);
 
-            if (sName) document.getElementById('shopName').value = sName; else if (currentShopData && currentShopData.shopName) document.getElementById('shopName').value = currentShopData.shopName;
-            if (sPhone) document.getElementById('shopPhone').value = sPhone; else if (currentShopData && currentShopData.phone) document.getElementById('shopPhone').value = currentShopData.phone;
-            
-            if (sAddress) document.getElementById('shopAddress').value = sAddress;
-            else { document.getElementById('shopAddress').value = currentShopData && currentShopData.address ? currentShopData.address : 'জমজম টাওয়ার, রায়পুর।'; window.saveShopInfo(); }
+            const snEl = document.getElementById('shopName'); const spEl = document.getElementById('shopPhone'); const saEl = document.getElementById('shopAddress'); const ssEl = document.getElementById('shopSubtitle');
 
-            if (sSubtitle) document.getElementById('shopSubtitle').value = sSubtitle;
+            if (sName && snEl) snEl.value = sName; else if (currentShopData && currentShopData.shopName && snEl) snEl.value = currentShopData.shopName;
+            if (sPhone && spEl) spEl.value = sPhone; else if (currentShopData && currentShopData.phone && spEl) spEl.value = currentShopData.phone;
+            
+            if (sAddress && saEl) saEl.value = sAddress;
+            else if(saEl) { saEl.value = currentShopData && currentShopData.address ? currentShopData.address : 'জমজম টাওয়ার, রায়পুর।'; window.saveShopInfo(); }
+
+            if (sSubtitle && ssEl) ssEl.value = sSubtitle;
             
             window.checkCustomerHistory(); 
         }
 
         window.checkCustomerHistory = () => {
-            const name = document.getElementById('custName').value.trim();
-            const phone = document.getElementById('custPhone').value.trim();
+            const cn = document.getElementById('custName'); const cp = document.getElementById('custPhone');
+            if(!cn || !cp) return;
+            const name = cn.value.trim();
+            const phone = cp.value.trim();
             const historyBox = document.getElementById('customerHistoryBox');
             
             let prevDue = 0;
@@ -1202,8 +1259,10 @@
                 let matches = dueLedger.filter(r => r.name.trim() === name);
                 
                 if(matches.length > 1 && !phone) {
-                    historyBox.innerHTML = `<span style="color:var(--danger); font-weight:bold;">⚠️ একই নামের একাধিক কাস্টমার আছে! সঠিক হিসাব পেতে মোবাইল নম্বর দিন।</span>`;
-                    historyBox.style.display = 'block';
+                    if(historyBox) {
+                        historyBox.innerHTML = `<span style="color:var(--danger); font-weight:bold;">⚠️ একই নামের একাধিক কাস্টমার আছে! সঠিক হিসাব পেতে মোবাইল নম্বর দিন।</span>`;
+                        historyBox.style.display = 'block';
+                    }
                     currentPrevDue = 0; window.calculateDue();
                     return;
                 }
@@ -1218,6 +1277,8 @@
                 currentPrevDue = prevDue; 
             }
             window.calculateDue();
+
+            if(!historyBox) return;
 
             if(!name || name === dismissedHistoryFor) { historyBox.style.display = 'none'; return; }
             
@@ -1237,13 +1298,17 @@
             } else { historyBox.style.display = 'none'; }
         }
         
-        window.dismissCustomerHistory = () => { dismissedHistoryFor = document.getElementById('custName').value.trim(); document.getElementById('customerHistoryBox').style.display = 'none'; }
-        window.reAddLastItems = (saleId) => { const sale = salesHistory.find(s => s.id === saleId); if(sale) { sale.items.forEach(item => { if(!cartList.find(c => c.name === item.name)) { cartList.unshift({ id: Date.now()+Math.floor(Math.random()*1000), name: item.name, kg: item.kg||'', gram: item.gram||'', qty3: item.qty3||'', price: item.price||'', total: item.total||0, isExpanded: true, unitType: item.unitType || 'পিস', secUnitType: item.secUnitType || null, thirdUnitType: item.thirdUnitType || null }); } }); saveData(); renderCards(); document.getElementById('customerHistoryBox').style.display = 'none'; } }
+        window.dismissCustomerHistory = () => { const cn = document.getElementById('custName'); if(cn) dismissedHistoryFor = cn.value.trim(); const hb = document.getElementById('customerHistoryBox'); if(hb) hb.style.display = 'none'; }
+        window.reAddLastItems = (saleId) => { const sale = salesHistory.find(s => s.id === saleId); if(sale) { sale.items.forEach(item => { if(!cartList.find(c => c.name === item.name)) { cartList.unshift({ id: Date.now()+Math.floor(Math.random()*1000), name: item.name, kg: item.kg||'', gram: item.gram||'', qty3: item.qty3||'', price: item.price||'', total: item.total||0, isExpanded: true, unitType: item.unitType || 'পিস', secUnitType: item.secUnitType || null, thirdUnitType: item.thirdUnitType || null }); } }); saveData(); renderCards(); const hb = document.getElementById('customerHistoryBox'); if(hb) hb.style.display = 'none'; } }
 
         window.handleSearch = () => {
-            const query = document.getElementById('searchInput').value.trim().toLowerCase();
-            const originalQuery = document.getElementById('searchInput').value.trim();
-            const box = document.getElementById('suggestionsBox'); box.innerHTML = '';
+            const si = document.getElementById('searchInput');
+            if(!si) return;
+            const query = si.value.trim().toLowerCase();
+            const originalQuery = si.value.trim();
+            const box = document.getElementById('suggestionsBox'); 
+            if(!box) return;
+            box.innerHTML = '';
             if (!query) { box.style.display = 'none'; return; }
             const filtered = database.filter(item => item.name.toLowerCase().includes(query));
             
@@ -1251,30 +1316,36 @@
                 filtered.forEach(item => {
                     const div = document.createElement('div'); div.className = 'suggestion-item';
                     div.innerHTML = `<span style="font-weight:700;">${item.name}</span>`;
-                    div.onclick = () => { document.getElementById('searchInput').value = ''; box.style.display = 'none'; window.addItem(item.name); }; box.appendChild(div);
+                    div.onclick = () => { si.value = ''; box.style.display = 'none'; window.addItem(item.name); }; box.appendChild(div);
                 });
             } else {
                 const div = document.createElement('div'); div.className = 'suggestion-item';
                 div.innerHTML = `<span style="color:var(--primary); font-weight:700;">+ '${originalQuery}' নতুন পণ্য হিসেবে যুক্ত করুন</span>`;
-                div.onclick = () => { document.getElementById('searchInput').value = ''; box.style.display = 'none'; window.promptNewProductUnit(originalQuery); }; box.appendChild(div);
+                div.onclick = () => { si.value = ''; box.style.display = 'none'; window.promptNewProductUnit(originalQuery); }; box.appendChild(div);
             }
             box.style.display = 'block';
         }
-        document.addEventListener('click', (e) => { if (!document.getElementById('searchInput').contains(e.target)) document.getElementById('suggestionsBox').style.display = 'none'; });
+        document.addEventListener('click', (e) => { const si = document.getElementById('searchInput'); const sb = document.getElementById('suggestionsBox'); if (si && sb && !si.contains(e.target)) sb.style.display = 'none'; });
 
         let pendingNewProductName = '';
         window.promptNewProductUnit = (name) => { 
             pendingNewProductName = name; 
-            document.getElementById('newProductNameDisplay').innerText = name; 
-            document.getElementById('unitConfirmModal').style.display = 'flex'; 
+            const nnd = document.getElementById('newProductNameDisplay');
+            const ucm = document.getElementById('unitConfirmModal');
+            if(nnd) nnd.innerText = name; 
+            if(ucm) ucm.style.display = 'flex'; 
         };
         
         window.confirmAddNewProduct = () => { 
-            let unit = document.getElementById('newProductUnit').value; 
-            let secUnitVal = document.getElementById('newProductSecUnitModal').value;
-            let thirdUnitVal = document.getElementById('newProductThirdUnitModal').value;
+            const u1 = document.getElementById('newProductUnit');
+            const u2 = document.getElementById('newProductSecUnitModal');
+            const u3 = document.getElementById('newProductThirdUnitModal');
+            let unit = u1 ? u1.value : 'none'; 
+            let secUnitVal = u2 ? u2.value : 'none';
+            let thirdUnitVal = u3 ? u3.value : 'none';
             window.addNewProductToDatabase(pendingNewProductName, unit, secUnitVal, thirdUnitVal); 
-            document.getElementById('unitConfirmModal').style.display = 'none'; 
+            const ucm = document.getElementById('unitConfirmModal');
+            if(ucm) ucm.style.display = 'none'; 
         };
 
         window.addNewProductToDatabase = (newProdName, unitVal, secUnitVal, thirdUnitVal) => {
@@ -1368,7 +1439,9 @@
         window.removeItem = (event, id) => { event.stopPropagation(); cartList = cartList.filter(i => i.id !== id); saveData(); renderCards(); }
 
         function renderCards() {
-            const container = document.getElementById('cartListContainer'); container.innerHTML = '';
+            const container = document.getElementById('cartListContainer'); 
+            if(!container) return;
+            container.innerHTML = '';
             if (cartList.length === 0) { container.innerHTML = `<div class="empty-state"><p>🛒 তালিকায় কোনো পণ্য নেই!</p></div>`; window.updateGrandTotal(); return; }
             
             cartList.forEach((item, index) => {
@@ -1422,36 +1495,52 @@
             window.updateGrandTotal();
         }
 
+        // 🔥 Bulletproof Grand Total & Check
         window.updateGrandTotal = () => { 
             currentGrandTotal = cartList.reduce((sum, item) => sum + item.total, 0); 
-            document.getElementById('totalAmount').innerText = toBengaliNum(currentGrandTotal.toFixed(2)); 
-            document.getElementById('itemCount').innerText = toBengaliNum(cartList.length); 
             
-            document.getElementById('summaryTotalAmount').innerText = toBengaliNum(currentGrandTotal.toFixed(2)) + ' ৳';
-            document.getElementById('summaryItemCount').innerText = toBengaliNum(cartList.length);
+            const ta = document.getElementById('totalAmount');
+            if(ta) ta.innerText = toBengaliNum(currentGrandTotal.toFixed(2)); 
+            
+            const ic = document.getElementById('itemCount');
+            if(ic) ic.innerText = toBengaliNum(cartList.length); 
+            
+            const sta = document.getElementById('summaryTotalAmount');
+            if(sta) sta.innerText = toBengaliNum(currentGrandTotal.toFixed(2)) + ' ৳';
+            
+            const sic = document.getElementById('summaryItemCount');
+            if(sic) sic.innerText = toBengaliNum(cartList.length);
             
             window.calculateDue(); 
         }
 
+        // 🔥 Bulletproof Calculation
         window.calculateDue = () => {
-            let dmgStr = document.getElementById('damageAmount').value;
+            const da = document.getElementById('damageAmount');
+            let dmgStr = da ? da.value : "";
             let dmg = (dmgStr === "" || dmgStr === "0" || dmgStr === "00") ? 0 : parseEngNum(dmgStr);
             
-            document.getElementById('calcCurrentBill').innerText = toBengaliNum(currentGrandTotal.toFixed(2)) + ' ৳';
-            document.getElementById('calcPrevDue').innerText = toBengaliNum(currentPrevDue.toFixed(2)) + ' ৳';
+            const ccb = document.getElementById('calcCurrentBill');
+            if(ccb) ccb.innerText = toBengaliNum(currentGrandTotal.toFixed(2)) + ' ৳';
+            
+            const cpd = document.getElementById('calcPrevDue');
+            if(cpd) cpd.innerText = toBengaliNum(currentPrevDue.toFixed(2)) + ' ৳';
             
             let totalWithDue = (currentGrandTotal + currentPrevDue) - dmg;
             if(totalWithDue < 0) totalWithDue = 0;
             
-            document.getElementById('calcGrandTotal').innerText = toBengaliNum(totalWithDue.toFixed(2)) + ' ৳';
+            const cgt = document.getElementById('calcGrandTotal');
+            if(cgt) cgt.innerText = toBengaliNum(totalWithDue.toFixed(2)) + ' ৳';
             
-            let paidStr = document.getElementById('paidAmount').value; 
+            const pa = document.getElementById('paidAmount');
+            let paidStr = pa ? pa.value : ""; 
             let paid = (paidStr === "" || paidStr === "0" || paidStr === "00") ? 0 : parseEngNum(paidStr);
             
             let due = totalWithDue - paid; 
             if (due < 0) due = 0; 
             
-            document.getElementById('calcDueAmount').innerText = toBengaliNum(Number(due).toFixed(2)) + ' ৳';
+            const cda = document.getElementById('calcDueAmount');
+            if(cda) cda.innerText = toBengaliNum(Number(due).toFixed(2)) + ' ৳';
             
             localStorage.setItem('smartPosPaidAmt_' + currentShopFirebaseKey, paidStr);
             localStorage.setItem('smartPosDamageAmt_' + currentShopFirebaseKey, dmgStr);
@@ -1459,7 +1548,14 @@
         }
 
         window.clearAll = (showAlert = true) => {
-            cartList = []; window.isEditingMemo = false; document.getElementById('custName').value = ''; document.getElementById('custPhone').value = ''; document.getElementById('custAddress').value = ''; document.getElementById('paidAmount').value = ''; document.getElementById('damageAmount').value = ''; document.getElementById('customerHistoryBox').style.display = 'none'; dismissedHistoryFor = ''; 
+            cartList = []; window.isEditingMemo = false; 
+            const cn = document.getElementById('custName'); if(cn) cn.value = ''; 
+            const cp = document.getElementById('custPhone'); if(cp) cp.value = ''; 
+            const ca = document.getElementById('custAddress'); if(ca) ca.value = ''; 
+            const pa = document.getElementById('paidAmount'); if(pa) pa.value = ''; 
+            const da = document.getElementById('damageAmount'); if(da) da.value = ''; 
+            const hb = document.getElementById('customerHistoryBox'); if(hb) hb.style.display = 'none'; 
+            dismissedHistoryFor = ''; 
             currentInvoiceId = Date.now().toString(); currentPrevDue = 0; window.saveCustomerInfo(); 
             localStorage.setItem('smartPosPaidAmt_' + currentShopFirebaseKey, ''); localStorage.setItem('smartPosDamageAmt_' + currentShopFirebaseKey, ''); localStorage.setItem('smartPosInvoiceId_' + currentShopFirebaseKey, currentInvoiceId);
             saveData(); renderCards(); window.calculateDue(); 
@@ -1503,14 +1599,18 @@
             const yyyy = today.getFullYear();
             const mm = String(today.getMonth() + 1).padStart(2, '0');
             const dd = String(today.getDate()).padStart(2, '0');
-            document.getElementById('dailySalesDate').value = `${yyyy}-${mm}-${dd}`;
+            const dsd = document.getElementById('dailySalesDate');
+            if(dsd) dsd.value = `${yyyy}-${mm}-${dd}`;
             
             window.renderDailySales();
-            document.getElementById('dailySalesModal').style.display = 'flex';
+            const dsm = document.getElementById('dailySalesModal');
+            if(dsm) dsm.style.display = 'flex';
         }
 
         window.renderDailySales = () => {
-            const selectedDate = document.getElementById('dailySalesDate').value; 
+            const dsd = document.getElementById('dailySalesDate');
+            if(!dsd) return;
+            const selectedDate = dsd.value; 
             if(!selectedDate) return;
 
             let totalCash = 0; let totalMemoCash = 0; let totalQuickCash = 0; let totalDueCollected = 0; let totalNewDue = 0;
@@ -1589,27 +1689,33 @@
 
             totalCash = totalMemoCash + totalQuickCash + totalDueCollected;
 
-            document.getElementById('ds-total-cash').innerText = toBengaliNum(totalCash.toFixed(2)) + ' ৳';
-            document.getElementById('ds-memo-cash').innerText = toBengaliNum(totalMemoCash.toFixed(2)) + ' ৳';
-            document.getElementById('ds-quick-cash').innerText = toBengaliNum(totalQuickCash.toFixed(2)) + ' ৳';
-            document.getElementById('ds-due-col').innerText = toBengaliNum(totalDueCollected.toFixed(2)) + ' ৳';
-            document.getElementById('ds-new-due').innerText = toBengaliNum(totalNewDue.toFixed(2));
+            const dtc = document.getElementById('ds-total-cash'); if(dtc) dtc.innerText = toBengaliNum(totalCash.toFixed(2)) + ' ৳';
+            const dmc = document.getElementById('ds-memo-cash'); if(dmc) dmc.innerText = toBengaliNum(totalMemoCash.toFixed(2)) + ' ৳';
+            const dqc = document.getElementById('ds-quick-cash'); if(dqc) dqc.innerText = toBengaliNum(totalQuickCash.toFixed(2)) + ' ৳';
+            const ddc = document.getElementById('ds-due-col'); if(ddc) ddc.innerText = toBengaliNum(totalDueCollected.toFixed(2)) + ' ৳';
+            const dnd = document.getElementById('ds-new-due'); if(dnd) dnd.innerText = toBengaliNum(totalNewDue.toFixed(2));
 
             logs.sort((a, b) => b.time - a.time);
             const listContainer = document.getElementById('dailySalesList');
-            if(logs.length === 0) {
-                listContainer.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px; font-weight:bold;">এই তারিখে কোনো লেনদেন হয়নি।</p>';
-            } else {
-                listContainer.innerHTML = logs.map(l => l.html).join('');
+            if(listContainer) {
+                if(logs.length === 0) {
+                    listContainer.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px; font-weight:bold;">এই তারিখে কোনো লেনদেন হয়নি।</p>';
+                } else {
+                    listContainer.innerHTML = logs.map(l => l.html).join('');
+                }
             }
         }
 
-        window.openMemoHistory = () => { document.getElementById('memoHistorySearchInput').value = ''; window.renderMemoHistory(); document.getElementById('memoHistoryModal').style.display = 'flex'; }
+        window.openMemoHistory = () => { const mh = document.getElementById('memoHistorySearchInput'); if(mh) mh.value = ''; window.renderMemoHistory(); const mm = document.getElementById('memoHistoryModal'); if(mm) mm.style.display = 'flex'; }
         window.filterMemoHistory = () => { window.renderMemoHistory(); }
         window.renderMemoHistory = () => {
-            const queryStr = document.getElementById('memoHistorySearchInput').value.trim().toLowerCase();
+            const mhs = document.getElementById('memoHistorySearchInput');
+            if(!mhs) return;
+            const queryStr = mhs.value.trim().toLowerCase();
             const queryEng = toEnglishNum(queryStr);
-            const container = document.getElementById('mhListContainer'); container.innerHTML = '';
+            const container = document.getElementById('mhListContainer'); 
+            if(!container) return;
+            container.innerHTML = '';
             
             let filtered = salesHistory;
             if(queryStr) { filtered = salesHistory.filter(s => (s.customerName && s.customerName.toLowerCase().includes(queryStr)) || (s.customerPhone && (s.customerPhone.includes(queryStr) || toEnglishNum(s.customerPhone).includes(queryEng))) ); }
@@ -1652,12 +1758,12 @@
             currentInvoiceId = sale.id;
             localStorage.setItem('smartPosInvoiceId_' + currentShopFirebaseKey, currentInvoiceId);
 
-            document.getElementById('custName').value = sale.customerName || '';
-            document.getElementById('custPhone').value = sale.customerPhone || '';
-            document.getElementById('custAddress').value = sale.customerAddress || '';
+            const cn = document.getElementById('custName'); if(cn) cn.value = sale.customerName || '';
+            const cp = document.getElementById('custPhone'); if(cp) cp.value = sale.customerPhone || '';
+            const ca = document.getElementById('custAddress'); if(ca) ca.value = sale.customerAddress || '';
 
-            document.getElementById('paidAmount').value = sale.paidStr || sale.paid || '';
-            document.getElementById('damageAmount').value = sale.dmgStr || sale.damage || '';
+            const pa = document.getElementById('paidAmount'); if(pa) pa.value = sale.paidStr || sale.paid || '';
+            const da = document.getElementById('damageAmount'); if(da) da.value = sale.dmgStr || sale.damage || '';
 
             currentPrevDue = sale.prevDue || 0;
             
@@ -1665,7 +1771,7 @@
             renderCards();
             window.calculateDue();
 
-            document.getElementById('memoHistoryModal').style.display = 'none';
+            const mm = document.getElementById('memoHistoryModal'); if(mm) mm.style.display = 'none';
             window.showCustomAlert("ইডিট মোড চালু", "মেমোটি ইডিট করার জন্য কার্টে লোড করা হয়েছে। পরিবর্তন করে 'মেমো তৈরি' তে ক্লিক করলে ডাটাবেজ অটোমেটিক আপডেট হয়ে যাবে।", "success");
         }
 
@@ -1682,11 +1788,17 @@
         window.viewOldMemo = (saleId) => {
             const sale = salesHistory.find(s => s.id === saleId); if(!sale) return;
             const dateObj = new Date(sale.date);
+            
+            const sn = document.getElementById('shopName');
+            const ss = document.getElementById('shopSubtitle');
+            const sp = document.getElementById('shopPhone');
+            const sa = document.getElementById('shopAddress');
+            
             const memoData = {
-                shopName: document.getElementById('shopName').value || 'হার্ডওয়্যার পস',
-                shopSubtitle: document.getElementById('shopSubtitle').value || '',
-                shopPhone: document.getElementById('shopPhone').value,
-                shopAddress: document.getElementById('shopAddress').value,
+                shopName: sn ? sn.value : 'হার্ডওয়্যার পস',
+                shopSubtitle: ss ? ss.value : '',
+                shopPhone: sp ? sp.value : '',
+                shopAddress: sa ? sa.value : '',
                 dateStr: toBengaliNum(dateObj.toLocaleDateString('bn-BD')),
                 timeStr: toBengaliNum(dateObj.toLocaleTimeString('bn-BD')),
                 memoNo: sale.memoNo || '---',
@@ -1700,15 +1812,26 @@
                 due: sale.due !== undefined ? sale.due : 0,
                 paidStr: sale.paid !== undefined ? sale.paid.toString() : "0"
             };
-            document.getElementById('memoHistoryModal').style.display = 'none'; 
+            const mm = document.getElementById('memoHistoryModal'); if(mm) mm.style.display = 'none'; 
             window.populateAndRenderCanvas(memoData);
         }
 
-        window.openLedger = () => { window.renderLedger(); document.getElementById('ledgerModal').style.display = 'flex'; }
-        window.filterLedger = () => { const queryStr = document.getElementById('ledgerSearchInput').value.trim().toLowerCase(); const queryEng = toEnglishNum(queryStr); document.querySelectorAll('#ledgerListContainer .ledger-item').forEach(item => { const textContent = item.innerText.toLowerCase(); const textEng = toEnglishNum(textContent); item.style.display = (textContent.includes(queryStr) || textEng.includes(queryEng)) ? 'flex' : 'none'; }); }
+        window.openLedger = () => { window.renderLedger(); const lm = document.getElementById('ledgerModal'); if(lm) lm.style.display = 'flex'; }
+        window.filterLedger = () => { 
+            const ls = document.getElementById('ledgerSearchInput'); if(!ls) return;
+            const queryStr = ls.value.trim().toLowerCase(); 
+            const queryEng = toEnglishNum(queryStr); 
+            document.querySelectorAll('#ledgerListContainer .ledger-item').forEach(item => { 
+                const textContent = item.innerText.toLowerCase(); 
+                const textEng = toEnglishNum(textContent); 
+                item.style.display = (textContent.includes(queryStr) || textEng.includes(queryEng)) ? 'flex' : 'none'; 
+            }); 
+        }
         
         window.renderLedger = () => {
-            const container = document.getElementById('ledgerListContainer'); container.innerHTML = '';
+            const container = document.getElementById('ledgerListContainer'); 
+            if(!container) return;
+            container.innerHTML = '';
             if(dueLedger.length === 0) { container.innerHTML = `<div class="empty-state" style="margin-top:20px;"><p>খাতায় কোনো বাকির হিসাব নেই!</p></div>`; return; }
             let totalDueSum = dueLedger.reduce((sum, item) => sum + item.due, 0);
             container.innerHTML = `<div style="background:var(--danger); color:white; padding:15px; border-radius:12px; margin-bottom:15px; text-align:center; font-size:18px; font-weight:800; box-shadow:0 4px 6px rgba(0,0,0,0.1);">সর্বমোট বকেয়া: ${toBengaliNum(totalDueSum.toFixed(2))} ৳</div>`;
@@ -1749,15 +1872,20 @@
         }
 
         window.openStatementModal = (name, phone) => {
-            document.getElementById('st-modal-name').innerText = name;
-            document.getElementById('st-modal-phone').value = phone || ''; 
-            document.getElementById('statementModal').style.display = 'flex';
+            const smn = document.getElementById('st-modal-name'); if(smn) smn.innerText = name;
+            const smp = document.getElementById('st-modal-phone'); if(smp) smp.value = phone || ''; 
+            const sm = document.getElementById('statementModal'); if(sm) sm.style.display = 'flex';
         }
 
         window.generateStatementPDF = () => {
-            const months = parseInt(document.getElementById('st-months').value);
-            const name = document.getElementById('st-modal-name').innerText;
-            const phone = document.getElementById('st-modal-phone').value;
+            const stm = document.getElementById('st-months');
+            const smn = document.getElementById('st-modal-name');
+            const smp = document.getElementById('st-modal-phone');
+            if(!stm || !smn || !smp) return;
+
+            const months = parseInt(stm.value);
+            const name = smn.innerText;
+            const phone = smp.value;
 
             let filteredSales = salesHistory.filter(s => {
                 let match = false;
@@ -1776,35 +1904,40 @@
             let ledgerRec = dueLedger.find(r => r.name === name && (phone ? r.phone === phone : true));
             if(ledgerRec) currentDue = ledgerRec.due;
 
-            document.getElementById('st-shop-name').innerText = document.getElementById('shopName').value || 'হার্ডওয়্যার পস';
-            document.getElementById('st-shop-phone').innerText = document.getElementById('shopPhone').value ? `মোবাইল: ${toBengaliNum(document.getElementById('shopPhone').value)}` : '';
-            document.getElementById('st-c-name').innerText = name;
-            document.getElementById('st-c-phone').innerText = phone ? toBengaliNum(phone) : '---';
-            document.getElementById('st-period').innerText = months === 0 ? 'শুরু থেকে' : `গত ${toBengaliNum(months)} মাস`;
-            document.getElementById('st-total-due').innerText = toBengaliNum(currentDue.toFixed(2));
+            const sn = document.getElementById('shopName');
+            const sp = document.getElementById('shopPhone');
+
+            const ssn = document.getElementById('st-shop-name'); if(ssn) ssn.innerText = sn ? sn.value : 'হার্ডওয়্যার পস';
+            const ssp = document.getElementById('st-shop-phone'); if(ssp) ssp.innerText = sp && sp.value ? `মোবাইল: ${toBengaliNum(sp.value)}` : '';
+            const scn = document.getElementById('st-c-name'); if(scn) scn.innerText = name;
+            const scp = document.getElementById('st-c-phone'); if(scp) scp.innerText = phone ? toBengaliNum(phone) : '---';
+            const speriod = document.getElementById('st-period'); if(speriod) speriod.innerText = months === 0 ? 'শুরু থেকে' : `গত ${toBengaliNum(months)} মাস`;
+            const std = document.getElementById('st-total-due'); if(std) std.innerText = toBengaliNum(currentDue.toFixed(2));
 
             const tbody = document.getElementById('st-table-body');
-            tbody.innerHTML = '';
-            if(filteredSales.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="padding:15px; font-weight:bold;">এই সময়ে কোনো মেমোর রেকর্ড নেই।</td></tr>`;
-            } else {
-                filteredSales.sort((a,b)=>new Date(b.date)-new Date(a.date)).forEach(s => {
-                    const dStr = new Date(s.date).toLocaleDateString('bn-BD', { year: 'numeric', month: 'short', day: 'numeric' });
-                    tbody.innerHTML += `
-                        <tr>
-                            <td style="padding:10px; border:1px solid #cbd5e1;">${toBengaliNum(dStr)}</td>
-                            <td style="padding:10px; border:1px solid #cbd5e1; font-weight:bold;">${toBengaliNum(s.memoNo || '-')}</td>
-                            <td style="padding:10px; border:1px solid #cbd5e1;">${toBengaliNum(Number(s.grandTotal !== undefined ? s.grandTotal : s.total).toFixed(2))}</td>
-                            <td style="padding:10px; border:1px solid #cbd5e1;">${toBengaliNum(Number(s.paid || 0).toFixed(2))}</td>
-                            <td style="padding:10px; border:1px solid #cbd5e1; color:#ef4444; font-weight:bold;">${toBengaliNum(Number(s.due || 0).toFixed(2))}</td>
-                        </tr>
-                    `;
-                });
+            if(tbody) {
+                tbody.innerHTML = '';
+                if(filteredSales.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" style="padding:15px; font-weight:bold;">এই সময়ে কোনো মেমোর রেকর্ড নেই।</td></tr>`;
+                } else {
+                    filteredSales.sort((a,b)=>new Date(b.date)-new Date(a.date)).forEach(s => {
+                        const dStr = new Date(s.date).toLocaleDateString('bn-BD', { year: 'numeric', month: 'short', day: 'numeric' });
+                        tbody.innerHTML += `
+                            <tr>
+                                <td style="padding:10px; border:1px solid #cbd5e1;">${toBengaliNum(dStr)}</td>
+                                <td style="padding:10px; border:1px solid #cbd5e1; font-weight:bold;">${toBengaliNum(s.memoNo || '-')}</td>
+                                <td style="padding:10px; border:1px solid #cbd5e1;">${toBengaliNum(Number(s.grandTotal !== undefined ? s.grandTotal : s.total).toFixed(2))}</td>
+                                <td style="padding:10px; border:1px solid #cbd5e1;">${toBengaliNum(Number(s.paid || 0).toFixed(2))}</td>
+                                <td style="padding:10px; border:1px solid #cbd5e1; color:#ef4444; font-weight:bold;">${toBengaliNum(Number(s.due || 0).toFixed(2))}</td>
+                            </tr>
+                        `;
+                    });
+                }
             }
 
-            document.getElementById('statementModal').style.display = 'none';
-            document.getElementById('ledgerModal').style.display = 'none';
-            document.getElementById('loaderOverlay').style.display = 'flex';
+            const sm = document.getElementById('statementModal'); if(sm) sm.style.display = 'none';
+            const lm = document.getElementById('ledgerModal'); if(lm) lm.style.display = 'none';
+            const lo = document.getElementById('loaderOverlay'); if(lo) lo.style.display = 'flex';
 
             setTimeout(() => {
                 html2canvas(document.getElementById('print-statement'), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(canvas => {
@@ -1829,14 +1962,27 @@
                     }
 
                     doc.save(`Ledger_Report_${Date.now()}.pdf`);
-                    document.getElementById('loaderOverlay').style.display = 'none';
+                    const lo2 = document.getElementById('loaderOverlay'); if(lo2) lo2.style.display = 'none';
                     window.showCustomAlert("সফল!", "স্টেটমেন্ট PDF ডাউনলোড হয়েছে। এখন এটি সরাসরি হোয়াটসঅ্যাপে কাস্টমারকে দিতে পারবেন।", "success");
                 });
             }, 1000);
         }
 
         window.saveManualLedger = () => {
-            const name = document.getElementById('mlName').value.trim(); const addr = document.getElementById('mlAddress').value.trim(); const phone = document.getElementById('mlPhone').value.trim(); const dueStr = document.getElementById('mlDue').value; const desc = document.getElementById('mlDesc').value.trim(); const due = parseEngNum(dueStr);
+            const mln = document.getElementById('mlName');
+            const mla = document.getElementById('mlAddress');
+            const mlp = document.getElementById('mlPhone');
+            const mld = document.getElementById('mlDue');
+            const mldesc = document.getElementById('mlDesc');
+            
+            if(!mln || !mld) return;
+
+            const name = mln.value.trim(); 
+            const addr = mla ? mla.value.trim() : ''; 
+            const phone = mlp ? mlp.value.trim() : ''; 
+            const dueStr = mld.value; 
+            const desc = mldesc ? mldesc.value.trim() : ''; 
+            const due = parseEngNum(dueStr);
             if(!name || due <= 0) { window.showCustomAlert("সতর্কতা!", "নাম এবং বাকির পরিমাণ দেওয়া আবশ্যক।", "warning"); return; }
             
             db.ref(`shops/${currentShopFirebaseKey}/dueLedger`).once('value').then(snap => {
@@ -1861,15 +2007,25 @@
                     db.ref(`shops/${currentShopFirebaseKey}/dueLedger/${newId}`).set({ id: newId, date: new Date().toISOString(), name: name, address: addr, phone: phone, description: desc, total: 0, paid: 0, due: due }); 
                 }
                 
-                document.getElementById('mlName').value = ''; document.getElementById('mlAddress').value = ''; document.getElementById('mlPhone').value = ''; document.getElementById('mlDue').value = ''; document.getElementById('mlDesc').value = ''; document.getElementById('manualLedgerModal').style.display = 'none';
+                mln.value = ''; if(mla) mla.value = ''; if(mlp) mlp.value = ''; mld.value = ''; if(mldesc) mldesc.value = ''; 
+                const mlm = document.getElementById('manualLedgerModal'); if(mlm) mlm.style.display = 'none';
                 window.showCustomAlert("সফল!", "নতুন বাকি খাতায় যুক্ত হয়েছে।", "success");
             });
         }
 
-        window.openUpdateLedger = (id) => { activeLedgerId = id; const record = dueLedger.find(r => r.id === id); if(!record) return; document.getElementById('ul-name').innerText = record.name || 'অজ্ঞাত'; document.getElementById('ul-due').innerText = toBengaliNum(record.due.toFixed(2)); document.getElementById('ul-new-pay').value = ''; document.getElementById('updateLedgerModal').style.display = 'flex'; }
+        window.openUpdateLedger = (id) => { 
+            activeLedgerId = id; const record = dueLedger.find(r => r.id === id); if(!record) return; 
+            const uln = document.getElementById('ul-name'); if(uln) uln.innerText = record.name || 'অজ্ঞাত'; 
+            const uld = document.getElementById('ul-due'); if(uld) uld.innerText = toBengaliNum(record.due.toFixed(2)); 
+            const unp = document.getElementById('ul-new-pay'); if(unp) unp.value = ''; 
+            const ulm = document.getElementById('updateLedgerModal'); if(ulm) ulm.style.display = 'flex'; 
+        }
         
         window.saveLedgerUpdate = () => { 
-            const newAmt = parseEngNum(document.getElementById('ul-new-pay').value); if(newAmt <= 0) return; const opType = document.getElementById('ul-operation').value; 
+            const unp = document.getElementById('ul-new-pay'); if(!unp) return;
+            const newAmt = parseEngNum(unp.value); if(newAmt <= 0) return; 
+            const uo = document.getElementById('ul-operation');
+            const opType = uo ? uo.value : 'subtract'; 
             
             db.ref(`shops/${currentShopFirebaseKey}/dueLedger/${activeLedgerId}`).once('value').then(snap => {
                 if(snap.exists()){
@@ -1886,7 +2042,8 @@
                     record.date = new Date().toISOString();
                     
                     db.ref(`shops/${currentShopFirebaseKey}/dueLedger/${activeLedgerId}`).set(record).then(() => {
-                        document.getElementById('updateLedgerModal').style.display = 'none'; activeLedgerId = null; window.showCustomAlert("হিসাব আপডেট!", "হিসাব সফলভাবে আপডেট হয়েছে।", "success"); 
+                        const ulm = document.getElementById('updateLedgerModal'); if(ulm) ulm.style.display = 'none'; 
+                        activeLedgerId = null; window.showCustomAlert("হিসাব আপডেট!", "হিসাব সফলভাবে আপডেট হয়েছে।", "success"); 
                     });
                 }
             });
@@ -1907,50 +2064,60 @@
         }
 
         window.openDashboard = () => {
-            document.getElementById('dashboardModal').style.display = 'flex';
+            const dm = document.getElementById('dashboardModal'); if(dm) dm.style.display = 'flex';
             let productCount = {}; salesHistory.forEach(sale => { if(sale.items) sale.items.forEach(item => { productCount[item.name] = (productCount[item.name] || 0) + 1; }); });
             let sortedProducts = Object.entries(productCount).sort((a,b)=>b[1]-a[1]).slice(0, 5); let phtml = '';
             if(sortedProducts.length === 0) phtml = '<p style="font-size:14px; color:var(--text-muted);">এখনো কোনো বিক্রি হয়নি।</p>';
             else { let maxCount = sortedProducts[0][1]; sortedProducts.forEach((p, index) => { let pct = (p[1]/maxCount)*100; phtml += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-size:15px; width:100%;"><div style="flex:0 0 45%; text-align:left; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--text-main); font-weight:700;">${toBengaliNum(index+1)}. ${p[0]}</div><div style="flex:1; background:var(--border); height:12px; border-radius:6px; margin:0 12px; overflow:hidden;"><div style="width:${pct}%; background:var(--primary); height:100%; border-radius:6px;"></div></div><div style="flex:0 0 20%; text-align:right; font-weight:800; color:var(--text-main);">${toBengaliNum(p[1])} বার</div></div>`; }); }
-            document.getElementById('topProductsContainer').innerHTML = phtml;
+            const tpc = document.getElementById('topProductsContainer'); if(tpc) tpc.innerHTML = phtml;
 
             let salesByDate = {}; let today = new Date();
             for(let i=6; i>=0; i--) { let d = new Date(today); d.setDate(d.getDate() - i); let dateKey = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(); salesByDate[dateKey] = 0; }
             salesHistory.forEach(sale => { let d = new Date(sale.date); let dateKey = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(); if(salesByDate[dateKey] !== undefined) salesByDate[dateKey] += sale.total; });
             let dhtml = ''; let maxSale = Math.max(...Object.values(salesByDate)); if(maxSale === 0) maxSale = 1;
             for (const [dateKey, amount] of Object.entries(salesByDate)) { let parts = dateKey.split('-'); let shortDate = parts[2] + '/' + parts[1]; let pct = (amount/maxSale)*100; dhtml += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-size:15px; width:100%;"><div style="flex:0 0 25%; text-align:left; color:var(--text-main); font-weight:700;">${toBengaliNum(shortDate)}</div><div style="flex:1; background:var(--border); height:12px; border-radius:6px; margin:0 12px; overflow:hidden;"><div style="width:${pct}%; background:var(--success); height:100%; border-radius:6px;"></div></div><div style="flex:0 0 35%; text-align:right; font-weight:800; color:var(--text-main);">${toBengaliNum(amount)} ৳</div></div>`; }
-            document.getElementById('salesChartContainer').innerHTML = dhtml;
+            const scc = document.getElementById('salesChartContainer'); if(scc) scc.innerHTML = dhtml;
         }
 
         window.sendSupportTicket = () => {
-            const msg = document.getElementById('supportMsg').value.trim();
+            const sm = document.getElementById('supportMsg'); if(!sm) return;
+            const msg = sm.value.trim();
             if(!msg) { window.showCustomAlert("খালি মেসেজ", "দয়া করে আপনার সমস্যা বা মতামত লিখুন!", "warning"); return; }
             
             db.ref('supportTickets').push().set({ shopName: currentShopData.shopName || 'দোকান', email: currentShopData.email, message: msg, timestamp: new Date().toISOString() })
             .then(() => {
-                document.getElementById('supportMsg').value = ''; document.getElementById('settingsModal').style.display = 'none'; 
+                sm.value = ''; 
+                const sModal = document.getElementById('settingsModal'); if(sModal) sModal.style.display = 'none'; 
                 window.showCustomAlert("ধন্যবাদ", "আপনার সাপোর্ট টিকিট সফলভাবে অ্যাডমিনের কাছে পাঠানো হয়েছে।", "success");
             })
             .catch((error) => { window.showCustomAlert("ত্রুটি", error.message, "error"); });
         };
 
-        window.togglePaymentForm = () => { const form = document.getElementById('paymentSubmitSection'); form.style.display = form.style.display === 'none' ? 'block' : 'none'; };
+        window.togglePaymentForm = () => { const form = document.getElementById('paymentSubmitSection'); if(form) form.style.display = form.style.display === 'none' ? 'block' : 'none'; };
         
         window.submitSettingsPayment = () => {
-            const method = document.getElementById('setPayMethod').value; const num = document.getElementById('setPayNum').value.trim(); const months = document.getElementById('setPayMonths').value.trim(); const trx = document.getElementById('setPayTrx').value.trim();
+            const spm = document.getElementById('setPayMethod');
+            const spn = document.getElementById('setPayNum');
+            const spmo = document.getElementById('setPayMonths');
+            const spt = document.getElementById('setPayTrx');
+            if(!spm || !spn || !spmo || !spt) return;
+
+            const method = spm.value; const num = spn.value.trim(); const months = spmo.value.trim(); const trx = spt.value.trim();
             if(!num || !months || !trx) { window.showCustomAlert("অসম্পূর্ণ তথ্য", "দয়া করে নাম্বার, মাস এবং TrxID সঠিকভাবে লিখুন!", "warning"); return; }
             
             db.ref(`shops/${currentShopFirebaseKey}`).update({ sentNumber: num, trxId: trx, payMethod: method, payMonths: months, paymentStatus: 'review' })
             .then(() => {
-                document.getElementById('setPayNum').value = ''; document.getElementById('setPayMonths').value = ''; document.getElementById('setPayTrx').value = ''; document.getElementById('settingsModal').style.display = 'none';
+                spn.value = ''; spmo.value = ''; spt.value = ''; 
+                const sm = document.getElementById('settingsModal'); if(sm) sm.style.display = 'none';
                 window.showCustomAlert("সফল!", "আপনার পেমেন্ট তথ্য সফলভাবে পাঠানো হয়েছে।", "success", true);
             })
             .catch((error) => { window.showCustomAlert("ত্রুটি", "পেমেন্ট পাঠাতে সমস্যা হয়েছে: " + error.message, "error"); });
         };
 
-        window.toggleInbox = () => { const sec = document.getElementById('inboxSection'); sec.style.display = sec.style.display === 'none' ? 'block' : 'none'; window.renderInbox(); };
+        window.toggleInbox = () => { const sec = document.getElementById('inboxSection'); if(sec) { sec.style.display = sec.style.display === 'none' ? 'block' : 'none'; window.renderInbox(); } };
         window.renderInbox = () => {
             const container = document.getElementById('inboxContainer');
+            if(!container) return;
             let inbox = JSON.parse(localStorage.getItem('smartPosInbox_' + currentShopFirebaseKey)) || [];
             if(inbox.length === 0) { container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:14px; margin: 10px 0; font-weight:700;">ইনবক্সে কোনো মেসেজ নেই!</p>`; return; }
             let html = '';
@@ -1996,18 +2163,21 @@
         };
 
         window.generateCurrentMemoImage = () => {
-            const cName = document.getElementById('custName').value.trim(); 
-            const cPhone = document.getElementById('custPhone').value.trim();
-            const cAddress = document.getElementById('custAddress').value.trim();
+            const cne = document.getElementById('custName'); const cpe = document.getElementById('custPhone'); const cae = document.getElementById('custAddress');
+            const pae = document.getElementById('paidAmount'); const dae = document.getElementById('damageAmount');
+            
+            const cName = cne ? cne.value.trim() : ''; 
+            const cPhone = cpe ? cpe.value.trim() : '';
+            const cAddress = cae ? cae.value.trim() : '';
 
             const snapshotPrevDue = currentPrevDue;
             const snapshotTotal = currentGrandTotal;
             const snapshotCartList = [...cartList];
             
-            let paidStr = document.getElementById('paidAmount').value;
+            let paidStr = pae ? pae.value : '0';
             let paid = (paidStr === "" || paidStr === "0" || paidStr === "00") ? 0 : parseEngNum(paidStr); 
             
-            let dmgStr = document.getElementById('damageAmount').value;
+            let dmgStr = dae ? dae.value : '0';
             let damage = (dmgStr === "" || dmgStr === "0" || dmgStr === "00") ? 0 : parseEngNum(dmgStr); 
 
             if(snapshotCartList.length === 0 && snapshotPrevDue === 0 && paid === 0) { 
@@ -2095,11 +2265,16 @@
             });
 
             const dateObj = new Date();
+            const sn = document.getElementById('shopName');
+            const ss = document.getElementById('shopSubtitle');
+            const sp = document.getElementById('shopPhone');
+            const sa = document.getElementById('shopAddress');
+
             const memoData = {
-                shopName: document.getElementById('shopName').value || 'হার্ডওয়্যার পস',
-                shopSubtitle: document.getElementById('shopSubtitle').value || '',
-                shopPhone: document.getElementById('shopPhone').value,
-                shopAddress: document.getElementById('shopAddress').value,
+                shopName: sn ? sn.value : 'হার্ডওয়্যার পস',
+                shopSubtitle: ss ? ss.value : '',
+                shopPhone: sp ? sp.value : '',
+                shopAddress: sa ? sa.value : '',
                 dateStr: toBengaliNum(dateObj.toLocaleDateString('bn-BD')),
                 timeStr: toBengaliNum(dateObj.toLocaleTimeString('bn-BD')),
                 memoNo: currentMemoNo, cName: cName, cPhone: cPhone, cAddress: cAddress,
@@ -2112,38 +2287,53 @@
         }
 
         window.populateAndRenderCanvas = (data) => {
-            document.getElementById('loaderOverlay').style.display = 'flex';
+            const lo = document.getElementById('loaderOverlay'); if(lo) lo.style.display = 'flex';
             
             try {
                 // Populate A5
-                document.getElementById('p-shop-name').innerText = data.shopName;
-                document.getElementById('p-shop-subtitle').innerText = data.shopSubtitle;
-                document.getElementById('p-shop-address').innerText = data.shopAddress ? `${data.shopAddress}` : '';
-                document.getElementById('p-shop-phone').innerText = data.shopPhone ? `মোবাইল: ${toBengaliNum(data.shopPhone)}` : '';
-                document.getElementById('p-date-time').innerHTML = `তারিখ: ${data.dateStr}<br>সময়: ${data.timeStr}`;
-                document.getElementById('p-memo-no-val').innerText = toBengaliNum(formatMemoNo(data.memoNo));
+                const psn = document.getElementById('p-shop-name'); if(psn) psn.innerText = data.shopName;
+                const pss = document.getElementById('p-shop-subtitle'); if(pss) pss.innerText = data.shopSubtitle;
+                const psa = document.getElementById('p-shop-address'); if(psa) psa.innerText = data.shopAddress ? `${data.shopAddress}` : '';
+                const psp = document.getElementById('p-shop-phone'); if(psp) psp.innerText = data.shopPhone ? `মোবাইল: ${toBengaliNum(data.shopPhone)}` : '';
+                const pdt = document.getElementById('p-date-time'); if(pdt) pdt.innerHTML = `তারিখ: ${data.dateStr}<br>সময়: ${data.timeStr}`;
+                const pmn = document.getElementById('p-memo-no-val'); if(pmn) pmn.innerText = toBengaliNum(formatMemoNo(data.memoNo));
 
                 // Populate Roll
-                document.getElementById('r-shop-name').innerText = data.shopName;
-                document.getElementById('r-shop-address').innerText = data.shopAddress ? `${data.shopAddress}` : '';
-                document.getElementById('r-shop-phone').innerText = data.shopPhone ? `মোবাইল: ${toBengaliNum(data.shopPhone)}` : '';
-                document.getElementById('r-date-time').innerHTML = `তারিখ: ${data.dateStr} | ${data.timeStr}`;
-                document.getElementById('r-memo-no').innerText = toBengaliNum(formatMemoNo(data.memoNo));
+                const rsn = document.getElementById('r-shop-name'); if(rsn) rsn.innerText = data.shopName;
+                const rsa = document.getElementById('r-shop-address'); if(rsa) rsa.innerText = data.shopAddress ? `${data.shopAddress}` : '';
+                const rsp = document.getElementById('r-shop-phone'); if(rsp) rsp.innerText = data.shopPhone ? `মোবাইল: ${toBengaliNum(data.shopPhone)}` : '';
+                const rdt = document.getElementById('r-date-time'); if(rdt) rdt.innerHTML = `তারিখ: ${data.dateStr} | ${data.timeStr}`;
+                const rmn = document.getElementById('r-memo-no'); if(rmn) rmn.innerText = toBengaliNum(formatMemoNo(data.memoNo));
 
-                const pCustBlock = document.getElementById('p-c-name-wrap').parentNode.parentNode;
+                const pcnw = document.getElementById('p-c-name-wrap');
+                const pcpw = document.getElementById('p-c-phone-wrap');
+                const pcaw = document.getElementById('p-c-address-wrap');
+
                 if (data.cName || data.cPhone || data.cAddress) {
-                    document.getElementById('p-c-name-wrap').style.display = 'block'; document.getElementById('p-c-name').innerText = data.cName || 'অজ্ঞাত';
-                    if(data.cPhone) { document.getElementById('p-c-phone-wrap').style.display = 'block'; document.getElementById('p-c-phone').innerText = toBengaliNum(data.cPhone); } else { document.getElementById('p-c-phone-wrap').style.display = 'none'; }
-                    if(data.cAddress) { document.getElementById('p-c-address-wrap').style.display = 'block'; document.getElementById('p-c-address').innerText = data.cAddress; } else { document.getElementById('p-c-address-wrap').style.display = 'none'; }
-                    document.getElementById('r-c-name').innerText = data.cName || 'অজ্ঞাত';
+                    if(pcnw) pcnw.style.display = 'block'; 
+                    const pcn = document.getElementById('p-c-name'); if(pcn) pcn.innerText = data.cName || 'অজ্ঞাত';
+                    
+                    if(data.cPhone) { 
+                        if(pcpw) pcpw.style.display = 'block'; 
+                        const pcp = document.getElementById('p-c-phone'); if(pcp) pcp.innerText = toBengaliNum(data.cPhone); 
+                    } else { if(pcpw) pcpw.style.display = 'none'; }
+                    
+                    if(data.cAddress) { 
+                        if(pcaw) pcaw.style.display = 'block'; 
+                        const pca = document.getElementById('p-c-address'); if(pca) pca.innerText = data.cAddress; 
+                    } else { if(pcaw) pcaw.style.display = 'none'; }
+                    
+                    const rcn = document.getElementById('r-c-name'); if(rcn) rcn.innerText = data.cName || 'অজ্ঞাত';
                 } else {
-                    document.getElementById('p-c-name-wrap').style.display = 'block'; document.getElementById('p-c-name').innerText = 'সাধারণ গ্রাহক';
-                    document.getElementById('p-c-phone-wrap').style.display = 'none'; document.getElementById('p-c-address-wrap').style.display = 'none';
-                    document.getElementById('r-c-name').innerText = 'সাধারণ গ্রাহক';
+                    if(pcnw) pcnw.style.display = 'block'; 
+                    const pcn = document.getElementById('p-c-name'); if(pcn) pcn.innerText = 'সাধারণ গ্রাহক';
+                    if(pcpw) pcpw.style.display = 'none'; 
+                    if(pcaw) pcaw.style.display = 'none';
+                    const rcn = document.getElementById('r-c-name'); if(rcn) rcn.innerText = 'সাধারণ গ্রাহক';
                 }
 
-                const pBody = document.getElementById('p-table-body'); pBody.innerHTML = ''; 
-                const rBody = document.getElementById('r-table-body'); rBody.innerHTML = ''; 
+                const pBody = document.getElementById('p-table-body'); if(pBody) pBody.innerHTML = ''; 
+                const rBody = document.getElementById('r-table-body'); if(rBody) rBody.innerHTML = ''; 
 
                 let loopIndex = 1;
                 let renderItems = data.items || [];
@@ -2166,8 +2356,8 @@
                     const unitPrice = parseFloat(item.price) > 0 ? toBengaliNum(parseFloat(item.price).toFixed(2)) : '-';
                     const totalText = parseFloat(item.total) > 0 ? toBengaliNum(parseFloat(item.total).toFixed(2)) : '-';
                     
-                    pBody.innerHTML += `<tr><td style="text-align:center;">${toBengaliNum(loopIndex)}</td><td>${item.name}</td><td style="text-align:center;">${qtyFinal}</td><td style="text-align:right;">${unitPrice}</td><td style="text-align:right;">${totalText}</td></tr>`; 
-                    rBody.innerHTML += `<tr><td style="padding-bottom:5px;">${item.name}</td><td style="text-align:center; padding-bottom:5px;">${qtyFinal}</td><td style="text-align:right; padding-bottom:5px;">${totalText}</td></tr>`;
+                    if(pBody) pBody.innerHTML += `<tr><td style="text-align:center;">${toBengaliNum(loopIndex)}</td><td>${item.name}</td><td style="text-align:center;">${qtyFinal}</td><td style="text-align:right;">${unitPrice}</td><td style="text-align:right;">${totalText}</td></tr>`; 
+                    if(rBody) rBody.innerHTML += `<tr><td style="padding-bottom:5px;">${item.name}</td><td style="text-align:center; padding-bottom:5px;">${qtyFinal}</td><td style="text-align:right; padding-bottom:5px;">${totalText}</td></tr>`;
                     loopIndex++;
                 });
                 
@@ -2176,34 +2366,63 @@
                 let mathDmg = data.damage !== undefined ? Number(data.damage) : 0;
 
                 // A5 Totals
-                document.getElementById('p-current-bill').innerText = toBengaliNum(Number(data.total || 0).toFixed(2));
-                if(mathDmg > 0) { document.getElementById('p-damage-row').style.display = 'table-row'; document.getElementById('p-damage').innerText = toBengaliNum(mathDmg.toFixed(2)); } else { document.getElementById('p-damage-row').style.display = 'none'; }
-                if(data.prevDue > 0) { document.getElementById('p-prev-due-row').style.display = 'table-row'; document.getElementById('p-grand-total-row').style.display = 'table-row'; document.getElementById('p-prev-due').innerText = toBengaliNum(Number(data.prevDue).toFixed(2)); document.getElementById('p-grand-total').innerText = toBengaliNum(Number(data.grandTotal).toFixed(2)); } else { document.getElementById('p-prev-due-row').style.display = 'none'; document.getElementById('p-grand-total-row').style.display = 'none'; }
-                document.getElementById('p-paid').innerText = (data.paidStr === "" || data.paidStr === "0" || data.paidStr === "00") ? "০.০০" : toBengaliNum(mathPaid.toFixed(2)); 
-                document.getElementById('p-due').innerText = toBengaliNum(mathDue.toFixed(2));
+                const pcb = document.getElementById('p-current-bill'); if(pcb) pcb.innerText = toBengaliNum(Number(data.total || 0).toFixed(2));
+                const pdr = document.getElementById('p-damage-row'); const pd = document.getElementById('p-damage');
+                if(mathDmg > 0) { if(pdr) pdr.style.display = 'table-row'; if(pd) pd.innerText = toBengaliNum(mathDmg.toFixed(2)); } else { if(pdr) pdr.style.display = 'none'; }
+                
+                const ppdr = document.getElementById('p-prev-due-row'); const pgtr = document.getElementById('p-grand-total-row');
+                const ppd = document.getElementById('p-prev-due'); const pgt = document.getElementById('p-grand-total');
+                if(data.prevDue > 0) { 
+                    if(ppdr) ppdr.style.display = 'table-row'; 
+                    if(pgtr) pgtr.style.display = 'table-row'; 
+                    if(ppd) ppd.innerText = toBengaliNum(Number(data.prevDue).toFixed(2)); 
+                    if(pgt) pgt.innerText = toBengaliNum(Number(data.grandTotal).toFixed(2)); 
+                } else { 
+                    if(ppdr) ppdr.style.display = 'none'; 
+                    if(pgtr) pgtr.style.display = 'none'; 
+                }
+                
+                const pp = document.getElementById('p-paid'); if(pp) pp.innerText = (data.paidStr === "" || data.paidStr === "0" || data.paidStr === "00") ? "০.০০" : toBengaliNum(mathPaid.toFixed(2)); 
+                const pdu = document.getElementById('p-due'); if(pdu) pdu.innerText = toBengaliNum(mathDue.toFixed(2));
 
                 // Roll Totals
-                document.getElementById('r-total').innerText = toBengaliNum(Number(data.total || 0).toFixed(2));
-                if(mathDmg > 0) { document.getElementById('r-damage-row').style.display = 'table-row'; document.getElementById('r-damage').innerText = toBengaliNum(mathDmg.toFixed(2)); } else { document.getElementById('r-damage-row').style.display = 'none'; }
-                if(data.prevDue > 0) { document.getElementById('r-prev-due-row').style.display = 'table-row'; document.getElementById('r-grand-total-row').style.display = 'table-row'; document.getElementById('r-prev-due').innerText = toBengaliNum(Number(data.prevDue).toFixed(2)); document.getElementById('r-grand-total').innerText = toBengaliNum(Number(data.grandTotal).toFixed(2)); } else { document.getElementById('r-prev-due-row').style.display = 'none'; document.getElementById('r-grand-total-row').style.display = 'none'; }
-                document.getElementById('r-paid').innerText = (data.paidStr === "" || data.paidStr === "0" || data.paidStr === "00") ? "০.০০" : toBengaliNum(mathPaid.toFixed(2)); 
-                document.getElementById('r-due').innerText = toBengaliNum(mathDue.toFixed(2));
+                const rt = document.getElementById('r-total'); if(rt) rt.innerText = toBengaliNum(Number(data.total || 0).toFixed(2));
+                const rdr = document.getElementById('r-damage-row'); const rd = document.getElementById('r-damage');
+                if(mathDmg > 0) { if(rdr) rdr.style.display = 'table-row'; if(rd) rd.innerText = toBengaliNum(mathDmg.toFixed(2)); } else { if(rdr) rdr.style.display = 'none'; }
+                
+                const rpdr = document.getElementById('r-prev-due-row'); const rgtr = document.getElementById('r-grand-total-row');
+                const rpd = document.getElementById('r-prev-due'); const rgt = document.getElementById('r-grand-total');
+                if(data.prevDue > 0) { 
+                    if(rpdr) rpdr.style.display = 'table-row'; 
+                    if(rgtr) rgtr.style.display = 'table-row'; 
+                    if(rpd) rpd.innerText = toBengaliNum(Number(data.prevDue).toFixed(2)); 
+                    if(rgt) rgt.innerText = toBengaliNum(Number(data.grandTotal).toFixed(2)); 
+                } else { 
+                    if(rpdr) rpdr.style.display = 'none'; 
+                    if(rgtr) rgtr.style.display = 'none'; 
+                }
+                
+                const rpaid = document.getElementById('r-paid'); if(rpaid) rpaid.innerText = (data.paidStr === "" || data.paidStr === "0" || data.paidStr === "00") ? "০.০০" : toBengaliNum(mathPaid.toFixed(2)); 
+                const rdue = document.getElementById('r-due'); if(rdue) rdue.innerText = toBengaliNum(mathDue.toFixed(2));
 
             } catch (err) {
-                document.getElementById('loaderOverlay').style.display = 'none';
+                const lo = document.getElementById('loaderOverlay'); if(lo) lo.style.display = 'none';
                 window.showCustomAlert("উইন্ডো এরর!", "মেমো ডেটা প্রসেসিংয়ে সমস্যা হয়েছে: " + err.message, "error");
                 return;
             }
 
             setTimeout(() => {
-                html2canvas(document.getElementById('print-memo'), { scale: 1.5, useCORS: true, backgroundColor: "#ffffff" }).then(canvas => {
+                const pm = document.getElementById('print-memo');
+                if(!pm) return;
+                html2canvas(pm, { scale: 1.5, useCORS: true, backgroundColor: "#ffffff" }).then(canvas => {
                     globalBase64Img = canvas.toDataURL('image/png');
-                    document.getElementById('loaderOverlay').style.display = 'none';
-                    document.getElementById('memoPreviewModal').style.display = 'flex';
+                    const lo = document.getElementById('loaderOverlay'); if(lo) lo.style.display = 'none';
+                    const mpm = document.getElementById('memoPreviewModal'); if(mpm) mpm.style.display = 'flex';
                     const imgElement = document.createElement('img'); imgElement.src = globalBase64Img; imgElement.style.width = '100%'; imgElement.style.height = 'auto'; imgElement.style.borderRadius = '12px'; imgElement.style.border = '1px solid #e2e8f0';
-                    document.getElementById('memoImageContainer').innerHTML = ''; document.getElementById('memoImageContainer').appendChild(imgElement);
+                    const mic = document.getElementById('memoImageContainer'); 
+                    if(mic) { mic.innerHTML = ''; mic.appendChild(imgElement); }
                 }).catch(err => { 
-                    document.getElementById('loaderOverlay').style.display = 'none'; 
+                    const lo = document.getElementById('loaderOverlay'); if(lo) lo.style.display = 'none'; 
                     window.showCustomAlert("সমস্যা!", "মেমো ইমেজ রেন্ডারিংয়ে সমস্যা হচ্ছে: " + err.message, "error"); 
                 });
             }, 500);
@@ -2238,17 +2457,23 @@
 
         window.openCleanScreenshot = () => { 
             if (!globalBase64Img) return; 
-            document.getElementById('memoPreviewModal').style.display = 'none'; 
+            const mpm = document.getElementById('memoPreviewModal'); if(mpm) mpm.style.display = 'none'; 
             const area = document.getElementById('clean-screenshot-area'); 
-            document.getElementById('ss-image-container').innerHTML = `<img src="${globalBase64Img}" alt="Cash Memo">`; 
-            area.style.display = 'flex'; 
-            const header = document.getElementById('ssHeaderUI'); header.style.display = 'block'; header.style.opacity = '1'; 
-            setTimeout(() => { header.style.opacity = '0'; setTimeout(() => { header.style.display = 'none'; }, 500); }, 3000); 
-            area.onclick = function() { area.style.display = 'none'; document.getElementById('ss-image-container').innerHTML = ''; } 
+            const sic = document.getElementById('ss-image-container');
+            if(sic) sic.innerHTML = `<img src="${globalBase64Img}" alt="Cash Memo">`; 
+            if(area) area.style.display = 'flex'; 
+            const header = document.getElementById('ssHeaderUI'); 
+            if(header) {
+                header.style.display = 'block'; header.style.opacity = '1'; 
+                setTimeout(() => { header.style.opacity = '0'; setTimeout(() => { header.style.display = 'none'; }, 500); }, 3000); 
+            }
+            if(area) area.onclick = function() { area.style.display = 'none'; if(sic) sic.innerHTML = ''; } 
         }
 
         window.printRollMemo = () => {
-            const printContent = document.getElementById('print-memo-roll').innerHTML;
+            const pmr = document.getElementById('print-memo-roll');
+            if(!pmr) return;
+            const printContent = pmr.innerHTML;
             const printWindow = window.open('', '', 'width=350,height=600');
             printWindow.document.write(`<html><head><title>Print Roll Memo</title><style>@page { margin: 0; } body { margin: 0; font-family: sans-serif; }</style></head><body><div style="width:75mm; margin:0 auto;">${printContent}</div></body></html>`);
             printWindow.document.close();
