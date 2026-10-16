@@ -76,18 +76,19 @@
         .shop-title:focus { border-bottom: 2px solid var(--primary); }
         .shop-mobile { font-size: 14px; width: 100%; text-align: center; border: 1px dashed var(--border); background: var(--input-bg); color: var(--text-main); border-radius: 8px; padding: 8px; margin-bottom: 5px; outline: none; font-weight: 600; }
         
-        /* Header Icons Adjusted */
+        /* Header Icons Adjusted - Only Settings */
         .top-btn-group { position: absolute; top: 15px; right: 15px; display: flex; gap: 8px; }
         .circle-btn { background: var(--primary-light); color: var(--primary); border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
         .circle-btn:hover { transform: scale(1.1); }
 
-        .action-bar { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        /* 🔥 2x2 Buttons Grid */
+        .action-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .action-bar button { padding: 14px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; border: none; color: white; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); transition: 0.2s;}
         .action-bar button:hover { transform: translateY(-2px); }
         .btn-ledger { background: var(--warning); color: #000 !important; }
         .btn-history { background: #8b5cf6; }
         .btn-daily { background: var(--success); }
-        .btn-dash { background: #3b82f6; grid-column: span 3; }
+        .btn-dash { background: #3b82f6; }
 
         .customer-card { background: var(--card); padding: 18px; border-radius: 16px; margin-bottom: 15px; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.03); }
         .customer-card h3 { font-size: 15px; color: var(--text-main); margin-bottom: 15px; border-bottom: 1px dashed var(--border); padding-bottom: 8px; font-weight: 800;}
@@ -207,7 +208,7 @@
         
         .p-footer-msg { text-align: center; margin-top: 20px; padding-top: 15px; font-size: 15px; font-weight: 800; color: #000; border-top: 1px solid #000; width: 100%;}
 
-        /* 📜 POS Thermal Roll Print Styling */
+        /* 📜 POS Thermal Roll Print Styling - Image Matching */
         #hidden-roll-print-container { position: absolute; top: 0; left: -9999px; z-index: -100; }
 
         /* 📜 A4 Digital Ledger Statement PDF Styling */
@@ -242,7 +243,7 @@
     <!-- 🔒 FIREBASE AUTHENTICATION LOGIN SCREEN -->
     <div id="activation-screen" style="display: none;">
         <div class="activation-box">
-            <h2>🛒 হার্ডওয়্যার পস লগইন</h2>
+            <h2>🛒 স্মার্ট পস লগিন</h2>
             <p>আপনার অ্যাকাউন্ট দিয়ে লগইন করুন।</p>
             <input type="email" id="shopEmail" class="auth-input" placeholder="দোকানের ইমেইল">
             <input type="password" id="shopPassword" class="auth-input" placeholder="পাসওয়ার্ড">
@@ -306,9 +307,8 @@
             </div>
 
             <div class="header-wrap">
-                <!-- 🔥 Settings and Theme Icons (Header Top Right) -->
+                <!-- 🔥 Settings Icon Only (Header Top Right) -->
                 <div class="top-btn-group">
-                    <button class="circle-btn" onclick="window.toggleTheme()" id="themeBtn" title="ডার্ক মোড">🌙</button>
                     <button class="circle-btn" onclick="window.openSettings()" title="সেটিংস">⚙️</button>
                 </div>
                 <input type="text" id="shopName" class="shop-title" value="" placeholder="দোকানের নাম" onkeyup="window.saveShopInfo()" onchange="window.saveShopInfo()">
@@ -317,11 +317,11 @@
                 <input type="text" id="shopPhone" class="shop-mobile" placeholder="মোবাইল: ০১৭XXXXXXXX" onkeyup="window.saveShopInfo()" onchange="window.saveShopInfo()">
             </div>
 
-            <div class="action-bar" style="grid-template-columns: 1fr 1fr 1fr;">
+            <div class="action-bar">
                 <button class="btn-ledger" onclick="window.openLedger()">📒 বাকির খাতা</button>
                 <button class="btn-history" onclick="window.openMemoHistory()">📜 মেমো হিস্ট্রি</button>
                 <button class="btn-daily" onclick="window.openDailySales()">📅 আজকের বিক্রি</button>
-                <button class="btn-dash" style="grid-column: span 3;" onclick="window.openDashboard()">📊 ড্যাশবোর্ড</button>
+                <button class="btn-dash" onclick="window.openDashboard()">📊 ড্যাশবোর্ড</button>
             </div>
 
             <div class="customer-card">
@@ -337,7 +337,7 @@
             </div>
 
             <div class="search-area">
-                <input type="text" id="searchInput" class="search-input" placeholder="🔍 পণ্য খুঁজুন (রড, সিমেন্ট, ইট...)" onkeyup="window.handleSearch()">
+                <input type="text" id="searchInput" class="search-input" placeholder="🔍 পণ্য খুঁজুন" onkeyup="window.handleSearch()">
                 <div id="suggestionsBox" class="suggestion-box"></div>
             </div>
 
@@ -370,7 +370,19 @@
             <div class="footer-btns">
                 <button class="btn-clear" onclick="window.requirePin(()=>window.clearAll(false))">🔄 নতুন কাস্টমার</button>
                 <button class="btn-quick" onclick="window.executeQuickSale()">🛒 খুচরা বিক্রি</button>
-                <button class="btn-pdf" onclick="window.generateCurrentMemoImage()">📥 মেমো তৈরি</button>
+                <button class="btn-pdf" onclick="window.openMemoTypeSelection()">📥 মেমো তৈরি</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔥 Memo Type Selection Modal -->
+    <div class="modal-overlay top-tier" id="memoTypeModal">
+        <div class="modal-box" style="max-width: 320px;">
+            <button class="modal-close" onclick="document.getElementById('memoTypeModal').style.display='none'">✖</button>
+            <h3>মেমোর ধরন নির্বাচন করুন</h3>
+            <div style="display:flex; flex-direction:column; gap:12px; margin-top:20px;">
+                <button class="btn-auth" style="background:#0ea5e9; font-size:16px; padding:16px;" onclick="window.selectMemoType('A5')">📄 A5 সাইজ মেমো</button>
+                <button class="btn-auth" style="background:#8b5cf6; font-size:16px; padding:16px;" onclick="window.selectMemoType('Roll')">🧾 রোল মেমো</button>
             </div>
         </div>
     </div>
@@ -659,40 +671,54 @@
         </div>
     </div>
 
-    <!-- 📜 Roll POS Printer Layout -->
-    <div id="hidden-roll-print-container">
-        <div id="print-memo-roll" style="width: 80mm; padding: 5mm; background: #fff; color: #000; font-family: 'Noto Sans Bengali', sans-serif; font-size: 12px; margin: 0 auto;">
-            <h2 style="text-align: center; font-size: 18px; margin-bottom: 2px;" id="r-shop-name"></h2>
-            <div style="text-align: center; font-size: 11px; margin-bottom: 5px;" id="r-shop-address"></div>
-            <div style="text-align: center; font-size: 11px; margin-bottom: 10px;" id="r-shop-phone"></div>
-            <hr style="border-top: 1px dashed #000; margin-bottom: 5px;">
-            <div style="font-size: 11px; margin-bottom: 10px;">
-                <div>মেমো নং: <span id="r-memo-no"></span></div>
-                <div id="r-date-time"></div>
-                <div>কাস্টমার: <span id="r-c-name"></span></div>
+    <!-- 📜 Roll POS Printer Layout - Matching Image Perfectly -->
+    <div id="hidden-roll-print-container" style="position: absolute; top: 0; left: -9999px; z-index: -100;">
+        <div id="print-memo-roll" style="width: 300px; padding: 10px; background: #fff; color: #000; font-family: 'Noto Sans Bengali', sans-serif; font-size: 13px; margin: 0 auto; box-sizing: border-box;">
+            <h2 style="text-align: center; font-size: 24px; margin-bottom: 5px; font-weight: 800; color: #000;" id="r-shop-name"></h2>
+            <div style="text-align: center; font-size: 13px; margin-bottom: 5px; font-weight:600; color: #000;" id="r-shop-phone"></div>
+            <div style="text-align: center; font-size: 12px; margin-bottom: 8px; color: #000;" id="r-date-time"></div>
+            
+            <div style="text-align: center; font-weight: 800; font-size: 13px; margin-bottom: 12px; color: #000;">--- ক্যাশ মেমো ---</div>
+            
+            <hr style="border: none; border-top: 1px dashed #000; margin-bottom: 10px;">
+            
+            <div style="font-size: 13px; margin-bottom: 10px; color: #000; line-height: 1.5;">
+                <div style="display:flex; justify-content:space-between;">
+                    <div>নাম: <b id="r-c-name"></b></div>
+                    <div>মেমো নং: <b id="r-memo-no"></b></div>
+                </div>
+                <div id="r-c-phone-wrap" style="display:none;">মোবাইল: <b id="r-c-phone"></b></div>
+                <div id="r-c-address-wrap" style="display:none;">ঠিকানা: <b id="r-c-address"></b></div>
             </div>
-            <hr style="border-top: 1px dashed #000; margin-bottom: 5px;">
-            <table style="width: 100%; font-size: 11px; text-align: left; border-collapse: collapse;">
+            
+            <hr style="border: none; border-top: 1px dashed #000; margin-bottom: 5px;">
+            
+            <table style="width: 100%; font-size: 12px; text-align: left; border-collapse: collapse; color: #000;">
                 <thead>
                     <tr style="border-bottom: 1px dashed #000;">
-                        <th style="padding-bottom:5px;">বিবরণ</th>
-                        <th style="text-align:center; padding-bottom:5px;">পরিমাণ</th>
-                        <th style="text-align:right; padding-bottom:5px;">মোট(৳)</th>
+                        <th style="padding: 5px 0; width: 10%;">নং</th>
+                        <th style="padding: 5px 0; width: 35%;">বিবরণ</th>
+                        <th style="text-align:center; padding: 5px 0; width: 25%;">পরিমাণ</th>
+                        <th style="text-align:right; padding: 5px 0; width: 15%;">দর</th>
+                        <th style="text-align:right; padding: 5px 0; width: 15%;">মোট</th>
                     </tr>
                 </thead>
                 <tbody id="r-table-body"></tbody>
             </table>
-            <hr style="border-top: 1px dashed #000; margin-top: 5px; margin-bottom: 5px;">
-            <table style="width: 100%; font-size: 12px;">
-                <tr><td style="text-align:right; width: 60%;">বর্তমান বিল:</td><td style="text-align:right;" id="r-total"></td></tr>
-                <tr id="r-damage-row" style="display:none;"><td style="text-align:right;">ড্যামেজ (-):</td><td style="text-align:right;" id="r-damage"></td></tr>
-                <tr id="r-prev-due-row" style="display:none;"><td style="text-align:right;">পূর্বের বাকি (+):</td><td style="text-align:right;" id="r-prev-due"></td></tr>
-                <tr id="r-grand-total-row" style="display:none;"><td style="text-align:right; font-weight:bold;">সর্বমোট বিল:</td><td style="text-align:right; font-weight:bold;" id="r-grand-total"></td></tr>
-                <tr><td style="text-align:right;">নগদ জমা (-):</td><td style="text-align:right;" id="r-paid"></td></tr>
-                <tr><td style="text-align:right; font-weight:bold; border-top:1px dashed #000;">বর্তমান বাকি:</td><td style="text-align:right; font-weight:bold; border-top:1px dashed #000;" id="r-due"></td></tr>
+            
+            <hr style="border: none; border-top: 1px dashed #000; margin-top: 5px; margin-bottom: 5px;">
+            
+            <table style="width: 100%; font-size: 13px; font-weight: bold; color: #000; border-collapse: collapse;">
+                <tr><td style="text-align:right; width: 60%; padding: 3px 0;">বর্তমান বিল:</td><td style="text-align:right; padding: 3px 0;" id="r-total"></td></tr>
+                <tr id="r-damage-row" style="display:none;"><td style="text-align:right; padding: 3px 0;">ড্যামেজ (-):</td><td style="text-align:right; padding: 3px 0;" id="r-damage"></td></tr>
+                <tr id="r-prev-due-row" style="display:none;"><td style="text-align:right; padding: 3px 0;">পূর্বের বাকি (+):</td><td style="text-align:right; padding: 3px 0;" id="r-prev-due"></td></tr>
+                <tr id="r-grand-total-row" style="display:none;"><td style="text-align:right; padding: 3px 0;">সর্বমোট বিল:</td><td style="text-align:right; padding: 3px 0;" id="r-grand-total"></td></tr>
+                <tr><td style="text-align:right; padding: 3px 0;">নগদ জমা:</td><td style="text-align:right; padding: 3px 0;" id="r-paid"></td></tr>
+                <tr style="border-top: 1px dashed #000;"><td style="text-align:right; padding: 5px 0 0 0;">বর্তমান বাকি:</td><td style="text-align:right; padding: 5px 0 0 0;" id="r-due"></td></tr>
             </table>
-            <hr style="border-top: 1px dashed #000; margin-top: 5px; margin-bottom: 10px;">
-            <div style="text-align: center; font-size: 11px;">ধন্যবাদ, আবার আসবেন!</div>
+            
+            <hr style="border: none; border-top: 1px dashed #000; margin-top: 10px; margin-bottom: 10px;">
+            <div style="text-align: center; font-size: 13px; font-weight:bold; color: #000;">ধন্যবাদ, আবার আসবেন!</div>
         </div>
     </div>
 
@@ -744,10 +770,9 @@
                     <button style="flex:1; background:#25D366; color:white; border:none; padding:15px; border-radius:12px; font-weight:800; font-size:14px; cursor:pointer; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);" onclick="window.downloadImage()">🖼️ ইমেজ সেভ</button>
                     <button style="flex:1; background:#ef4444; color:white; border:none; padding:15px; border-radius:12px; font-weight:800; font-size:14px; cursor:pointer; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);" onclick="window.downloadPDF()">📄 PDF ডাউনলোড</button>
                 </div>
-                <button style="background:var(--primary); color:white; border:none; padding:15px; border-radius:12px; font-weight:800; font-size:15px; cursor:pointer; box-shadow: 0 4px 10px rgba(14, 165, 233, 0.2);" onclick="window.shareMemoImage()">💬 সরাসরি শেয়ার করুন</button>
                 <div style="display:flex; gap:10px;">
-                    <button style="flex:1; background:#8b5cf6; color:white; border:none; padding:15px; border-radius:12px; font-weight:800; font-size:15px; cursor:pointer;" onclick="window.printRollMemo()">🖨 রোল প্রিন্ট</button>
-                    <button style="flex:1; background:#1e293b; color:white; border:none; padding:15px; border-radius:12px; font-weight:800; font-size:15px; cursor:pointer;" onclick="window.openCleanScreenshot()">🖨 A5 প্রিন্ট</button>
+                    <button style="flex:1; background:var(--primary); color:white; border:none; padding:15px; border-radius:12px; font-weight:800; font-size:14px; cursor:pointer; box-shadow: 0 4px 10px rgba(14, 165, 233, 0.2);" onclick="window.shareMemoImage()">💬 শেয়ার করুন</button>
+                    <button style="flex:1; background:#1e293b; color:white; border:none; padding:15px; border-radius:12px; font-weight:800; font-size:14px; cursor:pointer;" onclick="window.executePrint()">🖨 প্রিন্ট করুন</button>
                 </div>
             </div>
         </div>
@@ -792,6 +817,7 @@
         let currentPrevDue = 0; 
         let activeLedgerId = null;
         let dismissedHistoryFor = "";
+        window.currentMemoType = 'A5';
 
         let database = [];
 
@@ -799,7 +825,6 @@
         const baseUnits = ["পিস", "জোড়া", "সেট", "প্যাক", "প্যাকেট", "বাক্স", "কার্টন", "ডজন", "অর্ধ-ডজন", "বান্ডিল", "গুচ্ছ", "আঁটি", "গোছা", "মালা", "তোড়া", "বস্তা", "ব্যাগ", "থলে", "ঝুড়ি", "কাঁদি", "ট্রে", "প্যালেট", "কৌটা", "ক্যান", "বোতল", "শিশি", "জার", "ড্রাম", "টিউব", "কার্টিজ", "ভায়াল", "অ্যাম্পুল", "সিরিঞ্জ", "স্ট্রিপ", "ব্লিস্টার", "পাতা", "স্যাশে", "র‍্যাপার", "মোড়ক", "রোল", "কয়েল", "শিট", "রিম", "খণ্ড", "দানা", "গুটি", "চাকা", "স্ল্যাব", "ইউনিট", "গ্রাম", "মিলিগ্রাম", "মাইক্রোগ্রাম", "কেজি", "মণ", "টন", "পাউন্ড", "আউন্স", "ভরি", "আনা", "রতি", "লিটার", "মিলিলিটার", "সেন্টিলিটার", "গ্যালন", "ফুট", "ইঞ্চি", "গজ", "মিটার", "সেন্টিমিটার", "মিলিমিটার", "বর্গফুট", "বর্গমিটার", "বর্গগজ", "ঘনফুট", "ঘনমিটার", "ঘনগজ", "চলমান ফুট", "চলমান মিটার", "কাপ", "গ্লাস", "প্লেট", "বাটি", "চামচ", "চা-চামচ", "টেবিল-চামচ", "পরিবেশন", "ডোজ", "কোর্স", "ট্যাবলেট", "ক্যাপসুল", "শত", "হাজার", "লাখ", "বিঘা", "কাঠা", "শতাংশ", "একর", "কপি", "পৃষ্ঠা", "কাজ", "মাসিক", "পার্সেল", "চালান", "ট্রাক", "পিকআপ", "ভ্যান", "গাড়ি", "ট্যাংকার", "বোঝা", "ঘণ্টা", "দিন", "মাস", "বছর"];
 
         document.addEventListener("DOMContentLoaded", () => {
-            if(localStorage.getItem('smartPosDarkMode') === 'true') { document.body.classList.add('dark-mode'); const tBtn = document.getElementById('themeBtn'); if(tBtn) tBtn.innerText = '☀️'; }
             const savedDb = localStorage.getItem('smartPosCustomDatabase');
             if(savedDb) { try { const customItems = JSON.parse(savedDb); if(Array.isArray(customItems)) database.push(...customItems); } catch(e){} }
         });
@@ -1198,7 +1223,6 @@
         function parseEngNum(str) { if(!str) return 0; const banToEng = {'০':'0','১':'1','২':'2','৩':'3','৪':'4','৫':'5','৬':'6','৭':'7','৮':'8','৯':'9'}; let engStr = str.toString().split('').map(char => banToEng[char] !== undefined ? banToEng[char] : char).join(''); return parseFloat(engStr) || 0; }
         function toEnglishNum(str) { if(!str) return ""; const banToEng = {'০':'0','১':'1','২':'2','৩':'3','৪':'4','৫':'5','৬':'6','৭':'7','৮':'8','৯':'9'}; return str.toString().split('').map(char => banToEng[char] !== undefined ? banToEng[char] : char).join(''); }
         
-        window.toggleTheme = () => { const isDark = document.body.classList.toggle('dark-mode'); localStorage.setItem('smartPosDarkMode', isDark); const tb = document.getElementById('themeBtn'); if(tb) tb.innerText = isDark ? '☀️' : '🌙'; }
         window.openSettings = () => { const sm = document.getElementById('settingsModal'); if(sm) sm.style.display = 'flex'; }
 
         let pendingAction = null;
@@ -1495,15 +1519,11 @@
             window.updateGrandTotal();
         }
 
-        // 🔥 Bulletproof Grand Total & Check
         window.updateGrandTotal = () => { 
             currentGrandTotal = cartList.reduce((sum, item) => sum + item.total, 0); 
             
-            const ta = document.getElementById('totalAmount');
-            if(ta) ta.innerText = toBengaliNum(currentGrandTotal.toFixed(2)); 
-            
-            const ic = document.getElementById('itemCount');
-            if(ic) ic.innerText = toBengaliNum(cartList.length); 
+            const ic = document.getElementById('calcItemCount');
+            if(ic) ic.innerText = toBengaliNum(cartList.length) + ' টি'; 
             
             const sta = document.getElementById('summaryTotalAmount');
             if(sta) sta.innerText = toBengaliNum(currentGrandTotal.toFixed(2)) + ' ৳';
@@ -1514,7 +1534,6 @@
             window.calculateDue(); 
         }
 
-        // 🔥 Bulletproof Calculation
         window.calculateDue = () => {
             const da = document.getElementById('damageAmount');
             let dmgStr = da ? da.value : "";
@@ -1579,8 +1598,8 @@
                 items: cartList.map(i => {
                     let qtyStr = '';
                     if(i.kg) qtyStr += i.kg + ' ' + (i.unitType && i.unitType !== 'none' ? i.unitType : '') + ' ';
-                    if(i.gram && i.gram !== 'none') qtyStr += i.gram + ' ' + i.secUnitType + ' ';
-                    if(i.qty3 && i.qty3 !== 'none') qtyStr += i.qty3 + ' ' + i.thirdUnitType;
+                    if(i.gram && i.gram !== 'none') qtyStr += i.gram + ' ' + (i.secUnitType || '') + ' ';
+                    if(i.qty3 && i.qty3 !== 'none') qtyStr += i.qty3 + ' ' + (i.thirdUnitType || '');
                     return { name: i.name, qty: qtyStr.trim(), total: i.total };
                 }),
                 total: totalCash
@@ -1741,6 +1760,8 @@
         }
 
         window.isEditingMemo = false;
+        window.tempMemoDataToProcess = null;
+
         window.editOldMemo = (saleId) => {
             const sale = salesHistory.find(s => s.id === saleId);
             if(!sale) return;
@@ -1813,7 +1834,8 @@
                 paidStr: sale.paid !== undefined ? sale.paid.toString() : "0"
             };
             const mm = document.getElementById('memoHistoryModal'); if(mm) mm.style.display = 'none'; 
-            window.populateAndRenderCanvas(memoData);
+            
+            window.openMemoTypeSelection(memoData);
         }
 
         window.openLedger = () => { window.renderLedger(); const lm = document.getElementById('ledgerModal'); if(lm) lm.style.display = 'flex'; }
@@ -2162,6 +2184,30 @@
             }
         };
 
+        // 🔥 Open Memo Selection
+        window.openMemoTypeSelection = (existingData = null) => {
+            if(!existingData && cartList.length === 0 && currentPrevDue === 0 && (!document.getElementById('paidAmount').value || document.getElementById('paidAmount').value == 0)) { 
+                window.showCustomAlert("সতর্কতা!", "কার্ট খালি এবং কোনো লেনদেন নেই!", "warning"); 
+                return; 
+            }
+            window.tempMemoDataToProcess = existingData;
+            const mt = document.getElementById('memoTypeModal');
+            if(mt) mt.style.display = 'flex';
+        }
+
+        window.selectMemoType = (type) => {
+            window.currentMemoType = type;
+            const mt = document.getElementById('memoTypeModal');
+            if(mt) mt.style.display = 'none';
+            
+            if(window.tempMemoDataToProcess) {
+                window.populateAndRenderCanvas(window.tempMemoDataToProcess);
+                window.tempMemoDataToProcess = null;
+            } else {
+                window.generateCurrentMemoImage();
+            }
+        }
+
         window.generateCurrentMemoImage = () => {
             const cne = document.getElementById('custName'); const cpe = document.getElementById('custPhone'); const cae = document.getElementById('custAddress');
             const pae = document.getElementById('paidAmount'); const dae = document.getElementById('damageAmount');
@@ -2179,11 +2225,6 @@
             
             let dmgStr = dae ? dae.value : '0';
             let damage = (dmgStr === "" || dmgStr === "0" || dmgStr === "00") ? 0 : parseEngNum(dmgStr); 
-
-            if(snapshotCartList.length === 0 && snapshotPrevDue === 0 && paid === 0) { 
-                window.showCustomAlert("সতর্কতা!", "কার্ট খালি এবং কোনো লেনদেন নেই!", "warning"); 
-                return; 
-            }
             
             if(cName && !cPhone) {
                 let matches = dueLedger.filter(r => r.name.trim() === cName);
@@ -2302,7 +2343,7 @@
                 const rsn = document.getElementById('r-shop-name'); if(rsn) rsn.innerText = data.shopName;
                 const rsa = document.getElementById('r-shop-address'); if(rsa) rsa.innerText = data.shopAddress ? `${data.shopAddress}` : '';
                 const rsp = document.getElementById('r-shop-phone'); if(rsp) rsp.innerText = data.shopPhone ? `মোবাইল: ${toBengaliNum(data.shopPhone)}` : '';
-                const rdt = document.getElementById('r-date-time'); if(rdt) rdt.innerHTML = `তারিখ: ${data.dateStr} | ${data.timeStr}`;
+                const rdt = document.getElementById('r-date-time'); if(rdt) rdt.innerHTML = `তারিখ: ${data.dateStr} | সময়: ${data.timeStr}`;
                 const rmn = document.getElementById('r-memo-no'); if(rmn) rmn.innerText = toBengaliNum(formatMemoNo(data.memoNo));
 
                 const pcnw = document.getElementById('p-c-name-wrap');
@@ -2352,12 +2393,14 @@
                     if(gVal > 0) qStr.push(`${toBengaliNum(gVal)} ${sType === 'none' ? '' : (sType || '')}`);
                     if(q3Val > 0) qStr.push(`${toBengaliNum(q3Val)} ${tType === 'none' ? '' : (tType || '')}`);
                     
-                    let qtyFinal = qStr.length > 0 ? qStr.join(' ') : (item.kg ? toBengaliNum(item.kg) : '-'); 
+                    let qtyA5 = qStr.length > 0 ? qStr.join(' ') : (item.kg ? toBengaliNum(item.kg) : '-'); 
+                    let qtyRoll = qStr.length > 0 ? qStr.join('<br>') : (item.kg ? toBengaliNum(item.kg) : '-'); 
+                    
                     const unitPrice = parseFloat(item.price) > 0 ? toBengaliNum(parseFloat(item.price).toFixed(2)) : '-';
                     const totalText = parseFloat(item.total) > 0 ? toBengaliNum(parseFloat(item.total).toFixed(2)) : '-';
                     
-                    if(pBody) pBody.innerHTML += `<tr><td style="text-align:center;">${toBengaliNum(loopIndex)}</td><td>${item.name}</td><td style="text-align:center;">${qtyFinal}</td><td style="text-align:right;">${unitPrice}</td><td style="text-align:right;">${totalText}</td></tr>`; 
-                    if(rBody) rBody.innerHTML += `<tr><td style="padding-bottom:5px;">${item.name}</td><td style="text-align:center; padding-bottom:5px;">${qtyFinal}</td><td style="text-align:right; padding-bottom:5px;">${totalText}</td></tr>`;
+                    if(pBody) pBody.innerHTML += `<tr><td style="text-align:center;">${toBengaliNum(loopIndex)}</td><td>${item.name}</td><td style="text-align:center;">${qtyA5}</td><td style="text-align:right;">${unitPrice}</td><td style="text-align:right;">${totalText}</td></tr>`; 
+                    if(rBody) rBody.innerHTML += `<tr><td style="vertical-align:top; padding-top:8px;">${toBengaliNum(loopIndex)}</td><td style="vertical-align:top; padding-top:8px;">${item.name}</td><td style="text-align:center; vertical-align:top; padding-top:8px;">${qtyRoll}</td><td style="text-align:right; vertical-align:top; padding-top:8px;">${unitPrice}</td><td style="text-align:right; vertical-align:top; padding-top:8px;">${totalText}</td></tr>`;
                     loopIndex++;
                 });
                 
@@ -2412,9 +2455,12 @@
             }
 
             setTimeout(() => {
-                const pm = document.getElementById('print-memo');
-                if(!pm) return;
-                html2canvas(pm, { scale: 1.5, useCORS: true, backgroundColor: "#ffffff" }).then(canvas => {
+                // 🔥 Select Canvas Target based on Memo Type
+                const targetElement = window.currentMemoType === 'A5' ? document.getElementById('print-memo') : document.getElementById('print-memo-roll');
+                
+                if(!targetElement) return;
+                
+                html2canvas(targetElement, { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(canvas => {
                     globalBase64Img = canvas.toDataURL('image/png');
                     const lo = document.getElementById('loaderOverlay'); if(lo) lo.style.display = 'none';
                     const mpm = document.getElementById('memoPreviewModal'); if(mpm) mpm.style.display = 'flex';
@@ -2446,12 +2492,22 @@
             const { jsPDF } = window.jspdf;
             const img = new Image(); img.src = globalBase64Img;
             img.onload = function() {
-                const pdfWidth = 148; 
+                // Adjust width dynamically for Roll
+                const pdfWidth = window.currentMemoType === 'A5' ? 148 : 80; 
                 const pdfHeight = (img.height * pdfWidth) / img.width;
                 const doc = new jsPDF('p', 'mm', [pdfWidth, pdfHeight]);
                 doc.addImage(globalBase64Img, 'PNG', 0, 0, pdfWidth, pdfHeight);
                 doc.save('Memo_' + Date.now() + '.pdf');
                 window.showCustomAlert("সফল!", "PDF ফাইল সফলভাবে ডাউনলোড হয়েছে।", "success");
+            }
+        }
+
+        // 🔥 Dynamic Print Function
+        window.executePrint = () => {
+            if(window.currentMemoType === 'A5') {
+                window.openCleanScreenshot();
+            } else {
+                window.printRollMemo();
             }
         }
 
