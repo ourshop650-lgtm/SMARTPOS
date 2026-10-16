@@ -2183,13 +2183,18 @@
             }
         };
 
-        // 🔥 Open Memo Selection
-        window.openMemoTypeSelection = (existingData = null) => {
+        // 🔥 মেমোর ধরন নির্বাচন পপআপ (ক্যাশ প্রুফ)
+        window.openMemoTypeSelection = (existingData) => {
+            // বাটন ক্লিক থেকে আসা ইভেন্ট ব্লক করা
+            if (existingData && (existingData.type === 'click' || existingData.target)) {
+                existingData = null;
+            }
+            
             if(!existingData && cartList.length === 0 && currentPrevDue === 0 && (!document.getElementById('paidAmount').value || document.getElementById('paidAmount').value == 0)) { 
                 window.showCustomAlert("সতর্কতা!", "কার্ট খালি এবং কোনো লেনদেন নেই!", "warning"); 
                 return; 
             }
-            window.tempMemoDataToProcess = existingData;
+            window.tempMemoDataToProcess = existingData || null;
             const mt = document.getElementById('memoTypeModal');
             if(mt) mt.style.display = 'flex';
         }
@@ -2199,15 +2204,18 @@
             const mt = document.getElementById('memoTypeModal');
             if(mt) mt.style.display = 'none';
             
-            if(window.tempMemoDataToProcess) {
+            // যদি আগে থেকে দেখা মেমো থাকে, সেটি রেন্ডার হবে। নাহলে নতুন বা এডিট করা মেমো জেনারেট হবে।
+            if(window.tempMemoDataToProcess && window.tempMemoDataToProcess.items) {
                 window.populateAndRenderCanvas(window.tempMemoDataToProcess);
                 window.tempMemoDataToProcess = null;
             } else {
+                window.tempMemoDataToProcess = null;
                 window.generateCurrentMemoImage();
             }
         }
 
-       window.generateCurrentMemoImage = () => {
+        // 🔥 নতুন ও ইডিট করা মেমো জেনারেট করার মূল লজিক
+        window.generateCurrentMemoImage = () => {
             const cne = document.getElementById('custName'); const cpe = document.getElementById('custPhone'); const cae = document.getElementById('custAddress');
             const pae = document.getElementById('paidAmount'); const dae = document.getElementById('damageAmount');
             
@@ -2281,7 +2289,7 @@
                             existingRecord.paid += paid; 
                             existingRecord.due = due;
                         } else { 
-                            // 🔥 ইডিট করার সময় ডাটাবেজে পুরনো হিসাব অ্যাডজাস্টমেন্ট লজিক
+                            // 🔥 ইডিট করার সময় ডাটাবেজে পুরনো হিসাব নিখুঁতভাবে অ্যাডজাস্টমেন্ট লজিক
                             let oldSale = salesHistory[existingSaleIdx]; 
                             let oldTotal = oldSale ? (oldSale.total || 0) : 0;
                             let oldPaid = oldSale ? (oldSale.paid || 0) : 0;
