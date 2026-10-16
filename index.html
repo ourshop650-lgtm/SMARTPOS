@@ -2207,7 +2207,7 @@
             }
         }
 
-        window.generateCurrentMemoImage = () => {
+       window.generateCurrentMemoImage = () => {
             const cne = document.getElementById('custName'); const cpe = document.getElementById('custPhone'); const cae = document.getElementById('custAddress');
             const pae = document.getElementById('paidAmount'); const dae = document.getElementById('damageAmount');
             
@@ -2224,6 +2224,11 @@
             
             let dmgStr = dae ? dae.value : '0';
             let damage = (dmgStr === "" || dmgStr === "0" || dmgStr === "00") ? 0 : parseEngNum(dmgStr); 
+
+            if(snapshotCartList.length === 0 && snapshotPrevDue === 0 && paid === 0) { 
+                window.showCustomAlert("সতর্কতা!", "কার্ট খালি এবং কোনো লেনদেন নেই!", "warning"); 
+                return; 
+            }
             
             if(cName && !cPhone) {
                 let matches = dueLedger.filter(r => r.name.trim() === cName);
@@ -2250,8 +2255,11 @@
                 existingSaleIdx = -1;
             }
             
-            if (!isNewInvoice) { currentMemoNo = salesHistory[existingSaleIdx].memoNo || (salesHistory.length); } 
-            else { currentMemoNo = salesHistory.length + 1; }
+            if (!isNewInvoice) { 
+                currentMemoNo = salesHistory[existingSaleIdx].memoNo || (salesHistory.length); 
+            } else { 
+                currentMemoNo = salesHistory.length + 1; 
+            }
 
             if(cName) { 
                 db.ref(`shops/${currentShopFirebaseKey}/dueLedger`).once('value').then(snap => {
@@ -2268,14 +2276,27 @@
                     }
                     
                     if (existingRecord) { 
-                        if (isNewInvoice) { existingRecord.total += snapshotTotal; existingRecord.paid += paid; } 
-                        else { 
+                        if (isNewInvoice) { 
+                            existingRecord.total += snapshotTotal; 
+                            existingRecord.paid += paid; 
+                            existingRecord.due = due;
+                        } else { 
+                            // 🔥 ইডিট করার সময় ডাটাবেজে পুরনো হিসাব অ্যাডজাস্টমেন্ট লজিক
                             let oldSale = salesHistory[existingSaleIdx]; 
-                            existingRecord.total = existingRecord.total - (oldSale ? oldSale.total : 0) + snapshotTotal; 
-                            existingRecord.paid = existingRecord.paid - (oldSale ? (oldSale.paid||0) : 0) + paid; 
+                            let oldTotal = oldSale ? (oldSale.total || 0) : 0;
+                            let oldPaid = oldSale ? (oldSale.paid || 0) : 0;
+                            let oldDamage = oldSale ? (oldSale.damage || 0) : 0;
+                            
+                            existingRecord.total = existingRecord.total - oldTotal + snapshotTotal; 
+                            existingRecord.paid = existingRecord.paid - oldPaid + paid; 
+                            
+                            let dueDiff = (snapshotTotal - oldTotal) - (paid - oldPaid) - (damage - oldDamage);
+                            existingRecord.due = existingRecord.due + dueDiff;
+                            if(existingRecord.due < 0) existingRecord.due = 0;
                         }
-                        existingRecord.due = due; existingRecord.date = new Date().toISOString(); 
-                        if(cPhone) existingRecord.phone = cPhone; if(cAddress) existingRecord.address = cAddress; 
+                        existingRecord.date = new Date().toISOString(); 
+                        if(cPhone) existingRecord.phone = cPhone; 
+                        if(cAddress) existingRecord.address = cAddress; 
                         existingRecord.description = "শেষ মেমো #" + formatMemoNo(currentMemoNo);
                         db.ref(`shops/${currentShopFirebaseKey}/dueLedger/${existingKey}`).set(existingRecord);
                     } else { 
@@ -2288,8 +2309,14 @@
                 });
             } 
 
+            // 🔥 পুরনো মেমো ইডিট করলে তার অরিজিনাল তারিখ ধরে রাখা হবে
+            let memoDateToSave = new Date().toISOString();
+            if(!isNewInvoice && salesHistory[existingSaleIdx]) {
+                memoDateToSave = salesHistory[existingSaleIdx].date;
+            }
+
             const saleRecord = { 
-                id: currentInvoiceId, memoNo: currentMemoNo, date: new Date().toISOString(), customerName: cName, customerPhone: cPhone, customerAddress: cAddress,
+                id: currentInvoiceId, memoNo: currentMemoNo, date: memoDateToSave, customerName: cName, customerPhone: cPhone, customerAddress: cAddress,
                 items: snapshotCartList.map(i => ({name: i.name, unitType: i.unitType, secUnitType: i.secUnitType, thirdUnitType: i.thirdUnitType, kg: i.kg, gram: i.gram, qty3: i.qty3, price: i.price, total: i.total})), 
                 total: snapshotTotal, damage: damage, prevDue: snapshotPrevDue, grandTotal: totalWithDue, paid: paid, due: due
             };
@@ -2304,7 +2331,7 @@
                 });
             });
 
-            const dateObj = new Date();
+            const dateObj = new Date(memoDateToSave);
             const sn = document.getElementById('shopName');
             const ss = document.getElementById('shopSubtitle');
             const sp = document.getElementById('shopPhone');
@@ -2325,7 +2352,6 @@
             window.isEditingMemo = false; 
             window.populateAndRenderCanvas(memoData);
         }
-
         window.populateAndRenderCanvas = (data) => {
             const lo = document.getElementById('loaderOverlay'); if(lo) lo.style.display = 'flex';
             
